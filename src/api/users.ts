@@ -1,5 +1,5 @@
 import { Token, ListUsersParams, User } from "./bindings";
-import { authPath, withAuthHeaders } from "./common";
+import { apiPath, withAuthHeaders } from "./common";
 import { InternalError, newErrorResponseMessage, UnauthorizedError } from "./errors";
 
 import { z } from "zod";
@@ -21,7 +21,7 @@ export const listUsers = async (
   if (params.offset) searchParams.append("offset", params.offset.toString());
   if (params.roles) params.roles.forEach((role) => searchParams.append("roles", role));
 
-  const response = await fetch(authPath(USERS_PATH, searchParams), withAuthHeaders(token));
+  const response = await fetch(apiPath(USERS_PATH, searchParams), withAuthHeaders(token));
 
   switch (response.status) {
     case 401:

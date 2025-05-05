@@ -10,7 +10,7 @@ import {
   UpdateRoleForm,
   User,
 } from "./bindings";
-import { authPath, withAuthHeaders } from "./common";
+import { apiPath, withAuthHeaders } from "./common";
 import {
   EmailTakenError,
   ForbiddenError,
@@ -38,7 +38,7 @@ export const createUser = async (
   form: z.infer<typeof RegisterForm>
 ): Promise<z.infer<typeof AccessToken>> => {
   const response = await fetch(
-    authPath(CREDENTIALS_PATH),
+    apiPath(CREDENTIALS_PATH),
     withAuthHeaders(token, {
       method: "PUT",
       body: JSON.stringify(form),
@@ -68,7 +68,7 @@ export const emailExists = async (
   const searchParams = new URLSearchParams({
     email: params.email,
   });
-  const response = await fetch(authPath(CREDENTIALS_PATH + "/email", searchParams), withAuthHeaders(token));
+  const response = await fetch(apiPath(CREDENTIALS_PATH + "/email", searchParams), withAuthHeaders(token));
 
   switch (response.status) {
     case 401:
@@ -92,7 +92,7 @@ export const updateEmail = async (
   form: z.infer<typeof UpdateEmailForm>
 ): Promise<string> => {
   const response = await fetch(
-    authPath(CREDENTIALS_PATH + "/email"),
+    apiPath(CREDENTIALS_PATH + "/email"),
     withAuthHeaders(token, {
       method: "PATCH",
       body: JSON.stringify(form),
@@ -127,7 +127,7 @@ export const updatePassword = async (
   form: z.infer<typeof UpdatePasswordForm>
 ): Promise<void> => {
   const response = await fetch(
-    authPath(CREDENTIALS_PATH + "/password"),
+    apiPath(CREDENTIALS_PATH + "/password"),
     withAuthHeaders(token, {
       method: "PATCH",
       body: JSON.stringify(form),
@@ -153,7 +153,7 @@ export const updateRole = async (
   form: z.infer<typeof UpdateRoleForm>
 ): Promise<z.infer<typeof User>> => {
   const response = await fetch(
-    authPath(CREDENTIALS_PATH + "/role"),
+    apiPath(CREDENTIALS_PATH + "/role"),
     withAuthHeaders(token, {
       method: "PATCH",
       body: JSON.stringify(form),
@@ -185,7 +185,7 @@ export const resetPassword = async (
   form: z.infer<typeof ResetPasswordForm>
 ): Promise<void> => {
   const response = await fetch(
-    authPath(CREDENTIALS_PATH + "/password/reset"),
+    apiPath(CREDENTIALS_PATH + "/password/reset"),
     withAuthHeaders(token, {
       method: "PATCH",
       body: JSON.stringify(form),

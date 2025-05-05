@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 // Mappings for the authentication API.
-// https://a-novel.github.io/authentication/
+// https://a-novel.github.io/service-authentication/
 
 export const BINDINGS_VALIDATION = {
   EMAIL: { MIN: 3, MAX: 128 },

@@ -1,5 +1,5 @@
 import { AccessToken, Claims, LoginForm, RefreshAccessTokenParams, Token } from "./bindings";
-import { authPath, withAuthHeaders, withDefaultHeaders } from "./common";
+import { apiPath, withAuthHeaders, withDefaultHeaders } from "./common";
 import {
   ForbiddenError,
   InternalError,
@@ -21,7 +21,7 @@ const SESSION_PATH = "/session";
  * success response. Otherwise, an error will be sent, explaining why the session is invalid.
  */
 export const checkSession = async (token: z.infer<typeof Token>): Promise<z.infer<typeof Claims>> => {
-  const response = await fetch(authPath(SESSION_PATH), withAuthHeaders(token));
+  const response = await fetch(apiPath(SESSION_PATH), withAuthHeaders(token));
 
   switch (response.status) {
     case 401:
@@ -39,7 +39,7 @@ export const checkSession = async (token: z.infer<typeof Token>): Promise<z.infe
  */
 export const createSession = async (form: z.infer<typeof LoginForm>): Promise<z.infer<typeof AccessToken>> => {
   const response = await fetch(
-    authPath(SESSION_PATH),
+    apiPath(SESSION_PATH),
     withDefaultHeaders({
       method: "PUT",
       body: JSON.stringify(form),
@@ -63,7 +63,7 @@ export const createSession = async (form: z.infer<typeof LoginForm>): Promise<z.
  */
 export const createAnonymousSession = async (): Promise<z.infer<typeof AccessToken>> => {
   const response = await fetch(
-    authPath(SESSION_PATH + "/anon"),
+    apiPath(SESSION_PATH + "/anon"),
     withDefaultHeaders({
       method: "PUT",
     })
@@ -85,7 +85,7 @@ export const refreshSession = async (
   });
 
   const response = await fetch(
-    authPath(SESSION_PATH + "/refresh", searchParams),
+    apiPath(SESSION_PATH + "/refresh", searchParams),
     withDefaultHeaders({
       method: "PATCH",
     })
@@ -110,7 +110,7 @@ export const refreshSession = async (
  */
 export const newRefreshToken = async (token: z.infer<typeof Token>): Promise<z.infer<typeof Token>> => {
   const response = await fetch(
-    authPath(SESSION_PATH + "/refresh"),
+    apiPath(SESSION_PATH + "/refresh"),
     withAuthHeaders(token, {
       method: "PUT",
     })

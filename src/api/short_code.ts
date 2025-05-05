@@ -1,5 +1,5 @@
 import { RequestEmailUpdateForm, RequestPasswordResetForm, RequestRegistrationForm, Token } from "./bindings";
-import { authPath, withAuthHeaders } from "./common";
+import { apiPath, withAuthHeaders } from "./common";
 import { InternalError, newErrorResponseMessage, UnauthorizedError } from "./errors";
 
 import { z } from "zod";
@@ -23,7 +23,7 @@ export const requestRegistration = async (
   form: z.infer<typeof RequestRegistrationForm>
 ): Promise<void> => {
   const response = await fetch(
-    authPath(SHORT_CODE_PATH + "/register"),
+    apiPath(SHORT_CODE_PATH + "/register"),
     withAuthHeaders(token, {
       method: "PUT",
       body: JSON.stringify(form),
@@ -55,7 +55,7 @@ export const requestEmailUpdate = async (
   form: z.infer<typeof RequestEmailUpdateForm>
 ): Promise<void> => {
   const response = await fetch(
-    authPath(SHORT_CODE_PATH + "/update-email"),
+    apiPath(SHORT_CODE_PATH + "/update-email"),
     withAuthHeaders(token, {
       method: "PUT",
       body: JSON.stringify(form),
@@ -85,7 +85,7 @@ export const requestPasswordReset = async (
   form: z.infer<typeof RequestPasswordResetForm>
 ): Promise<void> => {
   const response = await fetch(
-    authPath(SHORT_CODE_PATH + "/update-password"),
+    apiPath(SHORT_CODE_PATH + "/update-password"),
     withAuthHeaders(token, {
       method: "PUT",
       body: JSON.stringify(form),
