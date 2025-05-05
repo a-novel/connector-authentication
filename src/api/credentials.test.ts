@@ -31,7 +31,7 @@ import { z } from "zod";
 describe("create user", () => {
   let nockAPI: nock.Scope;
 
-  const defautlForm: z.infer<typeof RegisterForm> = {
+  const defaultForm: z.infer<typeof RegisterForm> = {
     email: "user@email.com",
     password: "password",
     shortCode: "short-code",
@@ -49,10 +49,10 @@ describe("create user", () => {
     };
 
     const nockCredentials = nockAPI
-      .put("/credentials", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .put("/credentials", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
       .reply(200, res);
 
-    const apiRes = await createUser("access-token", defautlForm);
+    const apiRes = await createUser("access-token", defaultForm);
     expect(apiRes).toEqual(res);
 
     expect(nockCredentials.isDone()).toBe(true);
@@ -60,40 +60,40 @@ describe("create user", () => {
 
   it("returns unauthorized", async () => {
     const nockCredentials = nockAPI
-      .put("/credentials", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .put("/credentials", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
       .reply(401, undefined);
 
-    const apiRes = await createUser("access-token", defautlForm).catch((e) => e);
+    const apiRes = await createUser("access-token", defaultForm).catch((e) => e);
     expect(isUnauthorizedError(apiRes)).toBe(true);
     expect(nockCredentials.isDone()).toBe(true);
   });
 
   it("returns forbidden", async () => {
     const nockCredentials = nockAPI
-      .put("/credentials", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .put("/credentials", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
       .reply(403, undefined);
 
-    const apiRes = await createUser("access-token", defautlForm).catch((e) => e);
+    const apiRes = await createUser("access-token", defaultForm).catch((e) => e);
     expect(isForbiddenError(apiRes)).toBe(true);
     expect(nockCredentials.isDone()).toBe(true);
   });
 
   it("returns conflict", async () => {
     const nockCredentials = nockAPI
-      .put("/credentials", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .put("/credentials", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
       .reply(410, undefined);
 
-    const apiRes = await createUser("access-token", defautlForm).catch((e) => e);
+    const apiRes = await createUser("access-token", defaultForm).catch((e) => e);
     expect(isEmailTakenError(apiRes)).toBe(true);
     expect(nockCredentials.isDone()).toBe(true);
   });
 
   it("returns internal", async () => {
     const nockCredentials = nockAPI
-      .put("/credentials", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .put("/credentials", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
       .reply(501, "crash");
 
-    const apiRes = await createUser("access-token", defautlForm).catch((e) => e);
+    const apiRes = await createUser("access-token", defaultForm).catch((e) => e);
     expect(isInternalError(apiRes)).toBe(true);
     expect(nockCredentials.isDone()).toBe(true);
   });
@@ -178,7 +178,7 @@ describe("email exists", () => {
 describe("update email", () => {
   let nockAPI: nock.Scope;
 
-  const defautlForm: z.infer<typeof UpdateEmailForm> = {
+  const defaultForm: z.infer<typeof UpdateEmailForm> = {
     userID: "user-id",
     shortCode: "short-code",
   };
@@ -195,10 +195,10 @@ describe("update email", () => {
     };
 
     const nockCredentials = nockAPI
-      .patch("/credentials/email", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .patch("/credentials/email", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
       .reply(200, res);
 
-    const apiRes = await updateEmail("access-token", defautlForm);
+    const apiRes = await updateEmail("access-token", defaultForm);
     expect(apiRes).toEqual("user@email.com");
 
     expect(nockCredentials.isDone()).toBe(true);
@@ -206,50 +206,50 @@ describe("update email", () => {
 
   it("returns unauthorized", async () => {
     const nockCredentials = nockAPI
-      .patch("/credentials/email", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .patch("/credentials/email", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
       .reply(401, undefined);
 
-    const apiRes = await updateEmail("access-token", defautlForm).catch((e) => e);
+    const apiRes = await updateEmail("access-token", defaultForm).catch((e) => e);
     expect(isUnauthorizedError(apiRes)).toBe(true);
     expect(nockCredentials.isDone()).toBe(true);
   });
 
   it("returns forbidden", async () => {
     const nockCredentials = nockAPI
-      .patch("/credentials/email", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .patch("/credentials/email", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
       .reply(403, undefined);
 
-    const apiRes = await updateEmail("access-token", defautlForm).catch((e) => e);
+    const apiRes = await updateEmail("access-token", defaultForm).catch((e) => e);
     expect(isForbiddenError(apiRes)).toBe(true);
     expect(nockCredentials.isDone()).toBe(true);
   });
 
   it("returns not found", async () => {
     const nockCredentials = nockAPI
-      .patch("/credentials/email", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .patch("/credentials/email", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
       .reply(404, undefined);
 
-    const apiRes = await updateEmail("access-token", defautlForm).catch((e) => e);
+    const apiRes = await updateEmail("access-token", defaultForm).catch((e) => e);
     expect(isUserNotFoundError(apiRes)).toBe(true);
     expect(nockCredentials.isDone()).toBe(true);
   });
 
   it("returns conflict", async () => {
     const nockCredentials = nockAPI
-      .patch("/credentials/email", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .patch("/credentials/email", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
       .reply(410, undefined);
 
-    const apiRes = await updateEmail("access-token", defautlForm).catch((e) => e);
+    const apiRes = await updateEmail("access-token", defaultForm).catch((e) => e);
     expect(isEmailTakenError(apiRes)).toBe(true);
     expect(nockCredentials.isDone()).toBe(true);
   });
 
   it("returns internal", async () => {
     const nockCredentials = nockAPI
-      .patch("/credentials/email", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .patch("/credentials/email", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
       .reply(501, "crash");
 
-    const apiRes = await updateEmail("access-token", defautlForm).catch((e) => e);
+    const apiRes = await updateEmail("access-token", defaultForm).catch((e) => e);
     expect(isInternalError(apiRes)).toBe(true);
     expect(nockCredentials.isDone()).toBe(true);
   });
@@ -258,7 +258,7 @@ describe("update email", () => {
 describe("update password", () => {
   let nockAPI: nock.Scope;
 
-  const defautlForm: z.infer<typeof UpdatePasswordForm> = {
+  const defaultForm: z.infer<typeof UpdatePasswordForm> = {
     password: "new-password",
     currentPassword: "current-password",
   };
@@ -271,40 +271,40 @@ describe("update password", () => {
 
   it("returns successful response", async () => {
     const nockCredentials = nockAPI
-      .patch("/credentials/password", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .patch("/credentials/password", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
       .reply(201, undefined);
 
-    await updatePassword("access-token", defautlForm);
+    await updatePassword("access-token", defaultForm);
 
     expect(nockCredentials.isDone()).toBe(true);
   });
 
   it("returns unauthorized", async () => {
     const nockCredentials = nockAPI
-      .patch("/credentials/password", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .patch("/credentials/password", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
       .reply(401, undefined);
 
-    const apiRes = await updatePassword("access-token", defautlForm).catch((e) => e);
+    const apiRes = await updatePassword("access-token", defaultForm).catch((e) => e);
     expect(isUnauthorizedError(apiRes)).toBe(true);
     expect(nockCredentials.isDone()).toBe(true);
   });
 
   it("returns forbidden", async () => {
     const nockCredentials = nockAPI
-      .patch("/credentials/password", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .patch("/credentials/password", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
       .reply(403, undefined);
 
-    const apiRes = await updatePassword("access-token", defautlForm).catch((e) => e);
+    const apiRes = await updatePassword("access-token", defaultForm).catch((e) => e);
     expect(isForbiddenError(apiRes)).toBe(true);
     expect(nockCredentials.isDone()).toBe(true);
   });
 
   it("returns internal", async () => {
     const nockCredentials = nockAPI
-      .patch("/credentials/password", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .patch("/credentials/password", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
       .reply(501, "crash");
 
-    const apiRes = await updatePassword("access-token", defautlForm).catch((e) => e);
+    const apiRes = await updatePassword("access-token", defaultForm).catch((e) => e);
     expect(isInternalError(apiRes)).toBe(true);
     expect(nockCredentials.isDone()).toBe(true);
   });
@@ -313,7 +313,7 @@ describe("update password", () => {
 describe("update role", () => {
   let nockAPI: nock.Scope;
 
-  const defautlForm: z.infer<typeof UpdateRoleForm> = {
+  const defaultForm: z.infer<typeof UpdateRoleForm> = {
     userID: "user-id",
     role: CredentialsRoleEnum.Admin,
   };
@@ -341,10 +341,10 @@ describe("update role", () => {
     };
 
     const nockCredentials = nockAPI
-      .patch("/credentials/role", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .patch("/credentials/role", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
       .reply(200, rawRes);
 
-    const apiRes = await updateRole("access-token", defautlForm);
+    const apiRes = await updateRole("access-token", defaultForm);
     expect(apiRes).toEqual(res);
 
     expect(nockCredentials.isDone()).toBe(true);
@@ -352,50 +352,50 @@ describe("update role", () => {
 
   it("returns unauthorized", async () => {
     const nockCredentials = nockAPI
-      .patch("/credentials/role", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .patch("/credentials/role", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
       .reply(401, undefined);
 
-    const apiRes = await updateRole("access-token", defautlForm).catch((e) => e);
+    const apiRes = await updateRole("access-token", defaultForm).catch((e) => e);
     expect(isUnauthorizedError(apiRes)).toBe(true);
     expect(nockCredentials.isDone()).toBe(true);
   });
 
   it("returns forbidden", async () => {
     const nockCredentials = nockAPI
-      .patch("/credentials/role", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .patch("/credentials/role", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
       .reply(403, undefined);
 
-    const apiRes = await updateRole("access-token", defautlForm).catch((e) => e);
+    const apiRes = await updateRole("access-token", defaultForm).catch((e) => e);
     expect(isForbiddenError(apiRes)).toBe(true);
     expect(nockCredentials.isDone()).toBe(true);
   });
 
   it("returns not found", async () => {
     const nockCredentials = nockAPI
-      .patch("/credentials/role", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .patch("/credentials/role", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
       .reply(404, undefined);
 
-    const apiRes = await updateRole("access-token", defautlForm).catch((e) => e);
+    const apiRes = await updateRole("access-token", defaultForm).catch((e) => e);
     expect(isUserNotFoundError(apiRes)).toBe(true);
     expect(nockCredentials.isDone()).toBe(true);
   });
 
   it("returns unprocessable entity", async () => {
     const nockCredentials = nockAPI
-      .patch("/credentials/role", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .patch("/credentials/role", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
       .reply(422, undefined);
 
-    const apiRes = await updateRole("access-token", defautlForm).catch((e) => e);
+    const apiRes = await updateRole("access-token", defaultForm).catch((e) => e);
     expect(isValidationError(apiRes)).toBe(true);
     expect(nockCredentials.isDone()).toBe(true);
   });
 
   it("returns internal", async () => {
     const nockCredentials = nockAPI
-      .patch("/credentials/role", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .patch("/credentials/role", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
       .reply(501, "crash");
 
-    const apiRes = await updateRole("access-token", defautlForm).catch((e) => e);
+    const apiRes = await updateRole("access-token", defaultForm).catch((e) => e);
     expect(isInternalError(apiRes)).toBe(true);
     expect(nockCredentials.isDone()).toBe(true);
   });
@@ -404,7 +404,7 @@ describe("update role", () => {
 describe("reset password", () => {
   let nockAPI: nock.Scope;
 
-  const defautlForm: z.infer<typeof ResetPasswordForm> = {
+  const defaultForm: z.infer<typeof ResetPasswordForm> = {
     email: "user@email.com",
     password: "new-password",
     shortCode: "short-code",
@@ -418,40 +418,40 @@ describe("reset password", () => {
 
   it("returns successful response", async () => {
     const nockCredentials = nockAPI
-      .patch("/credentials/password/reset", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .patch("/credentials/password/reset", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
       .reply(201, undefined);
 
-    await resetPassword("access-token", defautlForm);
+    await resetPassword("access-token", defaultForm);
 
     expect(nockCredentials.isDone()).toBe(true);
   });
 
   it("returns unauthorized", async () => {
     const nockCredentials = nockAPI
-      .patch("/credentials/password/reset", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .patch("/credentials/password/reset", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
       .reply(401, undefined);
 
-    const apiRes = await resetPassword("access-token", defautlForm).catch((e) => e);
+    const apiRes = await resetPassword("access-token", defaultForm).catch((e) => e);
     expect(isUnauthorizedError(apiRes)).toBe(true);
     expect(nockCredentials.isDone()).toBe(true);
   });
 
   it("returns forbidden", async () => {
     const nockCredentials = nockAPI
-      .patch("/credentials/password/reset", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .patch("/credentials/password/reset", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
       .reply(403, undefined);
 
-    const apiRes = await resetPassword("access-token", defautlForm).catch((e) => e);
+    const apiRes = await resetPassword("access-token", defaultForm).catch((e) => e);
     expect(isForbiddenError(apiRes)).toBe(true);
     expect(nockCredentials.isDone()).toBe(true);
   });
 
   it("returns internal", async () => {
     const nockCredentials = nockAPI
-      .patch("/credentials/password/reset", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .patch("/credentials/password/reset", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
       .reply(501, "crash");
 
-    const apiRes = await resetPassword("access-token", defautlForm).catch((e) => e);
+    const apiRes = await resetPassword("access-token", defaultForm).catch((e) => e);
     expect(isInternalError(apiRes)).toBe(true);
     expect(nockCredentials.isDone()).toBe(true);
   });

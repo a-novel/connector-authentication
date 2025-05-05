@@ -24,7 +24,7 @@ import { z } from "zod";
 describe("create user", () => {
   let nockAPI: nock.Scope;
 
-  const defautlForm: z.infer<typeof RegisterForm> = {
+  const defaultForm: z.infer<typeof RegisterForm> = {
     email: "user@email.com",
     password: "password",
     shortCode: "short-code",
@@ -44,7 +44,7 @@ describe("create user", () => {
     const queryClient = new QueryClient(MockQueryClient);
 
     const nockCredentials = nockAPI
-      .put("/credentials", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .put("/credentials", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
       .reply(200, res);
 
     const hook = renderHook((accessToken) => CreateUser.useAPI(accessToken), {
@@ -53,7 +53,7 @@ describe("create user", () => {
     });
 
     await act(async () => {
-      const apiRes = await hook.result.current.mutateAsync(defautlForm);
+      const apiRes = await hook.result.current.mutateAsync(defaultForm);
       expect(apiRes).toEqual(res);
     });
 
@@ -90,7 +90,7 @@ describe("create user", () => {
     });
 
     const nockCreateUser = nockAPI
-      .put("/credentials", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .put("/credentials", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
       .reply(200, res);
 
     // Invalidation is going to retrieve the email exists queries again.
@@ -106,7 +106,7 @@ describe("create user", () => {
     });
 
     await act(async () => {
-      const apiRes = await createUserHook.result.current.mutateAsync(defautlForm);
+      const apiRes = await createUserHook.result.current.mutateAsync(defaultForm);
       expect(apiRes).toEqual(res);
       expect(nockCreateUser.isDone()).toBe(true);
     });
@@ -155,7 +155,7 @@ describe("email exists", () => {
 describe("update email", () => {
   let nockAPI: nock.Scope;
 
-  const defautlForm: z.infer<typeof UpdateEmailForm> = {
+  const defaultForm: z.infer<typeof UpdateEmailForm> = {
     userID: "user-id",
     shortCode: "short-code",
   };
@@ -174,7 +174,7 @@ describe("update email", () => {
     const queryClient = new QueryClient(MockQueryClient);
 
     const nockCredentials = nockAPI
-      .patch("/credentials/email", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .patch("/credentials/email", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
       .reply(200, res);
 
     const hook = renderHook((accessToken) => UpdateEmail.useAPI(accessToken), {
@@ -183,7 +183,7 @@ describe("update email", () => {
     });
 
     await act(async () => {
-      const apiRes = await hook.result.current.mutateAsync(defautlForm);
+      const apiRes = await hook.result.current.mutateAsync(defaultForm);
       expect(apiRes).toEqual("user@email.com");
     });
     expect(nockCredentials.isDone()).toBe(true);
@@ -219,7 +219,7 @@ describe("update email", () => {
     });
 
     const nockUpdateEmail = nockAPI
-      .patch("/credentials/email", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .patch("/credentials/email", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
       .reply(200, res);
 
     // Invalidation is going to retrieve the email exists queries again.
@@ -239,7 +239,7 @@ describe("update email", () => {
     });
 
     await act(async () => {
-      await updateEmailHook.result.current.mutateAsync(defautlForm);
+      await updateEmailHook.result.current.mutateAsync(defaultForm);
     });
     expect(nockUpdateEmail.isDone()).toBe(true);
 
@@ -254,7 +254,7 @@ describe("update email", () => {
 describe("update password", () => {
   let nockAPI: nock.Scope;
 
-  const defautlForm: z.infer<typeof UpdatePasswordForm> = {
+  const defaultForm: z.infer<typeof UpdatePasswordForm> = {
     password: "new-password",
     currentPassword: "current-password",
   };
@@ -269,7 +269,7 @@ describe("update password", () => {
     const queryClient = new QueryClient(MockQueryClient);
 
     const nockCredentials = nockAPI
-      .patch("/credentials/password", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .patch("/credentials/password", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
       .reply(201, undefined);
 
     const hook = renderHook((accessToken) => UpdatePassword.useAPI(accessToken), {
@@ -278,7 +278,7 @@ describe("update password", () => {
     });
 
     await act(async () => {
-      await hook.result.current.mutateAsync(defautlForm);
+      await hook.result.current.mutateAsync(defaultForm);
     });
 
     expect(nockCredentials.isDone()).toBe(true);
@@ -288,7 +288,7 @@ describe("update password", () => {
 describe("update role", () => {
   let nockAPI: nock.Scope;
 
-  const defautlForm: z.infer<typeof UpdateRoleForm> = {
+  const defaultForm: z.infer<typeof UpdateRoleForm> = {
     userID: "user-id",
     role: CredentialsRoleEnum.Admin,
   };
@@ -318,7 +318,7 @@ describe("update role", () => {
     };
 
     const nockCredentials = nockAPI
-      .patch("/credentials/role", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .patch("/credentials/role", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
       .reply(200, rawRes);
 
     const hook = renderHook((accessToken) => UpdateRole.useAPI(accessToken), {
@@ -327,7 +327,7 @@ describe("update role", () => {
     });
 
     await act(async () => {
-      const apiRes = await hook.result.current.mutateAsync(defautlForm);
+      const apiRes = await hook.result.current.mutateAsync(defaultForm);
       expect(apiRes).toEqual(res);
     });
 
@@ -338,7 +338,7 @@ describe("update role", () => {
 describe("reset password", () => {
   let nockAPI: nock.Scope;
 
-  const defautlForm: z.infer<typeof ResetPasswordForm> = {
+  const defaultForm: z.infer<typeof ResetPasswordForm> = {
     email: "user@email.com",
     password: "new-password",
     shortCode: "short-code",
@@ -354,7 +354,7 @@ describe("reset password", () => {
     const queryClient = new QueryClient(MockQueryClient);
 
     const nockCredentials = nockAPI
-      .patch("/credentials/password/reset", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .patch("/credentials/password/reset", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
       .reply(201, undefined);
 
     const hook = renderHook((accessToken) => ResetPassword.useAPI(accessToken), {
@@ -363,7 +363,7 @@ describe("reset password", () => {
     });
 
     await act(async () => {
-      await hook.result.current.mutateAsync(defautlForm);
+      await hook.result.current.mutateAsync(defaultForm);
     });
 
     expect(nockCredentials.isDone()).toBe(true);
