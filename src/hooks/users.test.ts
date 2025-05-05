@@ -184,4 +184,36 @@ describe("list users", () => {
     });
     expect(hook.result.current.data?.pages.flat()).toEqual(res.slice(0, 2));
   });
+
+  it("does not fetch with missing parameters", async () => {
+    const queryClient = new QueryClient(MockQueryClient);
+
+    const nockUsers = nockAPI
+      .get("/users?roles=admin&roles=user&limit=1", undefined, {
+        reqheaders: { Authorization: "Bearer access-token" },
+      })
+      .reply(200, rawRes.slice(0, 1));
+
+    const hook = renderHook(({ accessToken, params }) => ListUsers.useAPI(accessToken, params), {
+      initialProps: {
+        accessToken: "",
+        params: defaultParams,
+      },
+      wrapper: QueryWrapper(queryClient),
+    });
+    expect(nockUsers.isDone()).toBe(false);
+
+    act(() => {
+      hook.rerender({
+        accessToken: "access-token",
+        params: defaultParams,
+      });
+    });
+
+    await waitFor(() => {
+      expect(nockUsers.isDone()).toBe(true);
+    });
+
+    expect(hook.result.current.data?.pages.flat()).toEqual(res.slice(0, 1));
+  });
 });
