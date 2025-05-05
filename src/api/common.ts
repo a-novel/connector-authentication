@@ -7,9 +7,9 @@ if (!import.meta.env.VITE_AUTH_API) {
 }
 
 /**
- * AuthPath returns a full url for the auth api.
+ * Returns a full url for the auth api.
  */
-export const authPath = (path: string, queryParams?: URLSearchParams): URL => {
+export const apiPath = (path: string, queryParams?: URLSearchParams): URL => {
   const url = new URL(import.meta.env.VITE_AUTH_API + path);
 
   if (queryParams) {
