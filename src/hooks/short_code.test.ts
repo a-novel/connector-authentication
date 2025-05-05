@@ -1,0 +1,114 @@
+import { MockQueryClient } from "#/mocks/query_client";
+import { genericSetup } from "#/utils/setup";
+import { QueryWrapper } from "#/utils/wrapper";
+
+import { LangEnum, RequestEmailUpdateForm, RequestPasswordResetForm, RequestRegistrationForm } from "@/api";
+import { RequestEmailUpdate, RequestPasswordReset, RequestRegister } from "@/hooks";
+
+import { QueryClient } from "@tanstack/react-query";
+import { act, renderHook } from "@testing-library/react";
+import nock from "nock";
+import { describe, expect, it } from "vitest";
+import { z } from "zod";
+
+describe("request registration", () => {
+  let nockAPI: nock.Scope;
+
+  const defautlForm: z.infer<typeof RequestRegistrationForm> = {
+    email: "user@email.com",
+    lang: LangEnum.Fr,
+  };
+
+  genericSetup({
+    setNockAPI: (newScope) => {
+      nockAPI = newScope;
+    },
+  });
+
+  it("returns successful response", async () => {
+    const queryClient = new QueryClient(MockQueryClient);
+
+    const nockShortCode = nockAPI
+      .put("/short-code/register", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .reply(200);
+
+    const hook = renderHook((accessToken) => RequestRegister.useAPI(accessToken), {
+      initialProps: "access-token",
+      wrapper: QueryWrapper(queryClient),
+    });
+
+    await act(async () => {
+      await hook.result.current.mutateAsync(defautlForm);
+    });
+
+    expect(nockShortCode.isDone()).toBe(true);
+  });
+});
+
+describe("request email update", () => {
+  let nockAPI: nock.Scope;
+
+  const defautlForm: z.infer<typeof RequestEmailUpdateForm> = {
+    email: "user@email.com",
+    lang: LangEnum.Fr,
+  };
+
+  genericSetup({
+    setNockAPI: (newScope) => {
+      nockAPI = newScope;
+    },
+  });
+
+  it("returns successful response", async () => {
+    const queryClient = new QueryClient(MockQueryClient);
+
+    const nockShortCode = nockAPI
+      .put("/short-code/update-email", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .reply(200);
+
+    const hook = renderHook((accessToken) => RequestEmailUpdate.useAPI(accessToken), {
+      initialProps: "access-token",
+      wrapper: QueryWrapper(queryClient),
+    });
+
+    await act(async () => {
+      await hook.result.current.mutateAsync(defautlForm);
+    });
+
+    expect(nockShortCode.isDone()).toBe(true);
+  });
+});
+
+describe("request password reset", () => {
+  let nockAPI: nock.Scope;
+
+  const defautlForm: z.infer<typeof RequestPasswordResetForm> = {
+    email: "user@email.com",
+    lang: LangEnum.Fr,
+  };
+
+  genericSetup({
+    setNockAPI: (newScope) => {
+      nockAPI = newScope;
+    },
+  });
+
+  it("returns successful response", async () => {
+    const queryClient = new QueryClient(MockQueryClient);
+
+    const nockShortCode = nockAPI
+      .put("/short-code/update-password", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .reply(200);
+
+    const hook = renderHook((accessToken) => RequestPasswordReset.useAPI(accessToken), {
+      initialProps: "access-token",
+      wrapper: QueryWrapper(queryClient),
+    });
+
+    await act(async () => {
+      await hook.result.current.mutateAsync(defautlForm);
+    });
+
+    expect(nockShortCode.isDone()).toBe(true);
+  });
+});

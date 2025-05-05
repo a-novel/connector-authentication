@@ -1,0 +1,65 @@
+name: main
+
+on:
+  push:
+    branches:
+      - "**"
+    tags-ignore:
+      - "**"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: a-novel-kit/workflows/node-actions/lint-node@master
+        with:
+          pat: ${{ secrets.ACTION_PAT }}
+
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: a-novel-kit/workflows/node-actions/test-node@master
+        with:
+          pat: ${{ secrets.ACTION_PAT }}
+
+  report-codecov:
+    runs-on: ubuntu-latest
+    needs:
+      - test
+    permissions:
+      contents: read
+    steps:
+      - uses: a-novel-kit/workflows/generic-actions/codecov@master
+        with:
+          codecov_token: ${{ secrets.CODECOV_TOKEN }}
+          coverage_file: coverage
+
+  build:
+    needs:
+      - lint
+      - test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+    steps:
+      - uses: a-novel-kit/workflows/node-actions/build-node@master
+        with:
+          pat: ${{ secrets.ACTION_PAT }}
+
+  auto-tag:
+    if: github.ref == 'refs/heads/master' && success()
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+    steps:
+      - uses: a-novel-kit/workflows/node-actions/auto-tag@master
+        with:
+          pat: ${{ secrets.ACTION_PAT }}

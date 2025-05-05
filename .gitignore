@@ -1,0 +1,23 @@
+# IDE directories
+.idea
+.vscode
+
+# Node.js directories
+node_modules
+
+# Compiled files
+dist
+
+# Tests
+coverage
+
+# Sentry Config File
+.env.sentry-build-plugin
+
+# WSL bullshit
+**/*Zone.Identifier
+
+*storybook.log
+
+.envrc
+.npmrc

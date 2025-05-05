@@ -1,0 +1,29 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "**"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: a-novel-kit/workflows/publish-actions/auto-release@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+  build:
+    needs:
+      - release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: a-novel-kit/workflows/publish-actions/npm@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          pat: ${{ secrets.ACTION_PAT }}
