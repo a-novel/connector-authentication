@@ -46,7 +46,7 @@ describe("check session", () => {
 describe("create session", () => {
   let nockAPI: nock.Scope;
 
-  const defautlForm: z.infer<typeof LoginForm> = {
+  const defaultForm: z.infer<typeof LoginForm> = {
     email: "user@email.com",
     password: "password",
   };
@@ -64,14 +64,14 @@ describe("create session", () => {
 
     const queryClient = new QueryClient(MockQueryClient);
 
-    const nockSession = nockAPI.put("/session", defautlForm).reply(200, res);
+    const nockSession = nockAPI.put("/session", defaultForm).reply(200, res);
 
     const hook = renderHook(CreateSession.useAPI, {
       wrapper: QueryWrapper(queryClient),
     });
 
     await act(async () => {
-      const apiRes = await hook.result.current.mutateAsync(defautlForm);
+      const apiRes = await hook.result.current.mutateAsync(defaultForm);
       expect(apiRes).toEqual(res);
     });
 

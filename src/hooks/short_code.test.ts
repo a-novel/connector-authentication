@@ -14,7 +14,7 @@ import { z } from "zod";
 describe("request registration", () => {
   let nockAPI: nock.Scope;
 
-  const defautlForm: z.infer<typeof RequestRegistrationForm> = {
+  const defaultForm: z.infer<typeof RequestRegistrationForm> = {
     email: "user@email.com",
     lang: LangEnum.Fr,
   };
@@ -29,7 +29,7 @@ describe("request registration", () => {
     const queryClient = new QueryClient(MockQueryClient);
 
     const nockShortCode = nockAPI
-      .put("/short-code/register", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .put("/short-code/register", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
       .reply(200);
 
     const hook = renderHook((accessToken) => RequestRegister.useAPI(accessToken), {
@@ -38,7 +38,7 @@ describe("request registration", () => {
     });
 
     await act(async () => {
-      await hook.result.current.mutateAsync(defautlForm);
+      await hook.result.current.mutateAsync(defaultForm);
     });
 
     expect(nockShortCode.isDone()).toBe(true);
@@ -48,7 +48,7 @@ describe("request registration", () => {
 describe("request email update", () => {
   let nockAPI: nock.Scope;
 
-  const defautlForm: z.infer<typeof RequestEmailUpdateForm> = {
+  const defaultForm: z.infer<typeof RequestEmailUpdateForm> = {
     email: "user@email.com",
     lang: LangEnum.Fr,
   };
@@ -63,7 +63,7 @@ describe("request email update", () => {
     const queryClient = new QueryClient(MockQueryClient);
 
     const nockShortCode = nockAPI
-      .put("/short-code/update-email", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .put("/short-code/update-email", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
       .reply(200);
 
     const hook = renderHook((accessToken) => RequestEmailUpdate.useAPI(accessToken), {
@@ -72,7 +72,7 @@ describe("request email update", () => {
     });
 
     await act(async () => {
-      await hook.result.current.mutateAsync(defautlForm);
+      await hook.result.current.mutateAsync(defaultForm);
     });
 
     expect(nockShortCode.isDone()).toBe(true);
@@ -82,7 +82,7 @@ describe("request email update", () => {
 describe("request password reset", () => {
   let nockAPI: nock.Scope;
 
-  const defautlForm: z.infer<typeof RequestPasswordResetForm> = {
+  const defaultForm: z.infer<typeof RequestPasswordResetForm> = {
     email: "user@email.com",
     lang: LangEnum.Fr,
   };
@@ -97,7 +97,7 @@ describe("request password reset", () => {
     const queryClient = new QueryClient(MockQueryClient);
 
     const nockShortCode = nockAPI
-      .put("/short-code/update-password", defautlForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .put("/short-code/update-password", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
       .reply(200);
 
     const hook = renderHook((accessToken) => RequestPasswordReset.useAPI(accessToken), {
@@ -106,7 +106,7 @@ describe("request password reset", () => {
     });
 
     await act(async () => {
-      await hook.result.current.mutateAsync(defautlForm);
+      await hook.result.current.mutateAsync(defaultForm);
     });
 
     expect(nockShortCode.isDone()).toBe(true);

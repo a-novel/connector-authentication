@@ -71,7 +71,7 @@ describe("check session", () => {
 describe("create session", () => {
   let nockAPI: nock.Scope;
 
-  const defautlForm: z.infer<typeof LoginForm> = {
+  const defaultForm: z.infer<typeof LoginForm> = {
     email: "user@email.com",
     password: "password",
   };
@@ -87,34 +87,34 @@ describe("create session", () => {
       accessToken: "new-access-token",
     };
 
-    const nockSession = nockAPI.put("/session", defautlForm).reply(200, res);
+    const nockSession = nockAPI.put("/session", defaultForm).reply(200, res);
 
-    const apiRes = await createSession(defautlForm);
+    const apiRes = await createSession(defaultForm);
     expect(apiRes).toEqual(res);
 
     expect(nockSession.isDone()).toBe(true);
   });
 
   it("returns forbidden", async () => {
-    const nockSession = nockAPI.put("/session", defautlForm).reply(403, undefined);
+    const nockSession = nockAPI.put("/session", defaultForm).reply(403, undefined);
 
-    const apiRes = await createSession(defautlForm).catch((e) => e);
+    const apiRes = await createSession(defaultForm).catch((e) => e);
     expect(isForbiddenError(apiRes)).toBe(true);
     expect(nockSession.isDone()).toBe(true);
   });
 
   it("returns user not found", async () => {
-    const nockSession = nockAPI.put("/session", defautlForm).reply(404, undefined);
+    const nockSession = nockAPI.put("/session", defaultForm).reply(404, undefined);
 
-    const apiRes = await createSession(defautlForm).catch((e) => e);
+    const apiRes = await createSession(defaultForm).catch((e) => e);
     expect(isUserNotFoundError(apiRes)).toBe(true);
     expect(nockSession.isDone()).toBe(true);
   });
 
   it("returns internal", async () => {
-    const nockSession = nockAPI.put("/session", defautlForm).reply(501, "crash");
+    const nockSession = nockAPI.put("/session", defaultForm).reply(501, "crash");
 
-    const apiRes = await createSession(defautlForm).catch((e) => e);
+    const apiRes = await createSession(defaultForm).catch((e) => e);
     expect(isInternalError(apiRes)).toBe(true);
     expect(nockSession.isDone()).toBe(true);
   });
