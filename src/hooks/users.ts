@@ -31,6 +31,7 @@ export const ListUsers: InfiniteQueryAPI<
         (firstPageParam ?? 0) > 0
           ? Math.max(0, (firstPageParam ?? 0) - (params.limit ?? DEFAULT_LIST_USERS_LIMIT))
           : undefined,
+      enabled: !!accessToken,
       maxPages: options?.maxPages,
     }),
 };
