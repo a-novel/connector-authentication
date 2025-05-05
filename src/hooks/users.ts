@@ -1,7 +1,7 @@
 import { InternalError, listUsers, UnauthorizedError } from "@/api";
-import { QueryAPI } from "@/hooks/common";
+import { InfiniteQueryAPI } from "@/hooks/common";
 
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 const BASE_PARAMS = ["authentication service", "users"] as const;
 
@@ -12,16 +12,25 @@ const listUsersKey = (...params: Parameters<typeof listUsers>) => [
   { token: params[0] },
 ];
 
-export const ListUsers: QueryAPI<
-  Parameters<typeof listUsers>,
-  Awaited<ReturnType<typeof listUsers>>,
+const DEFAULT_LIST_USERS_LIMIT = 10;
+
+export const ListUsers: InfiniteQueryAPI<
+  [...Parameters<typeof listUsers>, { maxPages?: number }?],
+  { pages: Awaited<ReturnType<typeof listUsers>>[] },
   UnauthorizedError | InternalError
 > = {
   key: listUsersKey,
-  useAPI: (...params) =>
-    useQuery({
-      queryKey: listUsersKey(...params),
-      queryFn: () => listUsers(...params),
-      enabled: !!params[0],
+  useAPI: (accessToken, params, options) =>
+    useInfiniteQuery({
+      queryKey: listUsersKey(accessToken, params),
+      queryFn: ({ pageParam = 0 }) => listUsers(accessToken, { ...params, offset: pageParam }),
+      initialPageParam: params.offset,
+      getNextPageParam: (lastPage, _allPages, lastPageParam) =>
+        lastPage.length > 0 ? (lastPageParam ?? 0) + lastPage.length : undefined,
+      getPreviousPageParam: (_firstPage, _allPages, firstPageParam) =>
+        (firstPageParam ?? 0) > 0
+          ? Math.max(0, (firstPageParam ?? 0) - (params.limit ?? DEFAULT_LIST_USERS_LIMIT))
+          : undefined,
+      maxPages: options?.maxPages,
     }),
 };
