@@ -1,5 +1,5 @@
-import { InternalError, listUsers, UnauthorizedError } from "@/api";
-import { InfiniteQueryAPI } from "@/hooks/common";
+import { InternalError, listUsers, UnauthorizedError } from "../api";
+import { InfiniteQueryAPI } from "./common";
 
 import { useInfiniteQuery } from "@tanstack/react-query";
 

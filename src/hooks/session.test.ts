@@ -1,9 +1,8 @@
-import { MockQueryClient } from "#/mocks/query_client";
-import { genericSetup } from "#/utils/setup";
-import { QueryWrapper } from "#/utils/wrapper";
-
-import { AccessToken, Claims, ClaimsRoleEnum, LoginForm, RefreshAccessTokenParams } from "@/api";
-import { CheckSession, CreateAnonymousSession, CreateSession, NewRefreshToken, RefreshSession } from "@/hooks";
+import { MockQueryClient } from "../../__test__/mocks/query_client";
+import { genericSetup } from "../../__test__/utils/setup";
+import { QueryWrapper } from "../../__test__/utils/wrapper";
+import { AccessToken, Claims, ClaimsRoleEnum, LoginForm, RefreshAccessTokenParams } from "../api";
+import { CheckSession, CreateAnonymousSession, CreateSession, NewRefreshToken, RefreshSession } from "./index";
 
 import { QueryClient } from "@tanstack/react-query";
 import { act, renderHook, waitFor } from "@testing-library/react";

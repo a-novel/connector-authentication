@@ -1,9 +1,8 @@
-import { MockQueryClient } from "#/mocks/query_client";
-import { genericSetup } from "#/utils/setup";
-import { QueryWrapper } from "#/utils/wrapper";
-
-import { LangEnum, RequestEmailUpdateForm, RequestPasswordResetForm, RequestRegistrationForm } from "@/api";
-import { RequestEmailUpdate, RequestPasswordReset, RequestRegister } from "@/hooks";
+import { MockQueryClient } from "../../__test__/mocks/query_client";
+import { genericSetup } from "../../__test__/utils/setup";
+import { QueryWrapper } from "../../__test__/utils/wrapper";
+import { LangEnum, RequestEmailUpdateForm, RequestPasswordResetForm, RequestRegistrationForm } from "../api";
+import { RequestEmailUpdate, RequestPasswordReset, RequestRegister } from "./index";
 
 import { QueryClient } from "@tanstack/react-query";
 import { act, renderHook } from "@testing-library/react";

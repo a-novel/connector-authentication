@@ -7,8 +7,8 @@ import {
   requestRegistration,
   RequestRegistrationForm,
   UnauthorizedError,
-} from "@/api";
-import { MutationAPI } from "@/hooks/common";
+} from "../api";
+import { MutationAPI } from "./common";
 
 import { useMutation } from "@tanstack/react-query";
 import { z } from "zod";
