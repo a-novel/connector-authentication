@@ -11,8 +11,8 @@ import {
   refreshSession,
   UnauthorizedError,
   UserNotFoundError,
-} from "@/api";
-import { MutationAPI, QueryAPI } from "@/hooks/common";
+} from "../api";
+import { MutationAPI, QueryAPI } from "./common";
 
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { z } from "zod";

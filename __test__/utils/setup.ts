@@ -1,4 +1,4 @@
-import { MockReplyHeaders } from "#/mocks/query_client";
+import { MockReplyHeaders } from "../mocks/query_client";
 
 import nock from "nock";
 import { afterAll, afterEach, beforeAll, beforeEach, vi } from "vitest";

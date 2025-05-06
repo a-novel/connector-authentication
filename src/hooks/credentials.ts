@@ -17,8 +17,8 @@ import {
   UpdateRoleForm,
   UserNotFoundError,
   ValidationError,
-} from "@/api";
-import { MutationAPI, QueryAPI } from "@/hooks/common";
+} from "../api";
+import { MutationAPI, QueryAPI } from "./common";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { z } from "zod";

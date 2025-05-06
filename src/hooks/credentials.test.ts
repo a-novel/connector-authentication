@@ -1,7 +1,6 @@
-import { MockQueryClient } from "#/mocks/query_client";
-import { genericSetup } from "#/utils/setup";
-import { QueryWrapper } from "#/utils/wrapper";
-
+import { MockQueryClient } from "../../__test__/mocks/query_client";
+import { genericSetup } from "../../__test__/utils/setup";
+import { QueryWrapper } from "../../__test__/utils/wrapper";
 import {
   AccessToken,
   CredentialsRoleEnum,
@@ -12,8 +11,8 @@ import {
   UpdatePasswordForm,
   UpdateRoleForm,
   User,
-} from "@/api";
-import { CreateUser, EmailExists, ResetPassword, UpdateEmail, UpdatePassword, UpdateRole } from "@/hooks";
+} from "../api";
+import { CreateUser, EmailExists, ResetPassword, UpdateEmail, UpdatePassword, UpdateRole } from "./index";
 
 import { QueryClient } from "@tanstack/react-query";
 import { act, renderHook, waitFor } from "@testing-library/react";

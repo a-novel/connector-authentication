@@ -1,5 +1,4 @@
-import { genericSetup } from "#/utils/setup";
-
+import { genericSetup } from "../../__test__/utils/setup";
 import {
   AccessToken,
   Claims,
@@ -16,7 +15,7 @@ import {
   createSession,
   newRefreshToken,
   refreshSession,
-} from "@/api";
+} from "./index";
 
 import nock from "nock";
 import { describe, expect, it } from "vitest";

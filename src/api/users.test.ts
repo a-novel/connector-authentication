@@ -1,6 +1,5 @@
-import { genericSetup } from "#/utils/setup";
-
-import { CredentialsRoleEnum, isInternalError, isUnauthorizedError, listUsers, ListUsersParams, User } from "@/api";
+import { genericSetup } from "../../__test__/utils/setup";
+import { CredentialsRoleEnum, isInternalError, isUnauthorizedError, listUsers, ListUsersParams, User } from "./index";
 
 import nock from "nock";
 import { describe, it, expect } from "vitest";
