@@ -2,14 +2,14 @@ import { Token } from "./bindings";
 
 import { z } from "zod";
 
-if (!import.meta.env.VITE_AUTH_API) {
-  throw new Error("VITE_AUTH_API is not defined");
-}
-
 /**
  * Returns a full url for the auth api.
  */
 export const apiPath = (path: string, queryParams?: URLSearchParams): URL => {
+  if (!import.meta.env.VITE_AUTH_API) {
+    throw new Error("VITE_AUTH_API is not defined");
+  }
+
   const url = new URL(import.meta.env.VITE_AUTH_API + path);
 
   if (queryParams) {
