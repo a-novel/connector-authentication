@@ -1,7 +1,7 @@
 {
   "name": "@a-novel/connector-authentication",
   "private": false,
-  "version": "1.1.2",
+  "version": "1.2.0",
   "type": "module",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
