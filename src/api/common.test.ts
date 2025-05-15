@@ -1,25 +1,21 @@
-import { apiPath, withAuthHeaders, withDefaultHeaders } from "./common";
+import "../../__test__/utils/setup";
+import { apiPath, params, withAuthHeaders, withDefaultHeaders } from "./common";
 
 import { describe, it, expect } from "vitest";
 
 describe("auth path", () => {
-  it("should have api env defined", () => {
-    expect(import.meta.env.VITE_AUTH_API).toBeDefined();
-    expect(import.meta.env.VITE_AUTH_API).toMatch(new RegExp(`^http://`));
-  });
-
   it("should append the path to the base defined in environment", () => {
-    expect(apiPath("/session").toString()).toEqual(`${import.meta.env.VITE_AUTH_API}/session`);
-    expect(apiPath("/session?foo").toString()).toEqual(`${import.meta.env.VITE_AUTH_API}/session?foo`);
+    expect(apiPath("/session").toString()).toEqual(`${params.baseURL}/session`);
+    expect(apiPath("/session?foo").toString()).toEqual(`${params.baseURL}/session?foo`);
   });
 
   it("should append query parameters", () => {
-    const params = new URLSearchParams();
-    params.append("foo", "bar");
-    params.append("baz", "qux");
-    params.append("baz", "quux");
+    const queryParams = new URLSearchParams();
+    queryParams.append("foo", "bar");
+    queryParams.append("baz", "qux");
+    queryParams.append("baz", "quux");
 
-    expect(apiPath("", params)).toEqual(new URL(`${import.meta.env.VITE_AUTH_API}?foo=bar&baz=qux&baz=quux`));
+    expect(apiPath("", queryParams)).toEqual(new URL(`${params.baseURL}?foo=bar&baz=qux&baz=quux`));
   });
 });
 

@@ -6,6 +6,7 @@ export default defineConfig({
   build: {
     lib: {
       entry: {
+        index: "src/index.ts",
         api: "src/api/index.ts",
         hooks: "src/hooks/index.ts",
       },

@@ -11,7 +11,7 @@
     "lint": "pnpm lint:stylecheck && pnpm lint:typecheck && pnpm lint:eslint",
     "format": "prettier --write . --config prettier.config.ts",
     "build": "rm -rf ./dist && vite build && tsc --build tsconfig.build.json",
-    "test": "dotenvx run -f .env.dev -- vitest"
+    "test": "vitest"
   },
   "license": "AGPL-3.0",
   "packageManager": "pnpm@10.11.0",
@@ -32,6 +32,10 @@
     "./hooks": {
       "import": "./dist/hooks/hooks.es.js",
       "types": "./dist/hooks/index.d.ts"
+    },
+    ".": {
+      "import": "./dist/index/index.es.js",
+      "types": "./dist/index.d.ts"
     }
   },
   "publishConfig": {
@@ -49,7 +53,6 @@
     "zod": "^3.24.4"
   },
   "devDependencies": {
-    "@dotenvx/dotenvx": "^1.42.2",
     "@eslint/config-helpers": "^0.2.2",
     "@eslint/js": "^9.26.0",
     "@tanstack/eslint-plugin-query": "^5.74.7",

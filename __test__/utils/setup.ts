@@ -1,3 +1,5 @@
+import { init } from "../../src";
+import { params } from "../../src/api/common";
 import { MockReplyHeaders } from "../mocks/query_client";
 
 import nock from "nock";
@@ -8,6 +10,8 @@ export interface GenericSetupProps {
 }
 
 beforeAll(() => {
+  init({ baseURL: "http://localhost:3000" });
+
   if (!nock.isActive()) nock.activate();
 
   nock.emitter.on("no match", (req) => {
@@ -22,7 +26,7 @@ afterAll(() => {
 export const genericSetup = (props: GenericSetupProps) => {
   beforeEach(() => {
     // Objects are passed by reference in javascript, so this will update the actual value from the source.
-    props.setNockAPI?.(nock(import.meta.env.VITE_AUTH_API).defaultReplyHeaders(MockReplyHeaders));
+    props.setNockAPI?.(nock(params.baseURL).defaultReplyHeaders(MockReplyHeaders));
   });
 
   afterEach(() => {
