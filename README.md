@@ -36,5 +36,12 @@ pnpm add react @tanstack/react-query @a-novel/connector-authentication
 
 ## Extra steps
 
-This package requires the `VITE_AUTH_API` to be set in the environment. It must point to a valid instance of the
-[authentication api](https://github.com/a-novel/service-authentication).
+You need to call the init function once for the package to be ready for use:
+
+```ts
+import { init } from "@a-novel/connector-authentication";
+
+init({
+  baseURL: "https://auth.example.com",
+});
+```
