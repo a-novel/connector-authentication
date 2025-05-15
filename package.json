@@ -34,7 +34,7 @@
       "types": "./dist/hooks/index.d.ts"
     },
     ".": {
-      "import": "./dist/index/index.es.js",
+      "import": "./dist/index.es.js",
       "types": "./dist/index.d.ts"
     }
   },
