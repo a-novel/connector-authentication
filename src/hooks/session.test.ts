@@ -36,7 +36,7 @@ describe("check session", () => {
     });
 
     await waitFor(() => {
-      expect(nockSession.isDone()).toBe(true);
+      nockSession.done();
       expect(hook.result.current.data).toEqual(res);
     });
   });
@@ -74,7 +74,52 @@ describe("create session", () => {
       expect(apiRes).toEqual(res);
     });
 
-    expect(nockSession.isDone()).toBe(true);
+    nockSession.done();
+  });
+
+  it("refreshes session", async () => {
+    const res: z.infer<typeof AccessToken> = {
+      accessToken: "new-access-token",
+    };
+
+    const checkSessionRes: z.infer<typeof Claims> = {
+      userID: "00000000-0000-0000-0000-000000000001",
+      roles: [ClaimsRoleEnum.User],
+    };
+
+    const queryClient = new QueryClient(MockQueryClient);
+
+    let nockCheckSession = nockAPI
+      .get("/session", undefined, { reqheaders: { Authorization: "Bearer access-token" } })
+      .reply(200, checkSessionRes);
+
+    renderHook(() => CheckSession.useAPI("access-token"), {
+      wrapper: QueryWrapper(queryClient),
+    });
+
+    await waitFor(() => {
+      nockCheckSession.done();
+    });
+
+    const nockSession = nockAPI.put("/session", defaultForm).reply(200, res);
+
+    nockCheckSession = nockAPI
+      .get("/session", undefined, { reqheaders: { Authorization: "Bearer access-token" } })
+      .reply(200, checkSessionRes);
+
+    const hook = renderHook(CreateSession.useAPI, {
+      wrapper: QueryWrapper(queryClient),
+    });
+
+    await act(async () => {
+      const apiRes = await hook.result.current.mutateAsync(defaultForm);
+      expect(apiRes).toEqual(res);
+    });
+
+    await waitFor(() => {
+      nockSession.done();
+      nockCheckSession.done();
+    });
   });
 });
 
@@ -105,7 +150,52 @@ describe("create anonymous session", () => {
       expect(apiRes).toEqual(res);
     });
 
-    expect(nockSession.isDone()).toBe(true);
+    nockSession.done();
+  });
+
+  it("refreshes session", async () => {
+    const res: z.infer<typeof AccessToken> = {
+      accessToken: "new-access-token",
+    };
+
+    const checkSessionRes: z.infer<typeof Claims> = {
+      userID: "00000000-0000-0000-0000-000000000001",
+      roles: [ClaimsRoleEnum.User],
+    };
+
+    const queryClient = new QueryClient(MockQueryClient);
+
+    let nockCheckSession = nockAPI
+      .get("/session", undefined, { reqheaders: { Authorization: "Bearer access-token" } })
+      .reply(200, checkSessionRes);
+
+    renderHook(() => CheckSession.useAPI("access-token"), {
+      wrapper: QueryWrapper(queryClient),
+    });
+
+    await waitFor(() => {
+      nockCheckSession.done();
+    });
+
+    const nockSession = nockAPI.put("/session/anon").reply(200, res);
+
+    nockCheckSession = nockAPI
+      .get("/session", undefined, { reqheaders: { Authorization: "Bearer access-token" } })
+      .reply(200, checkSessionRes);
+
+    const hook = renderHook(CreateAnonymousSession.useAPI, {
+      wrapper: QueryWrapper(queryClient),
+    });
+
+    await act(async () => {
+      const apiRes = await hook.result.current.mutateAsync();
+      expect(apiRes).toEqual(res);
+    });
+
+    await waitFor(() => {
+      nockSession.done();
+      nockCheckSession.done();
+    });
   });
 });
 
@@ -145,7 +235,56 @@ describe("refresh session", () => {
       expect(apiRes).toEqual(res);
     });
 
-    expect(nockSession.isDone()).toBe(true);
+    nockSession.done();
+  });
+
+  it("refreshes session", async () => {
+    const res: z.infer<typeof AccessToken> = {
+      accessToken: "new-access-token",
+    };
+
+    const checkSessionRes: z.infer<typeof Claims> = {
+      userID: "00000000-0000-0000-0000-000000000001",
+      roles: [ClaimsRoleEnum.User],
+    };
+
+    const queryClient = new QueryClient(MockQueryClient);
+
+    let nockCheckSession = nockAPI
+      .get("/session", undefined, { reqheaders: { Authorization: "Bearer access-token" } })
+      .reply(200, checkSessionRes);
+
+    renderHook(() => CheckSession.useAPI("access-token"), {
+      wrapper: QueryWrapper(queryClient),
+    });
+
+    await waitFor(() => {
+      nockCheckSession.done();
+    });
+
+    const nockSession = nockAPI
+      .patch(
+        `/session/refresh?accessToken=${encodeURIComponent(defaultParams.accessToken)}&refreshToken=${encodeURIComponent(defaultParams.refreshToken)}`
+      )
+      .reply(200, res);
+
+    nockCheckSession = nockAPI
+      .get("/session", undefined, { reqheaders: { Authorization: "Bearer access-token" } })
+      .reply(200, checkSessionRes);
+
+    const hook = renderHook(RefreshSession.useAPI, {
+      wrapper: QueryWrapper(queryClient),
+    });
+
+    await act(async () => {
+      const apiRes = await hook.result.current.mutateAsync(defaultParams);
+      expect(apiRes).toEqual(res);
+    });
+
+    await waitFor(() => {
+      nockSession.done();
+      nockCheckSession.done();
+    });
   });
 });
 
@@ -179,6 +318,6 @@ describe("new refresh token", () => {
       expect(apiRes).toEqual("new-refresh-token");
     });
 
-    expect(nockSession.isDone()).toBe(true);
+    nockSession.done();
   });
 });

@@ -43,7 +43,7 @@ describe("check session", () => {
     const apiRes = await checkSession("access-token");
     expect(apiRes).toEqual(res);
 
-    expect(nockSession.isDone()).toBe(true);
+    nockSession.done();
   });
 
   it("returns unauthorized", async () => {
@@ -53,7 +53,7 @@ describe("check session", () => {
 
     const apiRes = await checkSession("access-token").catch((e) => e);
     expect(isUnauthorizedError(apiRes)).toBe(true);
-    expect(nockSession.isDone()).toBe(true);
+    nockSession.done();
   });
 
   it("returns internal", async () => {
@@ -63,7 +63,7 @@ describe("check session", () => {
 
     const apiRes = await checkSession("access-token").catch((e) => e);
     expect(isInternalError(apiRes)).toBe(true);
-    expect(nockSession.isDone()).toBe(true);
+    nockSession.done();
   });
 });
 
@@ -91,7 +91,7 @@ describe("create session", () => {
     const apiRes = await createSession(defaultForm);
     expect(apiRes).toEqual(res);
 
-    expect(nockSession.isDone()).toBe(true);
+    nockSession.done();
   });
 
   it("returns forbidden", async () => {
@@ -99,7 +99,7 @@ describe("create session", () => {
 
     const apiRes = await createSession(defaultForm).catch((e) => e);
     expect(isForbiddenError(apiRes)).toBe(true);
-    expect(nockSession.isDone()).toBe(true);
+    nockSession.done();
   });
 
   it("returns user not found", async () => {
@@ -107,7 +107,7 @@ describe("create session", () => {
 
     const apiRes = await createSession(defaultForm).catch((e) => e);
     expect(isUserNotFoundError(apiRes)).toBe(true);
-    expect(nockSession.isDone()).toBe(true);
+    nockSession.done();
   });
 
   it("returns internal", async () => {
@@ -115,7 +115,7 @@ describe("create session", () => {
 
     const apiRes = await createSession(defaultForm).catch((e) => e);
     expect(isInternalError(apiRes)).toBe(true);
-    expect(nockSession.isDone()).toBe(true);
+    nockSession.done();
   });
 });
 
@@ -138,7 +138,7 @@ describe("create anonymous session", () => {
     const apiRes = await createAnonymousSession();
     expect(apiRes).toEqual(res);
 
-    expect(nockSession.isDone()).toBe(true);
+    nockSession.done();
   });
 
   it("returns internal", async () => {
@@ -146,7 +146,7 @@ describe("create anonymous session", () => {
 
     const apiRes = await createAnonymousSession().catch((e) => e);
     expect(isInternalError(apiRes)).toBe(true);
-    expect(nockSession.isDone()).toBe(true);
+    nockSession.done();
   });
 });
 
@@ -178,7 +178,7 @@ describe("refresh session", () => {
     const apiRes = await refreshSession(defaultParams);
     expect(apiRes).toEqual(res);
 
-    expect(nockSession.isDone()).toBe(true);
+    nockSession.done();
   });
 
   it("returns unauthorized", async () => {
@@ -190,7 +190,7 @@ describe("refresh session", () => {
 
     const apiRes = await refreshSession(defaultParams).catch((e) => e);
     expect(isUnauthorizedError(apiRes)).toBe(true);
-    expect(nockSession.isDone()).toBe(true);
+    nockSession.done();
   });
 
   it("returns forbidden", async () => {
@@ -202,7 +202,7 @@ describe("refresh session", () => {
 
     const apiRes = await refreshSession(defaultParams).catch((e) => e);
     expect(isForbiddenError(apiRes)).toBe(true);
-    expect(nockSession.isDone()).toBe(true);
+    nockSession.done();
   });
 
   it("returns unprocessable entity", async () => {
@@ -214,7 +214,7 @@ describe("refresh session", () => {
 
     const apiRes = await refreshSession(defaultParams).catch((e) => e);
     expect(isValidationError(apiRes)).toBe(true);
-    expect(nockSession.isDone()).toBe(true);
+    nockSession.done();
   });
 
   it("returns internal", async () => {
@@ -226,7 +226,7 @@ describe("refresh session", () => {
 
     const apiRes = await refreshSession(defaultParams).catch((e) => e);
     expect(isInternalError(apiRes)).toBe(true);
-    expect(nockSession.isDone()).toBe(true);
+    nockSession.done();
   });
 });
 
@@ -251,7 +251,7 @@ describe("new refresh token", () => {
     const apiRes = await newRefreshToken("access-token");
     expect(apiRes).toEqual("new-refresh-token");
 
-    expect(nockSession.isDone()).toBe(true);
+    nockSession.done();
   });
 
   it("returns unauthorized", async () => {
@@ -261,7 +261,7 @@ describe("new refresh token", () => {
 
     const apiRes = await newRefreshToken("access-token").catch((e) => e);
     expect(isUnauthorizedError(apiRes)).toBe(true);
-    expect(nockSession.isDone()).toBe(true);
+    nockSession.done();
   });
 
   it("returns forbidden", async () => {
@@ -271,7 +271,7 @@ describe("new refresh token", () => {
 
     const apiRes = await newRefreshToken("access-token").catch((e) => e);
     expect(isForbiddenError(apiRes)).toBe(true);
-    expect(nockSession.isDone()).toBe(true);
+    nockSession.done();
   });
 
   it("returns internal", async () => {
@@ -281,6 +281,6 @@ describe("new refresh token", () => {
 
     const apiRes = await newRefreshToken("access-token").catch((e) => e);
     expect(isInternalError(apiRes)).toBe(true);
-    expect(nockSession.isDone()).toBe(true);
+    nockSession.done();
   });
 });

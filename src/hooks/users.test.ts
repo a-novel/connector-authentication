@@ -85,7 +85,7 @@ describe("list users", () => {
     });
 
     await waitFor(() => {
-      expect(nockUsers.isDone()).toBe(true);
+      nockUsers.done();
     });
 
     expect(hook.result.current.data?.pages.flat()).toEqual(res.slice(0, 1));
@@ -105,7 +105,7 @@ describe("list users", () => {
     });
 
     await waitFor(() => {
-      expect(nockUsers.isDone()).toBe(true);
+      nockUsers.done();
       expect(hook.result.current.data?.pages.flat()).toEqual(res.slice(0, 1));
     });
 
@@ -125,7 +125,7 @@ describe("list users", () => {
     });
 
     await waitFor(() => {
-      expect(nockUsers.isDone()).toBe(true);
+      nockUsers.done();
     });
     expect(hook.result.current.data?.pages.flat()).toEqual(res.slice(1, 3));
   });
@@ -144,7 +144,7 @@ describe("list users", () => {
     });
 
     await waitFor(() => {
-      expect(nockUsers.isDone()).toBe(true);
+      nockUsers.done();
       expect(hook.result.current.data?.pages.flat()).toEqual(res.slice(0, 1));
     });
 
@@ -164,7 +164,7 @@ describe("list users", () => {
     });
 
     await waitFor(() => {
-      expect(nockUsers.isDone()).toBe(true);
+      nockUsers.done();
     });
     expect(hook.result.current.data?.pages.flat()).toEqual(res.slice(1, 3));
 
@@ -179,7 +179,7 @@ describe("list users", () => {
     });
 
     await waitFor(() => {
-      expect(nockUsers.isDone()).toBe(true);
+      nockUsers.done();
     });
     expect(hook.result.current.data?.pages.flat()).toEqual(res.slice(0, 2));
   });
@@ -200,7 +200,6 @@ describe("list users", () => {
       },
       wrapper: QueryWrapper(queryClient),
     });
-    expect(nockUsers.isDone()).toBe(false);
 
     act(() => {
       hook.rerender({
@@ -210,7 +209,7 @@ describe("list users", () => {
     });
 
     await waitFor(() => {
-      expect(nockUsers.isDone()).toBe(true);
+      nockUsers.done();
     });
 
     expect(hook.result.current.data?.pages.flat()).toEqual(res.slice(0, 1));

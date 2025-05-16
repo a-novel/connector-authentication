@@ -56,7 +56,7 @@ describe("create user", () => {
       expect(apiRes).toEqual(res);
     });
 
-    expect(nockCredentials.isDone()).toBe(true);
+    nockCredentials.done();
   });
 
   it("invalidates email exists queries", async () => {
@@ -83,7 +83,7 @@ describe("create user", () => {
       wrapper: QueryWrapper(queryClient),
     });
     await waitFor(() => {
-      expect(nockExistsEmails.isDone()).toBe(true);
+      nockExistsEmails.done();
       expect(email1ExistsHook.result.current.data).toBe(false);
       expect(email2ExistsHook.result.current.data).toBe(true);
     });
@@ -107,11 +107,11 @@ describe("create user", () => {
     await act(async () => {
       const apiRes = await createUserHook.result.current.mutateAsync(defaultForm);
       expect(apiRes).toEqual(res);
-      expect(nockCreateUser.isDone()).toBe(true);
+      nockCreateUser.done();
     });
 
     await waitFor(() => {
-      expect(nockExistsEmails.isDone()).toBe(true);
+      nockExistsEmails.done();
       expect(email1ExistsHook.result.current.data).toBe(true);
       expect(email2ExistsHook.result.current.data).toBe(true);
     });
@@ -145,7 +145,7 @@ describe("email exists", () => {
     });
 
     await waitFor(() => {
-      expect(nockCredentials.isDone()).toBe(true);
+      nockCredentials.done();
       expect(hook.result.current.data).toBe(true);
     });
   });
@@ -185,7 +185,7 @@ describe("update email", () => {
       const apiRes = await hook.result.current.mutateAsync(defaultForm);
       expect(apiRes).toEqual("user@email.com");
     });
-    expect(nockCredentials.isDone()).toBe(true);
+    nockCredentials.done();
   });
 
   it("invalidates email exists queries", async () => {
@@ -212,7 +212,7 @@ describe("update email", () => {
       wrapper: QueryWrapper(queryClient),
     });
     await waitFor(() => {
-      expect(nockExistsEmails.isDone()).toBe(true);
+      nockExistsEmails.done();
       expect(email1ExistsHook.result.current.data).toBe(true);
       expect(email2ExistsHook.result.current.data).toBe(false);
     });
@@ -240,10 +240,10 @@ describe("update email", () => {
     await act(async () => {
       await updateEmailHook.result.current.mutateAsync(defaultForm);
     });
-    expect(nockUpdateEmail.isDone()).toBe(true);
+    nockUpdateEmail.done();
 
     await waitFor(() => {
-      expect(nockExistsEmails.isDone()).toBe(true);
+      nockExistsEmails.done();
       expect(email1ExistsHook.result.current.data).toBe(false);
       expect(email2ExistsHook.result.current.data).toBe(true);
     });
@@ -280,7 +280,7 @@ describe("update password", () => {
       await hook.result.current.mutateAsync(defaultForm);
     });
 
-    expect(nockCredentials.isDone()).toBe(true);
+    nockCredentials.done();
   });
 });
 
@@ -330,7 +330,7 @@ describe("update role", () => {
       expect(apiRes).toEqual(res);
     });
 
-    expect(nockCredentials.isDone()).toBe(true);
+    nockCredentials.done();
   });
 });
 
@@ -365,6 +365,6 @@ describe("reset password", () => {
       await hook.result.current.mutateAsync(defaultForm);
     });
 
-    expect(nockCredentials.isDone()).toBe(true);
+    nockCredentials.done();
   });
 });

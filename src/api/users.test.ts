@@ -47,7 +47,7 @@ describe("list users", () => {
     const apiRes = await listUsers("access-token", defaultParams);
     expect(apiRes).toEqual(res);
 
-    expect(nockUsers.isDone()).toBe(true);
+    nockUsers.done();
   });
 
   it("returns unauthorized", async () => {
@@ -59,7 +59,7 @@ describe("list users", () => {
 
     const apiRes = await listUsers("access-token", defaultParams).catch((e) => e);
     expect(isUnauthorizedError(apiRes)).toBe(true);
-    expect(nockUsers.isDone()).toBe(true);
+    nockUsers.done();
   });
 
   it("returns internal", async () => {
@@ -71,6 +71,6 @@ describe("list users", () => {
 
     const apiRes = await listUsers("access-token", defaultParams).catch((e) => e);
     expect(isInternalError(apiRes)).toBe(true);
-    expect(nockUsers.isDone()).toBe(true);
+    nockUsers.done();
   });
 });
