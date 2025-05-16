@@ -14,7 +14,7 @@ import {
 } from "../api";
 import { MutationAPI, QueryAPI } from "./common";
 
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { z } from "zod";
 
 const BASE_PARAMS = ["authentication service", "session"] as const;
@@ -50,13 +50,18 @@ export const CreateSession: MutationAPI<
   z.infer<typeof LoginForm>
 > = {
   key: createSessionMutationKey,
-  useAPI: () =>
-    useMutation({
+  useAPI: () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
       mutationFn: (form) => createSession(form),
       mutationKey: createSessionMutationKey,
-      // The status check query depends on the token. Since this query will update it (and naturally trigger a
-      // refetch), we don't need optimistic updates to invalidate the query.
-    }),
+      onSuccess: async () => {
+        // Refresh session status on success.
+        await queryClient.invalidateQueries({ queryKey: [...BASE_PARAMS, "check session"] });
+      },
+    });
+  },
 };
 
 const createAnonymousSessionMutationKey = [...BASE_PARAMS, "create anonymous session"];
@@ -68,13 +73,18 @@ export const CreateAnonymousSession: MutationAPI<
   void
 > = {
   key: createAnonymousSessionMutationKey,
-  useAPI: () =>
-    useMutation({
+  useAPI: () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
       mutationFn: createAnonymousSession,
       mutationKey: createAnonymousSessionMutationKey,
-      // The status check query depends on the token. Since this query will update it (and naturally trigger a
-      // refetch), we don't need optimistic updates to invalidate the query.
-    }),
+      onSuccess: async () => {
+        // Refresh session status on success.
+        await queryClient.invalidateQueries({ queryKey: [...BASE_PARAMS, "check session"] });
+      },
+    });
+  },
 };
 
 const refreshSessionMutationKey = [...BASE_PARAMS, "refresh session"];
@@ -86,11 +96,18 @@ export const RefreshSession: MutationAPI<
   z.infer<typeof RefreshAccessTokenParams>
 > = {
   key: refreshSessionMutationKey,
-  useAPI: () =>
-    useMutation({
+  useAPI: () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
       mutationFn: (params) => refreshSession(params),
       mutationKey: refreshSessionMutationKey,
-    }),
+      onSuccess: async () => {
+        // Refresh session status on success.
+        await queryClient.invalidateQueries({ queryKey: [...BASE_PARAMS, "check session"] });
+      },
+    });
+  },
 };
 
 const newRefreshTokenMutationKey = [...BASE_PARAMS, "new refresh token"];

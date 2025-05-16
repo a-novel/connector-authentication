@@ -54,7 +54,7 @@ describe("create user", () => {
     const apiRes = await createUser("access-token", defaultForm);
     expect(apiRes).toEqual(res);
 
-    expect(nockCredentials.isDone()).toBe(true);
+    nockCredentials.done();
   });
 
   it("returns unauthorized", async () => {
@@ -64,7 +64,7 @@ describe("create user", () => {
 
     const apiRes = await createUser("access-token", defaultForm).catch((e) => e);
     expect(isUnauthorizedError(apiRes)).toBe(true);
-    expect(nockCredentials.isDone()).toBe(true);
+    nockCredentials.done();
   });
 
   it("returns forbidden", async () => {
@@ -74,7 +74,7 @@ describe("create user", () => {
 
     const apiRes = await createUser("access-token", defaultForm).catch((e) => e);
     expect(isForbiddenError(apiRes)).toBe(true);
-    expect(nockCredentials.isDone()).toBe(true);
+    nockCredentials.done();
   });
 
   it("returns conflict", async () => {
@@ -84,7 +84,7 @@ describe("create user", () => {
 
     const apiRes = await createUser("access-token", defaultForm).catch((e) => e);
     expect(isEmailTakenError(apiRes)).toBe(true);
-    expect(nockCredentials.isDone()).toBe(true);
+    nockCredentials.done();
   });
 
   it("returns internal", async () => {
@@ -94,7 +94,7 @@ describe("create user", () => {
 
     const apiRes = await createUser("access-token", defaultForm).catch((e) => e);
     expect(isInternalError(apiRes)).toBe(true);
-    expect(nockCredentials.isDone()).toBe(true);
+    nockCredentials.done();
   });
 });
 
@@ -121,7 +121,7 @@ describe("email exists", () => {
     const apiRes = await emailExists("access-token", defaultParams);
     expect(apiRes).toBe(true);
 
-    expect(nockCredentials.isDone()).toBe(true);
+    nockCredentials.done();
   });
 
   it("returns not found", async () => {
@@ -134,7 +134,7 @@ describe("email exists", () => {
     const apiRes = await emailExists("access-token", defaultParams);
     expect(apiRes).toBe(false);
 
-    expect(nockCredentials.isDone()).toBe(true);
+    nockCredentials.done();
   });
 
   it("returns unauthorized", async () => {
@@ -146,7 +146,7 @@ describe("email exists", () => {
 
     const apiRes = await emailExists("access-token", defaultParams).catch((e) => e);
     expect(isUnauthorizedError(apiRes)).toBe(true);
-    expect(nockCredentials.isDone()).toBe(true);
+    nockCredentials.done();
   });
 
   it("returns forbidden", async () => {
@@ -158,7 +158,7 @@ describe("email exists", () => {
 
     const apiRes = await emailExists("access-token", defaultParams).catch((e) => e);
     expect(isForbiddenError(apiRes)).toBe(true);
-    expect(nockCredentials.isDone()).toBe(true);
+    nockCredentials.done();
   });
 
   it("returns internal", async () => {
@@ -170,7 +170,7 @@ describe("email exists", () => {
 
     const apiRes = await emailExists("access-token", defaultParams).catch((e) => e);
     expect(isInternalError(apiRes)).toBe(true);
-    expect(nockCredentials.isDone()).toBe(true);
+    nockCredentials.done();
   });
 });
 
@@ -200,7 +200,7 @@ describe("update email", () => {
     const apiRes = await updateEmail("access-token", defaultForm);
     expect(apiRes).toEqual("user@email.com");
 
-    expect(nockCredentials.isDone()).toBe(true);
+    nockCredentials.done();
   });
 
   it("returns unauthorized", async () => {
@@ -210,7 +210,7 @@ describe("update email", () => {
 
     const apiRes = await updateEmail("access-token", defaultForm).catch((e) => e);
     expect(isUnauthorizedError(apiRes)).toBe(true);
-    expect(nockCredentials.isDone()).toBe(true);
+    nockCredentials.done();
   });
 
   it("returns forbidden", async () => {
@@ -220,7 +220,7 @@ describe("update email", () => {
 
     const apiRes = await updateEmail("access-token", defaultForm).catch((e) => e);
     expect(isForbiddenError(apiRes)).toBe(true);
-    expect(nockCredentials.isDone()).toBe(true);
+    nockCredentials.done();
   });
 
   it("returns not found", async () => {
@@ -230,7 +230,7 @@ describe("update email", () => {
 
     const apiRes = await updateEmail("access-token", defaultForm).catch((e) => e);
     expect(isUserNotFoundError(apiRes)).toBe(true);
-    expect(nockCredentials.isDone()).toBe(true);
+    nockCredentials.done();
   });
 
   it("returns conflict", async () => {
@@ -240,7 +240,7 @@ describe("update email", () => {
 
     const apiRes = await updateEmail("access-token", defaultForm).catch((e) => e);
     expect(isEmailTakenError(apiRes)).toBe(true);
-    expect(nockCredentials.isDone()).toBe(true);
+    nockCredentials.done();
   });
 
   it("returns internal", async () => {
@@ -250,7 +250,7 @@ describe("update email", () => {
 
     const apiRes = await updateEmail("access-token", defaultForm).catch((e) => e);
     expect(isInternalError(apiRes)).toBe(true);
-    expect(nockCredentials.isDone()).toBe(true);
+    nockCredentials.done();
   });
 });
 
@@ -275,7 +275,7 @@ describe("update password", () => {
 
     await updatePassword("access-token", defaultForm);
 
-    expect(nockCredentials.isDone()).toBe(true);
+    nockCredentials.done();
   });
 
   it("returns unauthorized", async () => {
@@ -285,7 +285,7 @@ describe("update password", () => {
 
     const apiRes = await updatePassword("access-token", defaultForm).catch((e) => e);
     expect(isUnauthorizedError(apiRes)).toBe(true);
-    expect(nockCredentials.isDone()).toBe(true);
+    nockCredentials.done();
   });
 
   it("returns forbidden", async () => {
@@ -295,7 +295,7 @@ describe("update password", () => {
 
     const apiRes = await updatePassword("access-token", defaultForm).catch((e) => e);
     expect(isForbiddenError(apiRes)).toBe(true);
-    expect(nockCredentials.isDone()).toBe(true);
+    nockCredentials.done();
   });
 
   it("returns internal", async () => {
@@ -305,7 +305,7 @@ describe("update password", () => {
 
     const apiRes = await updatePassword("access-token", defaultForm).catch((e) => e);
     expect(isInternalError(apiRes)).toBe(true);
-    expect(nockCredentials.isDone()).toBe(true);
+    nockCredentials.done();
   });
 });
 
@@ -346,7 +346,7 @@ describe("update role", () => {
     const apiRes = await updateRole("access-token", defaultForm);
     expect(apiRes).toEqual(res);
 
-    expect(nockCredentials.isDone()).toBe(true);
+    nockCredentials.done();
   });
 
   it("returns unauthorized", async () => {
@@ -356,7 +356,7 @@ describe("update role", () => {
 
     const apiRes = await updateRole("access-token", defaultForm).catch((e) => e);
     expect(isUnauthorizedError(apiRes)).toBe(true);
-    expect(nockCredentials.isDone()).toBe(true);
+    nockCredentials.done();
   });
 
   it("returns forbidden", async () => {
@@ -366,7 +366,7 @@ describe("update role", () => {
 
     const apiRes = await updateRole("access-token", defaultForm).catch((e) => e);
     expect(isForbiddenError(apiRes)).toBe(true);
-    expect(nockCredentials.isDone()).toBe(true);
+    nockCredentials.done();
   });
 
   it("returns not found", async () => {
@@ -376,7 +376,7 @@ describe("update role", () => {
 
     const apiRes = await updateRole("access-token", defaultForm).catch((e) => e);
     expect(isUserNotFoundError(apiRes)).toBe(true);
-    expect(nockCredentials.isDone()).toBe(true);
+    nockCredentials.done();
   });
 
   it("returns unprocessable entity", async () => {
@@ -386,7 +386,7 @@ describe("update role", () => {
 
     const apiRes = await updateRole("access-token", defaultForm).catch((e) => e);
     expect(isValidationError(apiRes)).toBe(true);
-    expect(nockCredentials.isDone()).toBe(true);
+    nockCredentials.done();
   });
 
   it("returns internal", async () => {
@@ -396,7 +396,7 @@ describe("update role", () => {
 
     const apiRes = await updateRole("access-token", defaultForm).catch((e) => e);
     expect(isInternalError(apiRes)).toBe(true);
-    expect(nockCredentials.isDone()).toBe(true);
+    nockCredentials.done();
   });
 });
 
@@ -422,7 +422,7 @@ describe("reset password", () => {
 
     await resetPassword("access-token", defaultForm);
 
-    expect(nockCredentials.isDone()).toBe(true);
+    nockCredentials.done();
   });
 
   it("returns unauthorized", async () => {
@@ -432,7 +432,7 @@ describe("reset password", () => {
 
     const apiRes = await resetPassword("access-token", defaultForm).catch((e) => e);
     expect(isUnauthorizedError(apiRes)).toBe(true);
-    expect(nockCredentials.isDone()).toBe(true);
+    nockCredentials.done();
   });
 
   it("returns forbidden", async () => {
@@ -442,7 +442,7 @@ describe("reset password", () => {
 
     const apiRes = await resetPassword("access-token", defaultForm).catch((e) => e);
     expect(isForbiddenError(apiRes)).toBe(true);
-    expect(nockCredentials.isDone()).toBe(true);
+    nockCredentials.done();
   });
 
   it("returns internal", async () => {
@@ -452,6 +452,6 @@ describe("reset password", () => {
 
     const apiRes = await resetPassword("access-token", defaultForm).catch((e) => e);
     expect(isInternalError(apiRes)).toBe(true);
-    expect(nockCredentials.isDone()).toBe(true);
+    nockCredentials.done();
   });
 });

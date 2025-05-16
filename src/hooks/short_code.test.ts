@@ -7,7 +7,7 @@ import { RequestEmailUpdate, RequestPasswordReset, RequestRegister } from "./ind
 import { QueryClient } from "@tanstack/react-query";
 import { act, renderHook } from "@testing-library/react";
 import nock from "nock";
-import { describe, expect, it } from "vitest";
+import { describe, it } from "vitest";
 import { z } from "zod";
 
 describe("request registration", () => {
@@ -40,7 +40,7 @@ describe("request registration", () => {
       await hook.result.current.mutateAsync(defaultForm);
     });
 
-    expect(nockShortCode.isDone()).toBe(true);
+    nockShortCode.done();
   });
 });
 
@@ -74,7 +74,7 @@ describe("request email update", () => {
       await hook.result.current.mutateAsync(defaultForm);
     });
 
-    expect(nockShortCode.isDone()).toBe(true);
+    nockShortCode.done();
   });
 });
 
@@ -108,6 +108,6 @@ describe("request password reset", () => {
       await hook.result.current.mutateAsync(defaultForm);
     });
 
-    expect(nockShortCode.isDone()).toBe(true);
+    nockShortCode.done();
   });
 });

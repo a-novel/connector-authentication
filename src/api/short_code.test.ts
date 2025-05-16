@@ -36,7 +36,7 @@ describe("request registration", () => {
 
     await requestRegistration("access-token", defaultForm);
 
-    expect(nockShortCode.isDone()).toBe(true);
+    nockShortCode.done();
   });
 
   it("returns unauthorized", async () => {
@@ -46,7 +46,7 @@ describe("request registration", () => {
 
     const apiRes = await requestRegistration("access-token", defaultForm).catch((e) => e);
     expect(isUnauthorizedError(apiRes)).toBe(true);
-    expect(nockShortCode.isDone()).toBe(true);
+    nockShortCode.done();
   });
 
   it("returns internal", async () => {
@@ -56,7 +56,7 @@ describe("request registration", () => {
 
     const apiRes = await requestRegistration("access-token", defaultForm).catch((e) => e);
     expect(isInternalError(apiRes)).toBe(true);
-    expect(nockShortCode.isDone()).toBe(true);
+    nockShortCode.done();
   });
 });
 
@@ -81,7 +81,7 @@ describe("request email update", () => {
 
     await requestEmailUpdate("access-token", defaultForm);
 
-    expect(nockShortCode.isDone()).toBe(true);
+    nockShortCode.done();
   });
 
   it("returns unauthorized", async () => {
@@ -91,7 +91,7 @@ describe("request email update", () => {
 
     const apiRes = await requestEmailUpdate("access-token", defaultForm).catch((e) => e);
     expect(isUnauthorizedError(apiRes)).toBe(true);
-    expect(nockShortCode.isDone()).toBe(true);
+    nockShortCode.done();
   });
 
   it("returns internal", async () => {
@@ -101,7 +101,7 @@ describe("request email update", () => {
 
     const apiRes = await requestEmailUpdate("access-token", defaultForm).catch((e) => e);
     expect(isInternalError(apiRes)).toBe(true);
-    expect(nockShortCode.isDone()).toBe(true);
+    nockShortCode.done();
   });
 });
 
@@ -126,7 +126,7 @@ describe("request password reset", () => {
 
     await requestPasswordReset("access-token", defaultForm);
 
-    expect(nockShortCode.isDone()).toBe(true);
+    nockShortCode.done();
   });
 
   it("returns unauthorized", async () => {
@@ -136,7 +136,7 @@ describe("request password reset", () => {
 
     const apiRes = await requestPasswordReset("access-token", defaultForm).catch((e) => e);
     expect(isUnauthorizedError(apiRes)).toBe(true);
-    expect(nockShortCode.isDone()).toBe(true);
+    nockShortCode.done();
   });
 
   it("returns internal", async () => {
@@ -146,6 +146,6 @@ describe("request password reset", () => {
 
     const apiRes = await requestPasswordReset("access-token", defaultForm).catch((e) => e);
     expect(isInternalError(apiRes)).toBe(true);
-    expect(nockShortCode.isDone()).toBe(true);
+    nockShortCode.done();
   });
 });
