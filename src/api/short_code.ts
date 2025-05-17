@@ -1,6 +1,6 @@
 import { RequestEmailUpdateForm, RequestPasswordResetForm, RequestRegistrationForm, Token } from "./bindings";
 import { apiPath, withAuthHeaders } from "./common";
-import { InternalError, newErrorResponseMessage, UnauthorizedError } from "./errors";
+import { ForbiddenError, InternalError, newErrorResponseMessage, UnauthorizedError } from "./errors";
 
 import { z } from "zod";
 
@@ -33,6 +33,8 @@ export const requestRegistration = async (
   switch (response.status) {
     case 401:
       throw new UnauthorizedError("invalid credentials");
+    case 403:
+      throw new ForbiddenError("permission denied");
     default:
       if (!response.ok) throw new InternalError(await newErrorResponseMessage("request registration", response));
   }
@@ -65,6 +67,8 @@ export const requestEmailUpdate = async (
   switch (response.status) {
     case 401:
       throw new UnauthorizedError("invalid credentials");
+    case 403:
+      throw new ForbiddenError("permission denied");
     default:
       if (!response.ok) throw new InternalError(await newErrorResponseMessage("request email update", response));
   }
@@ -95,6 +99,8 @@ export const requestPasswordReset = async (
   switch (response.status) {
     case 401:
       throw new UnauthorizedError("invalid credentials");
+    case 403:
+      throw new ForbiddenError("permission denied");
     default:
       if (!response.ok) throw new InternalError(await newErrorResponseMessage("request password reset", response));
   }

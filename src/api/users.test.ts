@@ -1,5 +1,13 @@
 import { genericSetup } from "../../__test__/utils/setup";
-import { CredentialsRoleEnum, isInternalError, isUnauthorizedError, listUsers, ListUsersParams, User } from "./index";
+import {
+  CredentialsRoleEnum,
+  isForbiddenError,
+  isInternalError,
+  isUnauthorizedError,
+  listUsers,
+  ListUsersParams,
+  User,
+} from "./index";
 
 import nock from "nock";
 import { describe, it, expect } from "vitest";
@@ -59,6 +67,18 @@ describe("list users", () => {
 
     const apiRes = await listUsers("access-token", defaultParams).catch((e) => e);
     expect(isUnauthorizedError(apiRes)).toBe(true);
+    nockUsers.done();
+  });
+
+  it("returns forbidden", async () => {
+    const nockUsers = nockAPI
+      .get(`/users?roles=admin&roles=user&limit=10&offset=20`, undefined, {
+        reqheaders: { Authorization: "Bearer access-token" },
+      })
+      .reply(403, undefined);
+
+    const apiRes = await listUsers("access-token", defaultParams).catch((e) => e);
+    expect(isForbiddenError(apiRes)).toBe(true);
     nockUsers.done();
   });
 

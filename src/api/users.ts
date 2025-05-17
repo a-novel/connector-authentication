@@ -1,6 +1,6 @@
 import { Token, ListUsersParams, User } from "./bindings";
 import { apiPath, withAuthHeaders } from "./common";
-import { InternalError, newErrorResponseMessage, UnauthorizedError } from "./errors";
+import { ForbiddenError, InternalError, newErrorResponseMessage, UnauthorizedError } from "./errors";
 
 import { z } from "zod";
 
@@ -26,6 +26,8 @@ export const listUsers = async (
   switch (response.status) {
     case 401:
       throw new UnauthorizedError("invalid credentials");
+    case 403:
+      throw new ForbiddenError("permission denied");
     default:
       if (!response.ok) throw new InternalError(await newErrorResponseMessage("list users", response));
       return User.array().parseAsync(await response.json());

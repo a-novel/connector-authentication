@@ -93,9 +93,9 @@ export const refreshSession = async (
 
   switch (response.status) {
     case 401:
-      throw new UnauthorizedError("invalid session");
+      throw new UnauthorizedError("invalid credentials");
     case 403:
-      throw new ForbiddenError("invalid session");
+      throw new ForbiddenError("permission denied");
     case 422:
       throw new ValidationError(await newErrorResponseMessage("refresh session", response));
     default:
@@ -122,9 +122,9 @@ export const newRefreshToken = async (token: z.infer<typeof Token>): Promise<z.i
 
   switch (response.status) {
     case 401:
-      throw new UnauthorizedError("invalid session");
+      throw new UnauthorizedError("invalid credentials");
     case 403:
-      throw new ForbiddenError("invalid session");
+      throw new ForbiddenError("permission denied");
     default:
       if (!response.ok) throw new InternalError(await newErrorResponseMessage("refresh refresh token", response));
       return refreshToken.parseAsync(await response.json()).then((data) => data.refreshToken);
