@@ -49,7 +49,7 @@ export const createUser = async (
     case 401:
       throw new UnauthorizedError("invalid credentials");
     case 403:
-      throw new ForbiddenError("invalid credentials");
+      throw new ForbiddenError("permission denied");
     case 410:
       throw new EmailTakenError(`email ${form.email} is already taken`);
     default:
@@ -74,7 +74,7 @@ export const emailExists = async (
     case 401:
       throw new UnauthorizedError("invalid credentials");
     case 403:
-      throw new ForbiddenError("invalid credentials");
+      throw new ForbiddenError("permission denied");
     case 404:
       return false;
     default:
@@ -107,7 +107,7 @@ export const updateEmail = async (
     case 401:
       throw new UnauthorizedError("invalid credentials");
     case 403:
-      throw new ForbiddenError("invalid credentials");
+      throw new ForbiddenError("permission denied");
     case 404:
       throw new UserNotFoundError("user not found");
     case 410:
@@ -138,7 +138,7 @@ export const updatePassword = async (
     case 401:
       throw new UnauthorizedError("invalid credentials");
     case 403:
-      throw new ForbiddenError("invalid credentials");
+      throw new ForbiddenError("permission denied");
     default:
       if (!response.ok) throw new InternalError(await newErrorResponseMessage("update password", response));
   }
@@ -164,7 +164,7 @@ export const updateRole = async (
     case 401:
       throw new UnauthorizedError("invalid credentials");
     case 403:
-      throw new ForbiddenError("invalid credentials");
+      throw new ForbiddenError("permission denied");
     case 404:
       throw new UserNotFoundError("user not found");
     case 422:
@@ -196,7 +196,7 @@ export const resetPassword = async (
     case 401:
       throw new UnauthorizedError("invalid credentials");
     case 403:
-      throw new ForbiddenError("invalid credentials");
+      throw new ForbiddenError("permission denied");
     default:
       if (!response.ok) throw new InternalError(await newErrorResponseMessage("reset password", response));
   }

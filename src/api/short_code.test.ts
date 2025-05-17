@@ -9,6 +9,7 @@ import {
   requestEmailUpdate,
   requestPasswordReset,
   requestRegistration,
+  isForbiddenError,
 } from "./index";
 
 import nock from "nock";
@@ -46,6 +47,16 @@ describe("request registration", () => {
 
     const apiRes = await requestRegistration("access-token", defaultForm).catch((e) => e);
     expect(isUnauthorizedError(apiRes)).toBe(true);
+    nockShortCode.done();
+  });
+
+  it("returns forbidden", async () => {
+    const nockShortCode = nockAPI
+      .put("/short-code/register", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .reply(403, undefined);
+
+    const apiRes = await requestRegistration("access-token", defaultForm).catch((e) => e);
+    expect(isForbiddenError(apiRes)).toBe(true);
     nockShortCode.done();
   });
 
@@ -94,6 +105,16 @@ describe("request email update", () => {
     nockShortCode.done();
   });
 
+  it("returns forbidden", async () => {
+    const nockShortCode = nockAPI
+      .put("/short-code/update-email", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .reply(403, undefined);
+
+    const apiRes = await requestEmailUpdate("access-token", defaultForm).catch((e) => e);
+    expect(isForbiddenError(apiRes)).toBe(true);
+    nockShortCode.done();
+  });
+
   it("returns internal", async () => {
     const nockShortCode = nockAPI
       .put("/short-code/update-email", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
@@ -136,6 +157,16 @@ describe("request password reset", () => {
 
     const apiRes = await requestPasswordReset("access-token", defaultForm).catch((e) => e);
     expect(isUnauthorizedError(apiRes)).toBe(true);
+    nockShortCode.done();
+  });
+
+  it("returns forbidden", async () => {
+    const nockShortCode = nockAPI
+      .put("/short-code/update-password", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
+      .reply(403, undefined);
+
+    const apiRes = await requestPasswordReset("access-token", defaultForm).catch((e) => e);
+    expect(isForbiddenError(apiRes)).toBe(true);
     nockShortCode.done();
   });
 
