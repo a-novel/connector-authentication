@@ -223,3 +223,7 @@ export const ListUsersParams = z.object({
   offset: z.number().min(0).optional(),
   roles: z.array(CredentialsRole).optional(),
 });
+
+export const GetUserParams = z.object({
+  userID: UserID,
+});
