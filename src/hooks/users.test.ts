@@ -1,8 +1,8 @@
 import { MockQueryClient } from "../../__test__/mocks/query_client";
 import { genericSetup } from "../../__test__/utils/setup";
 import { QueryWrapper } from "../../__test__/utils/wrapper";
-import { CredentialsRoleEnum, ListUsersParams, User } from "../api";
-import { ListUsers } from "./index";
+import { CredentialsRoleEnum, GetUserParams, ListUsersParams, User } from "../api";
+import { GetUser, ListUsers } from "./index";
 
 import { QueryClient } from "@tanstack/react-query";
 import { act, renderHook, waitFor } from "@testing-library/react";
@@ -213,5 +213,46 @@ describe("list users", () => {
     });
 
     expect(hook.result.current.data?.pages.flat()).toEqual(res.slice(0, 1));
+  });
+});
+
+describe("get user", () => {
+  let nockAPI: nock.Scope;
+
+  const defaultParams: z.infer<typeof GetUserParams> = {
+    userID: "29f71c01-5ae1-4b01-b729-e17488538e15",
+  };
+
+  genericSetup({
+    setNockAPI: (newScope) => {
+      nockAPI = newScope;
+    },
+  });
+
+  it("returns successful response", async () => {
+    const queryClient = new QueryClient(MockQueryClient);
+
+    const res: z.infer<typeof User> = {
+      id: "29f71c01-5ae1-4b01-b729-e17488538e15",
+      email: "user@email.com",
+      roles: CredentialsRoleEnum.Admin,
+      createdAt: new Date("2025-05-05T10:56:25.468Z"),
+      updatedAt: new Date("2025-05-05T10:56:25.468Z"),
+    };
+
+    const nockCredentials = nockAPI
+      .get(`/user?userID=29f71c01-5ae1-4b01-b729-e17488538e15`, undefined, {
+        reqheaders: { Authorization: "Bearer access-token" },
+      })
+      .reply(200, res);
+
+    const hook = renderHook(() => GetUser.useAPI("access-token", defaultParams), {
+      wrapper: QueryWrapper(queryClient),
+    });
+
+    await waitFor(() => {
+      nockCredentials.done();
+      expect(hook.result.current.data).toEqual(res);
+    });
   });
 });

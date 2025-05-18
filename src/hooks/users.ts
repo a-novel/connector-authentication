@@ -1,7 +1,15 @@
-import { InternalError, listUsers, UnauthorizedError } from "../api";
-import { InfiniteQueryAPI } from "./common";
+import {
+  ForbiddenError,
+  getUser,
+  InternalError,
+  isInternalError,
+  listUsers,
+  UnauthorizedError,
+  UserNotFoundError,
+} from "../api";
+import { InfiniteQueryAPI, QueryAPI } from "./common";
 
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
 const BASE_PARAMS = ["authentication service", "users"] as const;
 
@@ -33,5 +41,27 @@ export const ListUsers: InfiniteQueryAPI<
           : undefined,
       enabled: !!accessToken,
       maxPages: options?.maxPages,
+    }),
+};
+
+const getUserQueryKey = (...params: Parameters<typeof getUser>) => [
+  ...BASE_PARAMS,
+  "list",
+  params[1],
+  { token: params[0] },
+];
+
+export const GetUser: QueryAPI<
+  Parameters<typeof getUser>,
+  Awaited<ReturnType<typeof getUser>>,
+  UnauthorizedError | ForbiddenError | UserNotFoundError | InternalError
+> = {
+  key: getUserQueryKey,
+  useAPI: (...params) =>
+    useQuery({
+      queryKey: getUserQueryKey(...params),
+      queryFn: () => getUser(...params),
+      retry: (_, error) => isInternalError(error),
+      enabled: !!params[0] && !!params[1].userID,
     }),
 };

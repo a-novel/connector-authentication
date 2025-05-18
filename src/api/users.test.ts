@@ -1,9 +1,12 @@
 import { genericSetup } from "../../__test__/utils/setup";
 import {
   CredentialsRoleEnum,
+  getUser,
+  GetUserParams,
   isForbiddenError,
   isInternalError,
   isUnauthorizedError,
+  isUserNotFoundError,
   listUsers,
   ListUsersParams,
   User,
@@ -90,6 +93,89 @@ describe("list users", () => {
       .reply(501, "crash");
 
     const apiRes = await listUsers("access-token", defaultParams).catch((e) => e);
+    expect(isInternalError(apiRes)).toBe(true);
+    nockUsers.done();
+  });
+});
+
+describe("get user", () => {
+  let nockAPI: nock.Scope;
+
+  const defaultParams: z.infer<typeof GetUserParams> = {
+    userID: "29f71c01-5ae1-4b01-b729-e17488538e15",
+  };
+
+  genericSetup({
+    setNockAPI: (newScope) => {
+      nockAPI = newScope;
+    },
+  });
+
+  it("returns successful response", async () => {
+    const res: z.infer<typeof User> = {
+      id: "29f71c01-5ae1-4b01-b729-e17488538e15",
+      email: "user@email.com",
+      roles: CredentialsRoleEnum.Admin,
+      createdAt: new Date("2025-05-05T10:56:25.468Z"),
+      updatedAt: new Date("2025-05-05T10:56:25.468Z"),
+    };
+
+    const nockUsers = nockAPI
+      .get(`/user?userID=29f71c01-5ae1-4b01-b729-e17488538e15`, undefined, {
+        reqheaders: { Authorization: "Bearer access-token" },
+      })
+      .reply(200, res);
+
+    const apiRes = await getUser("access-token", defaultParams);
+    expect(apiRes).toEqual(res);
+
+    nockUsers.done();
+  });
+
+  it("returns unauthorized", async () => {
+    const nockUsers = nockAPI
+      .get(`/user?userID=29f71c01-5ae1-4b01-b729-e17488538e15`, undefined, {
+        reqheaders: { Authorization: "Bearer access-token" },
+      })
+      .reply(401, undefined);
+
+    const apiRes = await getUser("access-token", defaultParams).catch((e) => e);
+    expect(isUnauthorizedError(apiRes)).toBe(true);
+    nockUsers.done();
+  });
+
+  it("returns forbidden", async () => {
+    const nockUsers = nockAPI
+      .get(`/user?userID=29f71c01-5ae1-4b01-b729-e17488538e15`, undefined, {
+        reqheaders: { Authorization: "Bearer access-token" },
+      })
+      .reply(403, undefined);
+
+    const apiRes = await getUser("access-token", defaultParams).catch((e) => e);
+    expect(isForbiddenError(apiRes)).toBe(true);
+    nockUsers.done();
+  });
+
+  it("returns not found", async () => {
+    const nockUsers = nockAPI
+      .get(`/user?userID=29f71c01-5ae1-4b01-b729-e17488538e15`, undefined, {
+        reqheaders: { Authorization: "Bearer access-token" },
+      })
+      .reply(404, undefined);
+
+    const apiRes = await getUser("access-token", defaultParams).catch((e) => e);
+    expect(isUserNotFoundError(apiRes)).toBe(true);
+    nockUsers.done();
+  });
+
+  it("returns internal", async () => {
+    const nockUsers = nockAPI
+      .get(`/user?userID=29f71c01-5ae1-4b01-b729-e17488538e15`, undefined, {
+        reqheaders: { Authorization: "Bearer access-token" },
+      })
+      .reply(501, "crash");
+
+    const apiRes = await getUser("access-token", defaultParams).catch((e) => e);
     expect(isInternalError(apiRes)).toBe(true);
     nockUsers.done();
   });
