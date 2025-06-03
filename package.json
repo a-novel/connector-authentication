@@ -14,7 +14,7 @@
     "test": "vitest"
   },
   "license": "AGPL-3.0",
-  "packageManager": "pnpm@10.11.0",
+  "packageManager": "pnpm@10.11.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/a-novel/connector-authentication.git"
