@@ -15,8 +15,8 @@ importers:
         specifier: ^19.1.0
         version: 19.1.0
       zod:
-        specifier: ^3.25.61
-        version: 3.25.61
+        specifier: ^3.25.63
+        version: 3.25.63
     devDependencies:
       '@eslint/config-helpers':
         specifier: ^0.2.3
@@ -2094,8 +2094,8 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
-  zod@3.25.61:
-    resolution: {integrity: sha512-fzfJgUw78LTNnHujj9re1Ov/JJQkRZZGDMcYqSx7Hp4rPOkKywaFHq0S6GoHeXs0wGNE/sIOutkXgnwzrVOGCQ==}
+  zod@3.25.63:
+    resolution: {integrity: sha512-3ttCkqhtpncYXfP0f6dsyabbYV/nEUW+Xlu89jiXbTBifUfjaSqXOG6JnQPLtqt87n7KAmnMqcjay6c0Wq0Vbw==}
 
 snapshots:
 
@@ -4288,4 +4288,4 @@ snapshots:
 
   yocto-queue@0.1.0: {}
 
-  zod@3.25.61: {}
+  zod@3.25.63: {}
