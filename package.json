@@ -11,7 +11,10 @@
     "lint": "pnpm lint:stylecheck && pnpm lint:typecheck && pnpm lint:eslint",
     "format": "prettier --write . --config prettier.config.ts",
     "build": "rm -rf ./dist && vite build && tsc --build tsconfig.build.json",
-    "test": "vitest"
+    "test": "vitest",
+    "publish:patch": "pnpm version patch && git push",
+    "publish:minor": "pnpm version minor && git push",
+    "publish:major": "pnpm version major && git push"
   },
   "license": "AGPL-3.0",
   "packageManager": "pnpm@10.12.1",
