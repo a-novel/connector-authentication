@@ -17,7 +17,7 @@
     "publish:major": "pnpm version major && git push"
   },
   "license": "AGPL-3.0",
-  "packageManager": "pnpm@10.12.1",
+  "packageManager": "pnpm@10.12.2",
   "repository": {
     "type": "git",
     "url": "https://github.com/a-novel/connector-authentication.git"
