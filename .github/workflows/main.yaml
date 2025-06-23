@@ -50,16 +50,3 @@ jobs:
       - uses: a-novel-kit/workflows/node-actions/build-node@master
         with:
           pat: ${{ secrets.ACTION_PAT }}
-
-  auto-tag:
-    if: github.ref == 'refs/heads/master' && success()
-    needs:
-      - build
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      packages: write
-    steps:
-      - uses: a-novel-kit/workflows/node-actions/auto-tag@master
-        with:
-          pat: ${{ secrets.ACTION_PAT }}
