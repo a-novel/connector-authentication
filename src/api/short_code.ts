@@ -1,6 +1,6 @@
 import { RequestEmailUpdateForm, RequestPasswordResetForm, RequestRegistrationForm, Token } from "./bindings";
 import { apiPath, withAuthHeaders } from "./common";
-import { ForbiddenError, InternalError, newErrorResponseMessage, UnauthorizedError } from "./errors";
+import { ForbiddenError, InternalError, newErrorResponseMessage, UnauthorizedError, UserNotFoundError } from "./errors";
 
 import { z } from "zod";
 
@@ -101,6 +101,8 @@ export const requestPasswordReset = async (
       throw new UnauthorizedError("invalid credentials");
     case 403:
       throw new ForbiddenError("permission denied");
+    case 404:
+      throw new UserNotFoundError("user not found");
     default:
       if (!response.ok) throw new InternalError(await newErrorResponseMessage("request password reset", response));
   }
