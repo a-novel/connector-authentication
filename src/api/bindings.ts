@@ -79,7 +79,7 @@ export const UserID = z.string().uuid();
 export const User = z.object({
   id: UserID,
   email: Email,
-  roles: CredentialsRole,
+  role: CredentialsRole,
   createdAt: z
     .string()
     .datetime()

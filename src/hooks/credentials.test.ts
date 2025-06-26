@@ -304,14 +304,14 @@ describe("update role", () => {
     const res: z.infer<typeof User> = {
       id: "00000000-0000-0000-0000-000000000001",
       email: "user@email.com",
-      roles: CredentialsRoleEnum.Admin,
+      role: CredentialsRoleEnum.Admin,
       createdAt: new Date("2025-05-05T10:56:25.468Z"),
       updatedAt: new Date("2025-05-05T10:56:25.468Z"),
     };
     const rawRes = {
       id: "00000000-0000-0000-0000-000000000001",
       email: "user@email.com",
-      roles: CredentialsRoleEnum.Admin,
+      role: CredentialsRoleEnum.Admin,
       createdAt: "2025-05-05T10:56:25.468Z",
       updatedAt: "2025-05-05T10:56:25.468Z",
     };

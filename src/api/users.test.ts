@@ -36,14 +36,14 @@ describe("list users", () => {
       {
         id: "00000000-0000-0000-0000-000000000001",
         email: "user@email.com",
-        roles: CredentialsRoleEnum.Admin,
+        role: CredentialsRoleEnum.Admin,
         createdAt: new Date("2025-05-05T10:56:25.468Z"),
         updatedAt: new Date("2025-05-05T10:56:25.468Z"),
       },
       {
         id: "00000000-0000-0000-0000-000000000002",
         email: "user2@email.com",
-        roles: CredentialsRoleEnum.User,
+        role: CredentialsRoleEnum.User,
         createdAt: new Date("2025-05-05T10:56:25.468Z"),
         updatedAt: new Date("2025-05-05T10:56:25.468Z"),
       },
@@ -115,7 +115,7 @@ describe("get user", () => {
     const res: z.infer<typeof User> = {
       id: "29f71c01-5ae1-4b01-b729-e17488538e15",
       email: "user@email.com",
-      roles: CredentialsRoleEnum.Admin,
+      role: CredentialsRoleEnum.Admin,
       createdAt: new Date("2025-05-05T10:56:25.468Z"),
       updatedAt: new Date("2025-05-05T10:56:25.468Z"),
     };
