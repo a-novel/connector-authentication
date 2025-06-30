@@ -1,20 +1,13 @@
+import { getContextValue } from "../utils";
 import { Token } from "./bindings";
 
 import { z } from "zod";
-
-const params = {
-  baseURL: "",
-};
 
 /**
  * Returns a full url for the auth api.
  */
 export const apiPath = (path: string, queryParams?: URLSearchParams): URL => {
-  if (!params.baseURL) {
-    throw new Error("authentication API base URL is not set. Call init() before using this function.");
-  }
-
-  const url = new URL(params.baseURL + path);
+  const url = new URL(getContextValue("baseURL") + path);
 
   if (queryParams) {
     url.search = queryParams.toString();
@@ -42,9 +35,3 @@ export const withAuthHeaders = (token: z.infer<typeof Token>, init?: RequestInit
     headers: { Authorization: `Bearer ${token}`, ...init?.headers },
   });
 };
-
-export const initBaseURL = (url: string) => {
-  params.baseURL = url;
-};
-
-export { params };

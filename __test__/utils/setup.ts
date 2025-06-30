@@ -1,5 +1,5 @@
 import { init } from "../../src";
-import { params } from "../../src/api/common";
+import { getContextValue } from "../../src/utils";
 import { MockReplyHeaders } from "../mocks/query_client";
 
 import nock from "nock";
@@ -26,7 +26,7 @@ afterAll(() => {
 export const genericSetup = (props: GenericSetupProps) => {
   beforeEach(() => {
     // Objects are passed by reference in javascript, so this will update the actual value from the source.
-    props.setNockAPI?.(nock(params.baseURL).defaultReplyHeaders(MockReplyHeaders));
+    props.setNockAPI?.(nock(getContextValue("baseURL")).defaultReplyHeaders(MockReplyHeaders));
   });
 
   afterEach(() => {
