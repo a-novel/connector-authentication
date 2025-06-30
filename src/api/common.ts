@@ -11,7 +11,7 @@ const params = {
  */
 export const apiPath = (path: string, queryParams?: URLSearchParams): URL => {
   if (!params.baseURL) {
-    throw new Error("the base url is not set, make sure you call init() before using this function");
+    throw new Error("authentication API base URL is not set. Call init() before using this function.");
   }
 
   const url = new URL(params.baseURL + path);
