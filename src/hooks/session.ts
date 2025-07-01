@@ -6,7 +6,6 @@ import {
   InternalError,
   isInternalError,
   LoginForm,
-  newRefreshToken,
   RefreshAccessTokenParams,
   refreshSession,
   UnauthorizedError,
@@ -108,20 +107,4 @@ export const RefreshSession: MutationAPI<
       },
     });
   },
-};
-
-const newRefreshTokenMutationKey = [...BASE_PARAMS, "new refresh token"];
-
-export const NewRefreshToken: MutationAPI<
-  [accessToken: string],
-  Awaited<ReturnType<typeof newRefreshToken>>,
-  UnauthorizedError | ForbiddenError | InternalError,
-  void
-> = {
-  key: newRefreshTokenMutationKey,
-  useAPI: (accessToken) =>
-    useMutation({
-      mutationFn: () => newRefreshToken(accessToken),
-      mutationKey: newRefreshTokenMutationKey,
-    }),
 };

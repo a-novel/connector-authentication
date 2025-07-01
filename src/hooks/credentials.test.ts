@@ -2,7 +2,7 @@ import { MockQueryClient } from "../../__test__/mocks/query_client";
 import { genericSetup } from "../../__test__/utils/setup";
 import { QueryWrapper } from "../../__test__/utils/wrapper";
 import {
-  AccessToken,
+  TokenResponse,
   CredentialsRoleEnum,
   EmailExistsParams,
   RegisterForm,
@@ -36,8 +36,9 @@ describe("create user", () => {
   });
 
   it("returns successful response", async () => {
-    const res: z.infer<typeof AccessToken> = {
+    const res: z.infer<typeof TokenResponse> = {
       accessToken: "new-access-token",
+      refreshToken: "new-refresh-token",
     };
 
     const queryClient = new QueryClient(MockQueryClient);
@@ -60,8 +61,9 @@ describe("create user", () => {
   });
 
   it("invalidates email exists queries", async () => {
-    const res: z.infer<typeof AccessToken> = {
+    const res: z.infer<typeof TokenResponse> = {
       accessToken: "new-access-token",
+      refreshToken: "new-refresh-token",
     };
 
     const queryClient = new QueryClient(MockQueryClient);

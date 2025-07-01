@@ -1,5 +1,5 @@
 import {
-  AccessToken,
+  TokenResponse,
   Email,
   EmailExistsParams,
   RegisterForm,
@@ -36,7 +36,7 @@ const CREDENTIALS_PATH = "/credentials";
 export const createUser = async (
   token: z.infer<typeof Token>,
   form: z.infer<typeof RegisterForm>
-): Promise<z.infer<typeof AccessToken>> => {
+): Promise<z.infer<typeof TokenResponse>> => {
   const response = await fetch(
     apiPath(CREDENTIALS_PATH),
     withAuthHeaders(token, {
@@ -54,7 +54,7 @@ export const createUser = async (
       throw new EmailTakenError(`email ${form.email} is already taken`);
     default:
       if (!response.ok) throw new InternalError(await newErrorResponseMessage("create user", response));
-      return AccessToken.parseAsync(await response.json());
+      return TokenResponse.parseAsync(await response.json());
   }
 };
 

@@ -1,6 +1,6 @@
 import { genericSetup } from "../../__test__/utils/setup";
 import {
-  AccessToken,
+  TokenResponse,
   Claims,
   ClaimsRoleEnum,
   LoginForm,
@@ -13,7 +13,6 @@ import {
   checkSession,
   createAnonymousSession,
   createSession,
-  newRefreshToken,
   refreshSession,
 } from "./index";
 
@@ -82,8 +81,9 @@ describe("create session", () => {
   });
 
   it("returns successful response", async () => {
-    const res: z.infer<typeof AccessToken> = {
+    const res: z.infer<typeof TokenResponse> = {
       accessToken: "new-access-token",
+      refreshToken: "new-refresh-token",
     };
 
     const nockSession = nockAPI.put("/session", defaultForm).reply(200, res);
@@ -129,7 +129,7 @@ describe("create anonymous session", () => {
   });
 
   it("returns successful response", async () => {
-    const res: z.infer<typeof AccessToken> = {
+    const res: z.infer<typeof TokenResponse> = {
       accessToken: "new-access-token",
     };
 
@@ -165,8 +165,9 @@ describe("refresh session", () => {
   });
 
   it("returns successful response", async () => {
-    const res: z.infer<typeof AccessToken> = {
+    const res: z.infer<typeof TokenResponse> = {
       accessToken: "new-access-token",
+      refreshToken: "new-refresh-token",
     };
 
     const nockSession = nockAPI
@@ -225,61 +226,6 @@ describe("refresh session", () => {
       .reply(501, "crash");
 
     const apiRes = await refreshSession(defaultParams).catch((e) => e);
-    expect(isInternalError(apiRes)).toBe(true);
-    nockSession.done();
-  });
-});
-
-describe("new refresh token", () => {
-  let nockAPI: nock.Scope;
-
-  genericSetup({
-    setNockAPI: (newScope) => {
-      nockAPI = newScope;
-    },
-  });
-
-  it("returns successful response", async () => {
-    const res = {
-      refreshToken: "new-refresh-token",
-    };
-
-    const nockSession = nockAPI
-      .put("/session/refresh", undefined, { reqheaders: { Authorization: "Bearer access-token" } })
-      .reply(200, res);
-
-    const apiRes = await newRefreshToken("access-token");
-    expect(apiRes).toEqual("new-refresh-token");
-
-    nockSession.done();
-  });
-
-  it("returns unauthorized", async () => {
-    const nockSession = nockAPI
-      .put("/session/refresh", undefined, { reqheaders: { Authorization: "Bearer access-token" } })
-      .reply(401, undefined);
-
-    const apiRes = await newRefreshToken("access-token").catch((e) => e);
-    expect(isUnauthorizedError(apiRes)).toBe(true);
-    nockSession.done();
-  });
-
-  it("returns forbidden", async () => {
-    const nockSession = nockAPI
-      .put("/session/refresh", undefined, { reqheaders: { Authorization: "Bearer access-token" } })
-      .reply(403, undefined);
-
-    const apiRes = await newRefreshToken("access-token").catch((e) => e);
-    expect(isForbiddenError(apiRes)).toBe(true);
-    nockSession.done();
-  });
-
-  it("returns internal", async () => {
-    const nockSession = nockAPI
-      .put("/session/refresh", undefined, { reqheaders: { Authorization: "Bearer access-token" } })
-      .reply(501, "crash");
-
-    const apiRes = await newRefreshToken("access-token").catch((e) => e);
     expect(isInternalError(apiRes)).toBe(true);
     nockSession.done();
   });
