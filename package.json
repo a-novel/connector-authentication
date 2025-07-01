@@ -75,7 +75,7 @@
     "nock": "^14.0.5",
     "prettier": "^3.6.2",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.35.0",
+    "typescript-eslint": "^8.35.1",
     "vite": "^7.0.0",
     "vitest": "^3.1.2"
   },
