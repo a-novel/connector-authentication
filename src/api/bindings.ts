@@ -180,7 +180,7 @@ export const UpdatePasswordForm = z.object({
  * Data used to reset the password of a user.
  */
 export const ResetPasswordForm = z.object({
-  email: Email,
+  userID: UserID,
   password: Password,
   shortCode: ShortCode,
 });
