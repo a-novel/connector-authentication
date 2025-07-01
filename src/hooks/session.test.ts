@@ -1,8 +1,8 @@
 import { MockQueryClient } from "../../__test__/mocks/query_client";
 import { genericSetup } from "../../__test__/utils/setup";
 import { QueryWrapper } from "../../__test__/utils/wrapper";
-import { AccessToken, Claims, ClaimsRoleEnum, LoginForm, RefreshAccessTokenParams } from "../api";
-import { CheckSession, CreateAnonymousSession, CreateSession, NewRefreshToken, RefreshSession } from "./index";
+import { TokenResponse, Claims, ClaimsRoleEnum, LoginForm, RefreshAccessTokenParams } from "../api";
+import { CheckSession, CreateAnonymousSession, CreateSession, RefreshSession } from "./index";
 
 import { QueryClient } from "@tanstack/react-query";
 import { act, renderHook, waitFor } from "@testing-library/react";
@@ -57,8 +57,9 @@ describe("create session", () => {
   });
 
   it("returns successful response", async () => {
-    const res: z.infer<typeof AccessToken> = {
+    const res: z.infer<typeof TokenResponse> = {
       accessToken: "new-access-token",
+      refreshToken: "new-refresh-token",
     };
 
     const queryClient = new QueryClient(MockQueryClient);
@@ -78,8 +79,9 @@ describe("create session", () => {
   });
 
   it("refreshes session", async () => {
-    const res: z.infer<typeof AccessToken> = {
+    const res: z.infer<typeof TokenResponse> = {
       accessToken: "new-access-token",
+      refreshToken: "new-refresh-token",
     };
 
     const checkSessionRes: z.infer<typeof Claims> = {
@@ -133,7 +135,7 @@ describe("create anonymous session", () => {
   });
 
   it("returns successful response", async () => {
-    const res: z.infer<typeof AccessToken> = {
+    const res: z.infer<typeof TokenResponse> = {
       accessToken: "new-access-token",
     };
 
@@ -154,8 +156,9 @@ describe("create anonymous session", () => {
   });
 
   it("refreshes session", async () => {
-    const res: z.infer<typeof AccessToken> = {
+    const res: z.infer<typeof TokenResponse> = {
       accessToken: "new-access-token",
+      refreshToken: "new-refresh-token",
     };
 
     const checkSessionRes: z.infer<typeof Claims> = {
@@ -214,8 +217,9 @@ describe("refresh session", () => {
   });
 
   it("returns successful response", async () => {
-    const res: z.infer<typeof AccessToken> = {
+    const res: z.infer<typeof TokenResponse> = {
       accessToken: "new-access-token",
+      refreshToken: "new-refresh-token",
     };
 
     const queryClient = new QueryClient(MockQueryClient);
@@ -239,8 +243,9 @@ describe("refresh session", () => {
   });
 
   it("refreshes session", async () => {
-    const res: z.infer<typeof AccessToken> = {
+    const res: z.infer<typeof TokenResponse> = {
       accessToken: "new-access-token",
+      refreshToken: "new-refresh-token",
     };
 
     const checkSessionRes: z.infer<typeof Claims> = {
@@ -285,39 +290,5 @@ describe("refresh session", () => {
       nockSession.done();
       nockCheckSession.done();
     });
-  });
-});
-
-describe("new refresh token", () => {
-  let nockAPI: nock.Scope;
-
-  genericSetup({
-    setNockAPI: (newScope) => {
-      nockAPI = newScope;
-    },
-  });
-
-  it("returns successful response", async () => {
-    const res = {
-      refreshToken: "new-refresh-token",
-    };
-
-    const queryClient = new QueryClient(MockQueryClient);
-
-    const nockSession = nockAPI
-      .put("/session/refresh", undefined, { reqheaders: { Authorization: "Bearer access-token" } })
-      .reply(200, res);
-
-    const hook = renderHook((accessToken) => NewRefreshToken.useAPI(accessToken), {
-      initialProps: "access-token",
-      wrapper: QueryWrapper(queryClient),
-    });
-
-    await act(async () => {
-      const apiRes = await hook.result.current.mutateAsync();
-      expect(apiRes).toEqual("new-refresh-token");
-    });
-
-    nockSession.done();
   });
 });

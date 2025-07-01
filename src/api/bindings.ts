@@ -105,8 +105,9 @@ export const Claims = z.object({
   refreshTokenID: z.string().uuid().optional(),
 });
 
-export const AccessToken = z.object({
+export const TokenResponse = z.object({
   accessToken: Token,
+  refreshToken: Token.optional(),
 });
 
 // =====================================================================================================================

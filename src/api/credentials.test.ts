@@ -1,6 +1,6 @@
 import { genericSetup } from "../../__test__/utils/setup";
 import {
-  AccessToken,
+  TokenResponse,
   CredentialsRoleEnum,
   EmailExistsParams,
   RegisterForm,
@@ -43,8 +43,9 @@ describe("create user", () => {
   });
 
   it("returns successful response", async () => {
-    const res: z.infer<typeof AccessToken> = {
+    const res: z.infer<typeof TokenResponse> = {
       accessToken: "new-access-token",
+      refreshToken: "new-refresh-token",
     };
 
     const nockCredentials = nockAPI

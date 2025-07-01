@@ -1,4 +1,4 @@
-import { AccessToken, Claims, LoginForm, RefreshAccessTokenParams, Token } from "./bindings";
+import { TokenResponse, Claims, LoginForm, RefreshAccessTokenParams, Token } from "./bindings";
 import { apiPath, withAuthHeaders, withDefaultHeaders } from "./common";
 import {
   ForbiddenError,
@@ -37,7 +37,7 @@ export const checkSession = async (token: z.infer<typeof Token>): Promise<z.infe
  * the caller. Once the credentials have been verified, a token is issued. The access rights it grants may depend on
  * the profile of the user.
  */
-export const createSession = async (form: z.infer<typeof LoginForm>): Promise<z.infer<typeof AccessToken>> => {
+export const createSession = async (form: z.infer<typeof LoginForm>): Promise<z.infer<typeof TokenResponse>> => {
   const response = await fetch(
     apiPath(SESSION_PATH),
     withDefaultHeaders({
@@ -53,7 +53,7 @@ export const createSession = async (form: z.infer<typeof LoginForm>): Promise<z.
       throw new UserNotFoundError("user not found");
     default:
       if (!response.ok) throw new InternalError(await newErrorResponseMessage("create session", response));
-      return AccessToken.parseAsync(await response.json());
+      return TokenResponse.parseAsync(await response.json());
   }
 };
 
@@ -61,7 +61,7 @@ export const createSession = async (form: z.infer<typeof LoginForm>): Promise<z.
  * Create a new anonymous session. An anonymous session is delivered without constraint, and grants basic access to
  * apis with low protection.
  */
-export const createAnonymousSession = async (): Promise<z.infer<typeof AccessToken>> => {
+export const createAnonymousSession = async (): Promise<z.infer<typeof TokenResponse>> => {
   const response = await fetch(
     apiPath(SESSION_PATH + "/anon"),
     withDefaultHeaders({
@@ -70,7 +70,7 @@ export const createAnonymousSession = async (): Promise<z.infer<typeof AccessTok
   );
 
   if (!response.ok) throw new InternalError(await newErrorResponseMessage("create anon session", response));
-  return AccessToken.parseAsync(await response.json());
+  return TokenResponse.parseAsync(await response.json());
 };
 
 /**
@@ -78,7 +78,7 @@ export const createAnonymousSession = async (): Promise<z.infer<typeof AccessTok
  */
 export const refreshSession = async (
   params: z.infer<typeof RefreshAccessTokenParams>
-): Promise<z.infer<typeof AccessToken>> => {
+): Promise<z.infer<typeof TokenResponse>> => {
   const searchParams = new URLSearchParams({
     accessToken: params.accessToken,
     refreshToken: params.refreshToken,
@@ -100,33 +100,6 @@ export const refreshSession = async (
       throw new ValidationError(await newErrorResponseMessage("refresh session", response));
     default:
       if (!response.ok) throw new InternalError(await newErrorResponseMessage("refresh session", response));
-      return AccessToken.parseAsync(await response.json());
-  }
-};
-
-/**
- * Issue a new refresh token. The access token used for this request must not be anonymous, and must come from direct
- * login (not a refresh token).
- */
-export const newRefreshToken = async (token: z.infer<typeof Token>): Promise<z.infer<typeof Token>> => {
-  const response = await fetch(
-    apiPath(SESSION_PATH + "/refresh"),
-    withAuthHeaders(token, {
-      method: "PUT",
-    })
-  );
-
-  const refreshToken = z.object({
-    refreshToken: Token,
-  });
-
-  switch (response.status) {
-    case 401:
-      throw new UnauthorizedError("invalid credentials");
-    case 403:
-      throw new ForbiddenError("permission denied");
-    default:
-      if (!response.ok) throw new InternalError(await newErrorResponseMessage("refresh refresh token", response));
-      return refreshToken.parseAsync(await response.json()).then((data) => data.refreshToken);
+      return TokenResponse.parseAsync(await response.json());
   }
 };
