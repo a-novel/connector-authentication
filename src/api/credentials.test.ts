@@ -405,7 +405,7 @@ describe("reset password", () => {
   let nockAPI: nock.Scope;
 
   const defaultForm: z.infer<typeof ResetPasswordForm> = {
-    email: "user@email.com",
+    userID: "29f71c01-5ae1-4b01-b729-e17488538e15",
     password: "new-password",
     shortCode: "short-code",
   };
