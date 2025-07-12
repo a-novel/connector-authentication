@@ -31,7 +31,7 @@ describe("check session", () => {
 
   it("returns successful response", async () => {
     const res: z.infer<typeof Claims> = {
-      userID: "00000000-0000-0000-0000-000000000001",
+      userID: "94b4d288-dbff-4eca-805a-f45311a34e15",
       roles: [ClaimsRoleEnum.User],
     };
 

@@ -34,14 +34,14 @@ describe("list users", () => {
   it("returns successful response", async () => {
     const res: z.infer<typeof User>[] = [
       {
-        id: "00000000-0000-0000-0000-000000000001",
+        id: "94b4d288-dbff-4eca-805a-f45311a34e15",
         email: "user@email.com",
         role: CredentialsRoleEnum.Admin,
         createdAt: new Date("2025-05-05T10:56:25.468Z"),
         updatedAt: new Date("2025-05-05T10:56:25.468Z"),
       },
       {
-        id: "00000000-0000-0000-0000-000000000002",
+        id: "0fb41629-58c7-4e11-9d23-dd04aec01bf2",
         email: "user2@email.com",
         role: CredentialsRoleEnum.User,
         createdAt: new Date("2025-05-05T10:56:25.468Z"),
