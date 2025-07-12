@@ -50,9 +50,7 @@
   },
   "peerDependencies": {
     "@tanstack/react-query": "^5.75.0",
-    "react": "^19.1.0"
-  },
-  "dependencies": {
+    "react": "^19.1.0",
     "zod": "^4.0.5"
   },
   "devDependencies": {

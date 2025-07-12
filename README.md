@@ -31,7 +31,7 @@ Create a `.npmrc` file in the root of your project if it doesn't exist, and make
 Then, install the package using pnpm:
 
 ```bash
-pnpm add react @tanstack/react-query @a-novel/connector-authentication
+pnpm add react zod @tanstack/react-query @a-novel/connector-authentication
 ```
 
 ## Extra steps
