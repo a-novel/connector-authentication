@@ -25,21 +25,21 @@ describe("list users", () => {
   });
   const res: z.infer<typeof User>[] = [
     {
-      id: "00000000-0000-0000-0000-000000000001",
+      id: "94b4d288-dbff-4eca-805a-f45311a34e15",
       email: "user@email.com",
       role: CredentialsRoleEnum.Admin,
       createdAt: new Date("2025-05-05T10:56:25.468Z"),
       updatedAt: new Date("2025-05-05T10:56:25.468Z"),
     },
     {
-      id: "00000000-0000-0000-0000-000000000002",
+      id: "0fb41629-58c7-4e11-9d23-dd04aec01bf2",
       email: "user2@email.com",
       role: CredentialsRoleEnum.User,
       createdAt: new Date("2025-05-05T10:56:25.468Z"),
       updatedAt: new Date("2025-05-05T10:56:25.468Z"),
     },
     {
-      id: "00000000-0000-0000-0000-000000000003",
+      id: "d790b838-1742-4b8d-9d5a-d9860dcec607",
       email: "user3@email.com",
       role: CredentialsRoleEnum.User,
       createdAt: new Date("2025-05-05T10:56:25.468Z"),
@@ -49,21 +49,21 @@ describe("list users", () => {
 
   const rawRes = [
     {
-      id: "00000000-0000-0000-0000-000000000001",
+      id: "94b4d288-dbff-4eca-805a-f45311a34e15",
       email: "user@email.com",
       role: CredentialsRoleEnum.Admin,
       createdAt: "2025-05-05T10:56:25.468Z",
       updatedAt: "2025-05-05T10:56:25.468Z",
     },
     {
-      id: "00000000-0000-0000-0000-000000000002",
+      id: "0fb41629-58c7-4e11-9d23-dd04aec01bf2",
       email: "user2@email.com",
       role: CredentialsRoleEnum.User,
       createdAt: "2025-05-05T10:56:25.468Z",
       updatedAt: "2025-05-05T10:56:25.468Z",
     },
     {
-      id: "00000000-0000-0000-0000-000000000003",
+      id: "d790b838-1742-4b8d-9d5a-d9860dcec607",
       email: "user3@email.com",
       role: CredentialsRoleEnum.User,
       createdAt: "2025-05-05T10:56:25.468Z",
