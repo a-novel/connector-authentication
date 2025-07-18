@@ -1,3 +1,6 @@
+autoInstallPeers: true
+
+gitChecks: false
+
 onlyBuiltDependencies:
   - esbuild
-gitChecks: false
