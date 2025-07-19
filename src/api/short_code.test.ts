@@ -1,4 +1,4 @@
-import { genericSetup } from "../../__test__/utils/setup";
+import { server } from "../../__test__/utils/setup";
 import {
   LangEnum,
   RequestEmailUpdateForm,
@@ -13,181 +13,150 @@ import {
   isUserNotFoundError,
 } from "./index";
 
-import nock from "nock";
+import { http } from "@a-novel/nodelib/msw";
+
+import { HttpResponse } from "msw";
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
 
 describe("request registration", () => {
-  let nockAPI: nock.Scope;
-
   const defaultForm: z.infer<typeof RequestRegistrationForm> = {
     email: "user@email.com",
     lang: LangEnum.Fr,
   };
 
-  genericSetup({
-    setNockAPI: (newScope) => {
-      nockAPI = newScope;
+  const testCases = {
+    success: {
+      response: HttpResponse.json(undefined, { status: 200 }),
+      expectError: null,
     },
-  });
+    unauthorized: {
+      response: HttpResponse.json(undefined, { status: 401 }),
+      expectError: isUnauthorizedError,
+    },
+    forbidden: {
+      response: HttpResponse.json(undefined, { status: 403 }),
+      expectError: isForbiddenError,
+    },
+    internal: {
+      response: HttpResponse.json("crash", { status: 501 }),
+      expectError: isInternalError,
+    },
+  };
 
-  it("returns successful response", async () => {
-    const nockShortCode = nockAPI
-      .put("/short-code/register", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
-      .reply(200);
+  for (const [key, { response, expectError }] of Object.entries(testCases)) {
+    it(`returns ${key} response`, async () => {
+      server.use(
+        http
+          .put("http://localhost:3000/short-code/register")
+          .headers(new Headers({ Authorization: "Bearer access-token" }), HttpResponse.error())
+          .bodyJSON(defaultForm, HttpResponse.error())
+          .resolve(() => response)
+      );
 
-    await requestRegistration("access-token", defaultForm);
+      const apiRes = await requestRegistration("access-token", defaultForm).catch((e) => e);
 
-    nockShortCode.done();
-  });
-
-  it("returns unauthorized", async () => {
-    const nockShortCode = nockAPI
-      .put("/short-code/register", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
-      .reply(401, undefined);
-
-    const apiRes = await requestRegistration("access-token", defaultForm).catch((e) => e);
-    expect(isUnauthorizedError(apiRes)).toBe(true);
-    nockShortCode.done();
-  });
-
-  it("returns forbidden", async () => {
-    const nockShortCode = nockAPI
-      .put("/short-code/register", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
-      .reply(403, undefined);
-
-    const apiRes = await requestRegistration("access-token", defaultForm).catch((e) => e);
-    expect(isForbiddenError(apiRes)).toBe(true);
-    nockShortCode.done();
-  });
-
-  it("returns internal", async () => {
-    const nockShortCode = nockAPI
-      .put("/short-code/register", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
-      .reply(501, "crash");
-
-    const apiRes = await requestRegistration("access-token", defaultForm).catch((e) => e);
-    expect(isInternalError(apiRes)).toBe(true);
-    nockShortCode.done();
-  });
+      if (expectError) {
+        expect(expectError(apiRes)).toBe(true);
+      } else {
+        expect(apiRes).toBeUndefined();
+      }
+    });
+  }
 });
 
 describe("request email update", () => {
-  let nockAPI: nock.Scope;
-
   const defaultForm: z.infer<typeof RequestEmailUpdateForm> = {
     email: "user@email.com",
     lang: LangEnum.Fr,
   };
 
-  genericSetup({
-    setNockAPI: (newScope) => {
-      nockAPI = newScope;
+  const testCases = {
+    success: {
+      response: HttpResponse.json(undefined, { status: 200 }),
+      expectError: null,
     },
-  });
+    unauthorized: {
+      response: HttpResponse.json(undefined, { status: 401 }),
+      expectError: isUnauthorizedError,
+    },
+    forbidden: {
+      response: HttpResponse.json(undefined, { status: 403 }),
+      expectError: isForbiddenError,
+    },
+    internal: {
+      response: HttpResponse.json("crash", { status: 501 }),
+      expectError: isInternalError,
+    },
+  };
 
-  it("returns successful response", async () => {
-    const nockShortCode = nockAPI
-      .put("/short-code/update-email", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
-      .reply(200);
+  for (const [key, { response, expectError }] of Object.entries(testCases)) {
+    it(`returns ${key} response`, async () => {
+      server.use(
+        http
+          .put("http://localhost:3000/short-code/update-email")
+          .headers(new Headers({ Authorization: "Bearer access-token" }), HttpResponse.error())
+          .bodyJSON(defaultForm, HttpResponse.error())
+          .resolve(() => response)
+      );
 
-    await requestEmailUpdate("access-token", defaultForm);
+      const apiRes = await requestEmailUpdate("access-token", defaultForm).catch((e) => e);
 
-    nockShortCode.done();
-  });
-
-  it("returns unauthorized", async () => {
-    const nockShortCode = nockAPI
-      .put("/short-code/update-email", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
-      .reply(401, undefined);
-
-    const apiRes = await requestEmailUpdate("access-token", defaultForm).catch((e) => e);
-    expect(isUnauthorizedError(apiRes)).toBe(true);
-    nockShortCode.done();
-  });
-
-  it("returns forbidden", async () => {
-    const nockShortCode = nockAPI
-      .put("/short-code/update-email", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
-      .reply(403, undefined);
-
-    const apiRes = await requestEmailUpdate("access-token", defaultForm).catch((e) => e);
-    expect(isForbiddenError(apiRes)).toBe(true);
-    nockShortCode.done();
-  });
-
-  it("returns internal", async () => {
-    const nockShortCode = nockAPI
-      .put("/short-code/update-email", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
-      .reply(501, "crash");
-
-    const apiRes = await requestEmailUpdate("access-token", defaultForm).catch((e) => e);
-    expect(isInternalError(apiRes)).toBe(true);
-    nockShortCode.done();
-  });
+      if (expectError) {
+        expect(expectError(apiRes)).toBe(true);
+      } else {
+        expect(apiRes).toBeUndefined();
+      }
+    });
+  }
 });
 
 describe("request password reset", () => {
-  let nockAPI: nock.Scope;
-
   const defaultForm: z.infer<typeof RequestPasswordResetForm> = {
     email: "user@email.com",
     lang: LangEnum.Fr,
   };
 
-  genericSetup({
-    setNockAPI: (newScope) => {
-      nockAPI = newScope;
+  const testCases = {
+    success: {
+      response: HttpResponse.json(undefined, { status: 200 }),
+      expectError: null,
     },
-  });
+    unauthorized: {
+      response: HttpResponse.json(undefined, { status: 401 }),
+      expectError: isUnauthorizedError,
+    },
+    forbidden: {
+      response: HttpResponse.json(undefined, { status: 403 }),
+      expectError: isForbiddenError,
+    },
+    notFound: {
+      response: HttpResponse.json(undefined, { status: 404 }),
+      expectError: isUserNotFoundError,
+    },
+    internal: {
+      response: HttpResponse.json("crash", { status: 501 }),
+      expectError: isInternalError,
+    },
+  };
 
-  it("returns successful response", async () => {
-    const nockShortCode = nockAPI
-      .put("/short-code/update-password", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
-      .reply(200);
+  for (const [key, { response, expectError }] of Object.entries(testCases)) {
+    it(`returns ${key} response`, async () => {
+      server.use(
+        http
+          .put("http://localhost:3000/short-code/update-password")
+          .headers(new Headers({ Authorization: "Bearer access-token" }), HttpResponse.error())
+          .bodyJSON(defaultForm, HttpResponse.error())
+          .resolve(() => response)
+      );
 
-    await requestPasswordReset("access-token", defaultForm);
+      const apiRes = await requestPasswordReset("access-token", defaultForm).catch((e) => e);
 
-    nockShortCode.done();
-  });
-
-  it("returns unauthorized", async () => {
-    const nockShortCode = nockAPI
-      .put("/short-code/update-password", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
-      .reply(401, undefined);
-
-    const apiRes = await requestPasswordReset("access-token", defaultForm).catch((e) => e);
-    expect(isUnauthorizedError(apiRes)).toBe(true);
-    nockShortCode.done();
-  });
-
-  it("returns forbidden", async () => {
-    const nockShortCode = nockAPI
-      .put("/short-code/update-password", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
-      .reply(403, undefined);
-
-    const apiRes = await requestPasswordReset("access-token", defaultForm).catch((e) => e);
-    expect(isForbiddenError(apiRes)).toBe(true);
-    nockShortCode.done();
-  });
-
-  it("returns not found", async () => {
-    const nockShortCode = nockAPI
-      .put("/short-code/update-password", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
-      .reply(404, undefined);
-
-    const apiRes = await requestPasswordReset("access-token", defaultForm).catch((e) => e);
-    expect(isUserNotFoundError(apiRes)).toBe(true);
-    nockShortCode.done();
-  });
-
-  it("returns internal", async () => {
-    const nockShortCode = nockAPI
-      .put("/short-code/update-password", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
-      .reply(501, "crash");
-
-    const apiRes = await requestPasswordReset("access-token", defaultForm).catch((e) => e);
-    expect(isInternalError(apiRes)).toBe(true);
-    nockShortCode.done();
-  });
+      if (expectError) {
+        expect(expectError(apiRes)).toBe(true);
+      } else {
+        expect(apiRes).toBeUndefined();
+      }
+    });
+  }
 });
