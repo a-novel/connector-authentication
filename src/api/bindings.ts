@@ -59,7 +59,7 @@ export const Token = z.string();
 /**
  * The email of the user.
  */
-export const Email = z.string().email().min(BINDINGS_VALIDATION.EMAIL.MIN).max(BINDINGS_VALIDATION.EMAIL.MAX);
+export const Email = z.email().min(BINDINGS_VALIDATION.EMAIL.MIN).max(BINDINGS_VALIDATION.EMAIL.MAX);
 
 /**
  * The password of the user.
@@ -74,27 +74,21 @@ export const ShortCode = z.string().min(BINDINGS_VALIDATION.SHORT_CODE.MIN).max(
 /**
  * The unique identifier of the user.
  */
-export const UserID = z.string().uuid();
+export const UserID = z.uuid();
 
 export const User = z.object({
   id: UserID,
   email: Email,
   role: CredentialsRole,
-  createdAt: z
-    .string()
-    .datetime()
-    .transform((value) => new Date(value)),
-  updatedAt: z
-    .string()
-    .datetime()
-    .transform((value) => new Date(value)),
+  createdAt: z.iso.datetime().transform((value) => new Date(value)),
+  updatedAt: z.iso.datetime().transform((value) => new Date(value)),
 });
 
 export const Claims = z.object({
   /**
    * The unique identifier of the user. Can be null if the session is anonymous.
    */
-  userID: z.string().uuid().optional(),
+  userID: z.uuid().optional(),
   /**
    * The roles granted by the token.
    */
@@ -102,7 +96,7 @@ export const Claims = z.object({
   /**
    * The unique identifier of the refresh token. Can be null if the session is anonymous.
    */
-  refreshTokenID: z.string().uuid().optional(),
+  refreshTokenID: z.uuid().optional(),
 });
 
 export const TokenResponse = z.object({
