@@ -1,35 +1,33 @@
 import { MockQueryClient } from "../../__test__/mocks/query_client";
-import { genericSetup } from "../../__test__/utils/setup";
+import { server } from "../../__test__/utils/setup";
 import { QueryWrapper } from "../../__test__/utils/wrapper";
 import { LangEnum, RequestEmailUpdateForm, RequestPasswordResetForm, RequestRegistrationForm } from "../api";
 import { RequestEmailUpdate, RequestPasswordReset, RequestRegister } from "./index";
 
+import { http } from "@a-novel/nodelib/msw";
+
 import { QueryClient } from "@tanstack/react-query";
 import { act, renderHook } from "@testing-library/react";
-import nock from "nock";
+import { HttpResponse } from "msw";
 import { describe, it } from "vitest";
 import { z } from "zod";
 
 describe("request registration", () => {
-  let nockAPI: nock.Scope;
-
   const defaultForm: z.infer<typeof RequestRegistrationForm> = {
     email: "user@email.com",
     lang: LangEnum.Fr,
   };
 
-  genericSetup({
-    setNockAPI: (newScope) => {
-      nockAPI = newScope;
-    },
-  });
-
   it("returns successful response", async () => {
     const queryClient = new QueryClient(MockQueryClient);
 
-    const nockShortCode = nockAPI
-      .put("/short-code/register", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
-      .reply(200);
+    server.use(
+      http
+        .put("http://localhost:3000/short-code/register")
+        .headers(new Headers({ Authorization: "Bearer access-token" }), HttpResponse.error())
+        .bodyJSON(defaultForm, HttpResponse.error())
+        .resolve(() => HttpResponse.json(undefined, { status: 200 }))
+    );
 
     const hook = renderHook((accessToken) => RequestRegister.useAPI(accessToken), {
       initialProps: "access-token",
@@ -39,31 +37,25 @@ describe("request registration", () => {
     await act(async () => {
       await hook.result.current.mutateAsync(defaultForm);
     });
-
-    nockShortCode.done();
   });
 });
 
 describe("request email update", () => {
-  let nockAPI: nock.Scope;
-
   const defaultForm: z.infer<typeof RequestEmailUpdateForm> = {
     email: "user@email.com",
     lang: LangEnum.Fr,
   };
 
-  genericSetup({
-    setNockAPI: (newScope) => {
-      nockAPI = newScope;
-    },
-  });
-
   it("returns successful response", async () => {
     const queryClient = new QueryClient(MockQueryClient);
 
-    const nockShortCode = nockAPI
-      .put("/short-code/update-email", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
-      .reply(200);
+    server.use(
+      http
+        .put("http://localhost:3000/short-code/update-email")
+        .headers(new Headers({ Authorization: "Bearer access-token" }), HttpResponse.error())
+        .bodyJSON(defaultForm, HttpResponse.error())
+        .resolve(() => HttpResponse.json(undefined, { status: 200 }))
+    );
 
     const hook = renderHook((accessToken) => RequestEmailUpdate.useAPI(accessToken), {
       initialProps: "access-token",
@@ -73,31 +65,25 @@ describe("request email update", () => {
     await act(async () => {
       await hook.result.current.mutateAsync(defaultForm);
     });
-
-    nockShortCode.done();
   });
 });
 
 describe("request password reset", () => {
-  let nockAPI: nock.Scope;
-
   const defaultForm: z.infer<typeof RequestPasswordResetForm> = {
     email: "user@email.com",
     lang: LangEnum.Fr,
   };
 
-  genericSetup({
-    setNockAPI: (newScope) => {
-      nockAPI = newScope;
-    },
-  });
-
   it("returns successful response", async () => {
     const queryClient = new QueryClient(MockQueryClient);
 
-    const nockShortCode = nockAPI
-      .put("/short-code/update-password", defaultForm, { reqheaders: { Authorization: "Bearer access-token" } })
-      .reply(200);
+    server.use(
+      http
+        .put("http://localhost:3000/short-code/update-password")
+        .headers(new Headers({ Authorization: "Bearer access-token" }), HttpResponse.error())
+        .bodyJSON(defaultForm, HttpResponse.error())
+        .resolve(() => HttpResponse.json(undefined, { status: 200 }))
+    );
 
     const hook = renderHook((accessToken) => RequestPasswordReset.useAPI(accessToken), {
       initialProps: "access-token",
@@ -107,7 +93,5 @@ describe("request password reset", () => {
     await act(async () => {
       await hook.result.current.mutateAsync(defaultForm);
     });
-
-    nockShortCode.done();
   });
 });

@@ -1,11 +1,8 @@
 import "../../__test__/utils/setup";
-import { genericSetup } from "../../__test__/utils/setup";
 import { getContextValue } from "../utils";
 import { apiPath, withAuthHeaders, withDefaultHeaders } from "./common";
 
 import { describe, it, expect } from "vitest";
-
-genericSetup({});
 
 describe("auth path", () => {
   it("should append the path to the base defined in environment", () => {

@@ -1,28 +1,23 @@
 import { MockQueryClient } from "../../__test__/mocks/query_client";
-import { genericSetup } from "../../__test__/utils/setup";
+import { server } from "../../__test__/utils/setup";
 import { QueryWrapper } from "../../__test__/utils/wrapper";
 import { CredentialsRoleEnum, GetUserParams, ListUsersParams, User } from "../api";
 import { GetUser, ListUsers } from "./index";
 
+import { http } from "@a-novel/nodelib/msw";
+
 import { QueryClient } from "@tanstack/react-query";
 import { act, renderHook, waitFor } from "@testing-library/react";
-import nock from "nock";
+import { HttpResponse } from "msw";
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
 
 describe("list users", () => {
-  let nockAPI: nock.Scope;
-
   const defaultParams: z.infer<typeof ListUsersParams> = {
     roles: [CredentialsRoleEnum.Admin, CredentialsRoleEnum.User],
     limit: 1,
   };
 
-  genericSetup({
-    setNockAPI: (newScope) => {
-      nockAPI = newScope;
-    },
-  });
   const res: z.infer<typeof User>[] = [
     {
       id: "94b4d288-dbff-4eca-805a-f45311a34e15",
@@ -74,50 +69,51 @@ describe("list users", () => {
   it("returns first page", async () => {
     const queryClient = new QueryClient(MockQueryClient);
 
-    const nockUsers = nockAPI
-      .get("/users?roles=admin&roles=user&limit=1", undefined, {
-        reqheaders: { Authorization: "Bearer access-token" },
-      })
-      .reply(200, rawRes.slice(0, 1));
+    server.use(
+      http
+        .get("http://localhost:3000/users")
+        .headers(new Headers({ Authorization: "Bearer access-token" }), HttpResponse.error())
+        .searchParams(new URLSearchParams("limit=1&roles=admin&roles=user"), true, HttpResponse.error())
+        .resolve(() => HttpResponse.json(rawRes.slice(0, 1)))
+    );
 
     const hook = renderHook(() => ListUsers.useAPI("access-token", defaultParams), {
       wrapper: QueryWrapper(queryClient),
     });
 
     await waitFor(() => {
-      nockUsers.done();
+      expect(hook.result.current.data?.pages.flat()).toEqual(res.slice(0, 1));
     });
-
-    expect(hook.result.current.data?.pages.flat()).toEqual(res.slice(0, 1));
   });
 
   it("returns all pages", async () => {
     const queryClient = new QueryClient(MockQueryClient);
 
-    let nockUsers = nockAPI
-      .get("/users?roles=admin&roles=user&limit=1", undefined, {
-        reqheaders: { Authorization: "Bearer access-token" },
-      })
-      .reply(200, rawRes.slice(0, 1));
+    server.use(
+      http
+        .get("http://localhost:3000/users")
+        .headers(new Headers({ Authorization: "Bearer access-token" }), HttpResponse.error())
+        .searchParams(new URLSearchParams("limit=1&roles=admin&roles=user"), true)
+        .resolve(() => HttpResponse.json(rawRes.slice(0, 1))),
+      http
+        .get("http://localhost:3000/users")
+        .headers(new Headers({ Authorization: "Bearer access-token" }), HttpResponse.error())
+        .searchParams(new URLSearchParams("limit=1&offset=1&roles=admin&roles=user"), true)
+        .resolve(() => HttpResponse.json(rawRes.slice(1, 2))),
+      http
+        .get("http://localhost:3000/users")
+        .headers(new Headers({ Authorization: "Bearer access-token" }), HttpResponse.error())
+        .searchParams(new URLSearchParams("limit=1&offset=2&roles=admin&roles=user"), true)
+        .resolve(() => HttpResponse.json(rawRes.slice(2, 3)))
+    );
 
     const hook = renderHook(() => ListUsers.useAPI("access-token", defaultParams, { maxPages: 2 }), {
       wrapper: QueryWrapper(queryClient),
     });
 
     await waitFor(() => {
-      nockUsers.done();
       expect(hook.result.current.data?.pages.flat()).toEqual(res.slice(0, 1));
     });
-
-    nockUsers = nockAPI
-      .get("/users?roles=admin&roles=user&limit=1&offset=1", undefined, {
-        reqheaders: { Authorization: "Bearer access-token" },
-      })
-      .reply(200, rawRes.slice(1, 2))
-      .get("/users?roles=admin&roles=user&limit=1&offset=2", undefined, {
-        reqheaders: { Authorization: "Bearer access-token" },
-      })
-      .reply(200, rawRes.slice(2, 3));
 
     await act(async () => {
       await hook.result.current.fetchNextPage();
@@ -125,38 +121,38 @@ describe("list users", () => {
     });
 
     await waitFor(() => {
-      nockUsers.done();
+      expect(hook.result.current.data?.pages.flat()).toEqual(res.slice(1, 3));
     });
-    expect(hook.result.current.data?.pages.flat()).toEqual(res.slice(1, 3));
   });
 
   it("paginates backwards", async () => {
     const queryClient = new QueryClient(MockQueryClient);
 
-    let nockUsers = nockAPI
-      .get("/users?limit=10", undefined, {
-        reqheaders: { Authorization: "Bearer access-token" },
-      })
-      .reply(200, rawRes.slice(0, 1));
+    server.use(
+      http
+        .get("http://localhost:3000/users")
+        .headers(new Headers({ Authorization: "Bearer access-token" }), HttpResponse.error())
+        .searchParams(new URLSearchParams("limit=10"), true)
+        .resolve(() => HttpResponse.json(rawRes.slice(0, 1))),
+      http
+        .get("http://localhost:3000/users")
+        .headers(new Headers({ Authorization: "Bearer access-token" }), HttpResponse.error())
+        .searchParams(new URLSearchParams("limit=10&offset=1"), true)
+        .resolve(() => HttpResponse.json(rawRes.slice(1, 2))),
+      http
+        .get("http://localhost:3000/users")
+        .headers(new Headers({ Authorization: "Bearer access-token" }), HttpResponse.error())
+        .searchParams(new URLSearchParams("limit=10&offset=2"), true)
+        .resolve(() => HttpResponse.json(rawRes.slice(2, 3)))
+    );
 
     const hook = renderHook(() => ListUsers.useAPI("access-token", { limit: 10 }, { maxPages: 2 }), {
       wrapper: QueryWrapper(queryClient),
     });
 
     await waitFor(() => {
-      nockUsers.done();
       expect(hook.result.current.data?.pages.flat()).toEqual(res.slice(0, 1));
     });
-
-    nockUsers = nockAPI
-      .get("/users?limit=10&offset=1", undefined, {
-        reqheaders: { Authorization: "Bearer access-token" },
-      })
-      .reply(200, rawRes.slice(1, 2))
-      .get("/users?limit=10&offset=2", undefined, {
-        reqheaders: { Authorization: "Bearer access-token" },
-      })
-      .reply(200, rawRes.slice(2, 3));
 
     await act(async () => {
       await hook.result.current.fetchNextPage();
@@ -164,34 +160,28 @@ describe("list users", () => {
     });
 
     await waitFor(() => {
-      nockUsers.done();
+      expect(hook.result.current.data?.pages.flat()).toEqual(res.slice(1, 3));
     });
-    expect(hook.result.current.data?.pages.flat()).toEqual(res.slice(1, 3));
-
-    nockUsers = nockAPI
-      .get("/users?limit=10", undefined, {
-        reqheaders: { Authorization: "Bearer access-token" },
-      })
-      .reply(200, rawRes.slice(0, 1));
 
     await act(async () => {
       await hook.result.current.fetchPreviousPage();
     });
 
     await waitFor(() => {
-      nockUsers.done();
+      expect(hook.result.current.data?.pages.flat()).toEqual(res.slice(0, 2));
     });
-    expect(hook.result.current.data?.pages.flat()).toEqual(res.slice(0, 2));
   });
 
   it("does not fetch with missing parameters", async () => {
     const queryClient = new QueryClient(MockQueryClient);
 
-    const nockUsers = nockAPI
-      .get("/users?roles=admin&roles=user&limit=1", undefined, {
-        reqheaders: { Authorization: "Bearer access-token" },
-      })
-      .reply(200, rawRes.slice(0, 1));
+    server.use(
+      http
+        .get("http://localhost:3000/users")
+        .headers(new Headers({ Authorization: "Bearer access-token" }), HttpResponse.error())
+        .searchParams(new URLSearchParams("limit=1&roles=admin&roles=user"), true, HttpResponse.error())
+        .resolve(() => HttpResponse.json(rawRes.slice(0, 1)))
+    );
 
     const hook = renderHook(({ accessToken, params }) => ListUsers.useAPI(accessToken, params), {
       initialProps: {
@@ -209,25 +199,15 @@ describe("list users", () => {
     });
 
     await waitFor(() => {
-      nockUsers.done();
+      expect(hook.result.current.data?.pages.flat()).toEqual(res.slice(0, 1));
     });
-
-    expect(hook.result.current.data?.pages.flat()).toEqual(res.slice(0, 1));
   });
 });
 
 describe("get user", () => {
-  let nockAPI: nock.Scope;
-
   const defaultParams: z.infer<typeof GetUserParams> = {
     userID: "29f71c01-5ae1-4b01-b729-e17488538e15",
   };
-
-  genericSetup({
-    setNockAPI: (newScope) => {
-      nockAPI = newScope;
-    },
-  });
 
   it("returns successful response", async () => {
     const queryClient = new QueryClient(MockQueryClient);
@@ -240,18 +220,19 @@ describe("get user", () => {
       updatedAt: new Date("2025-05-05T10:56:25.468Z"),
     };
 
-    const nockCredentials = nockAPI
-      .get(`/user?userID=29f71c01-5ae1-4b01-b729-e17488538e15`, undefined, {
-        reqheaders: { Authorization: "Bearer access-token" },
-      })
-      .reply(200, res);
+    server.use(
+      http
+        .get("http://localhost:3000/user")
+        .headers(new Headers({ Authorization: "Bearer access-token" }), HttpResponse.error())
+        .searchParams(new URLSearchParams({ userID: defaultParams.userID }), true, HttpResponse.error())
+        .resolve(() => HttpResponse.json(res))
+    );
 
     const hook = renderHook(() => GetUser.useAPI("access-token", defaultParams), {
       wrapper: QueryWrapper(queryClient),
     });
 
     await waitFor(() => {
-      nockCredentials.done();
       expect(hook.result.current.data).toEqual(res);
     });
   });

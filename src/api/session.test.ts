@@ -1,7 +1,5 @@
-import { genericSetup } from "../../__test__/utils/setup";
+import { server } from "../../__test__/utils/setup";
 import {
-  TokenResponse,
-  Claims,
   ClaimsRoleEnum,
   LoginForm,
   RefreshAccessTokenParams,
@@ -16,217 +14,205 @@ import {
   refreshSession,
 } from "./index";
 
-import nock from "nock";
+import { http } from "@a-novel/nodelib/msw";
+
+import { HttpResponse } from "msw";
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
 
 describe("check session", () => {
-  let nockAPI: nock.Scope;
-
-  genericSetup({
-    setNockAPI: (newScope) => {
-      nockAPI = newScope;
+  const testCases = {
+    success: {
+      response: HttpResponse.json({
+        userID: "94b4d288-dbff-4eca-805a-f45311a34e15",
+        roles: [ClaimsRoleEnum.User],
+      }),
+      expect: {
+        userID: "94b4d288-dbff-4eca-805a-f45311a34e15",
+        roles: [ClaimsRoleEnum.User],
+      },
+      expectError: null,
     },
-  });
+    unauthorized: {
+      response: HttpResponse.json(undefined, { status: 401 }),
+      expect: null,
+      expectError: isUnauthorizedError,
+    },
+    internal: {
+      response: HttpResponse.json("crash", { status: 501 }),
+      expect: null,
+      expectError: isInternalError,
+    },
+  };
 
-  it("returns successful response", async () => {
-    const res: z.infer<typeof Claims> = {
-      userID: "94b4d288-dbff-4eca-805a-f45311a34e15",
-      roles: [ClaimsRoleEnum.User],
-    };
+  for (const [key, { response, expect: expected, expectError }] of Object.entries(testCases)) {
+    it(`returns ${key} response`, async () => {
+      server.use(
+        http
+          .get("http://localhost:3000/session")
+          .headers(new Headers({ Authorization: "Bearer access-token" }), HttpResponse.error())
+          .resolve(() => response)
+      );
 
-    const nockSession = nockAPI
-      .get("/session", undefined, { reqheaders: { Authorization: "Bearer access-token" } })
-      .reply(200, res);
+      const apiRes = await checkSession("access-token").catch((e) => e);
 
-    const apiRes = await checkSession("access-token");
-    expect(apiRes).toEqual(res);
-
-    nockSession.done();
-  });
-
-  it("returns unauthorized", async () => {
-    const nockSession = nockAPI
-      .get("/session", undefined, { reqheaders: { Authorization: "Bearer access-token" } })
-      .reply(401, undefined);
-
-    const apiRes = await checkSession("access-token").catch((e) => e);
-    expect(isUnauthorizedError(apiRes)).toBe(true);
-    nockSession.done();
-  });
-
-  it("returns internal", async () => {
-    const nockSession = nockAPI
-      .get("/session", undefined, { reqheaders: { Authorization: "Bearer access-token" } })
-      .reply(501, "crash");
-
-    const apiRes = await checkSession("access-token").catch((e) => e);
-    expect(isInternalError(apiRes)).toBe(true);
-    nockSession.done();
-  });
+      if (expected) {
+        expect(apiRes).toEqual(expected);
+      } else if (expectError) {
+        expect(expectError(apiRes)).toBe(true);
+      }
+    });
+  }
 });
 
 describe("create session", () => {
-  let nockAPI: nock.Scope;
-
   const defaultForm: z.infer<typeof LoginForm> = {
     email: "user@email.com",
     password: "password",
   };
 
-  genericSetup({
-    setNockAPI: (newScope) => {
-      nockAPI = newScope;
+  const testCases = {
+    success: {
+      response: HttpResponse.json({
+        accessToken: "new-access-token",
+        refreshToken: "new-refresh-token",
+      }),
+      expect: {
+        accessToken: "new-access-token",
+        refreshToken: "new-refresh-token",
+      },
+      expectError: null,
     },
-  });
+    forbidden: {
+      response: HttpResponse.json(undefined, { status: 403 }),
+      expect: null,
+      expectError: isForbiddenError,
+    },
+    notFound: {
+      response: HttpResponse.json(undefined, { status: 404 }),
+      expect: null,
+      expectError: isUserNotFoundError,
+    },
+    internal: {
+      response: HttpResponse.json("crash", { status: 501 }),
+      expect: null,
+      expectError: isInternalError,
+    },
+  };
 
-  it("returns successful response", async () => {
-    const res: z.infer<typeof TokenResponse> = {
-      accessToken: "new-access-token",
-      refreshToken: "new-refresh-token",
-    };
+  for (const [key, { response, expect: expected, expectError }] of Object.entries(testCases)) {
+    it(`returns ${key} response`, async () => {
+      server.use(
+        http
+          .put("http://localhost:3000/session")
+          .bodyJSON(defaultForm, HttpResponse.error())
+          .resolve(() => response)
+      );
 
-    const nockSession = nockAPI.put("/session", defaultForm).reply(200, res);
+      const apiRes = await createSession(defaultForm).catch((e) => e);
 
-    const apiRes = await createSession(defaultForm);
-    expect(apiRes).toEqual(res);
-
-    nockSession.done();
-  });
-
-  it("returns forbidden", async () => {
-    const nockSession = nockAPI.put("/session", defaultForm).reply(403, undefined);
-
-    const apiRes = await createSession(defaultForm).catch((e) => e);
-    expect(isForbiddenError(apiRes)).toBe(true);
-    nockSession.done();
-  });
-
-  it("returns user not found", async () => {
-    const nockSession = nockAPI.put("/session", defaultForm).reply(404, undefined);
-
-    const apiRes = await createSession(defaultForm).catch((e) => e);
-    expect(isUserNotFoundError(apiRes)).toBe(true);
-    nockSession.done();
-  });
-
-  it("returns internal", async () => {
-    const nockSession = nockAPI.put("/session", defaultForm).reply(501, "crash");
-
-    const apiRes = await createSession(defaultForm).catch((e) => e);
-    expect(isInternalError(apiRes)).toBe(true);
-    nockSession.done();
-  });
+      if (expected) {
+        expect(apiRes).toEqual(expected);
+      } else if (expectError) {
+        expect(expectError(apiRes)).toBe(true);
+      }
+    });
+  }
 });
 
 describe("create anonymous session", () => {
-  let nockAPI: nock.Scope;
-
-  genericSetup({
-    setNockAPI: (newScope) => {
-      nockAPI = newScope;
+  const testCases = {
+    success: {
+      response: HttpResponse.json({
+        accessToken: "new-access-token",
+      }),
+      expect: {
+        accessToken: "new-access-token",
+      },
+      expectError: null,
     },
-  });
+    internal: {
+      response: HttpResponse.json("crash", { status: 501 }),
+      expect: null,
+      expectError: isInternalError,
+    },
+  };
 
-  it("returns successful response", async () => {
-    const res: z.infer<typeof TokenResponse> = {
-      accessToken: "new-access-token",
-    };
+  for (const [key, { response, expect: expected, expectError }] of Object.entries(testCases)) {
+    it(`returns ${key} response`, async () => {
+      server.use(http.put("http://localhost:3000/session/anon").resolve(() => response));
 
-    const nockSession = nockAPI.put("/session/anon").reply(200, res);
+      const apiRes = await createAnonymousSession().catch((e) => e);
 
-    const apiRes = await createAnonymousSession();
-    expect(apiRes).toEqual(res);
-
-    nockSession.done();
-  });
-
-  it("returns internal", async () => {
-    const nockSession = nockAPI.put("/session/anon").reply(501, "crash");
-
-    const apiRes = await createAnonymousSession().catch((e) => e);
-    expect(isInternalError(apiRes)).toBe(true);
-    nockSession.done();
-  });
+      if (expected) {
+        expect(apiRes).toEqual(expected);
+      } else if (expectError) {
+        expect(expectError(apiRes)).toBe(true);
+      }
+    });
+  }
 });
 
 describe("refresh session", () => {
-  let nockAPI: nock.Scope;
-
   const defaultParams: z.infer<typeof RefreshAccessTokenParams> = {
     accessToken: "access-token",
     refreshToken: "refresh-token",
   };
 
-  genericSetup({
-    setNockAPI: (newScope) => {
-      nockAPI = newScope;
+  const testCases = {
+    success: {
+      response: HttpResponse.json({
+        accessToken: "new-access-token",
+        refreshToken: "new-refresh-token",
+      }),
+      expect: {
+        accessToken: "new-access-token",
+        refreshToken: "new-refresh-token",
+      },
+      expectError: null,
     },
-  });
+    unauthorized: {
+      response: HttpResponse.json(undefined, { status: 401 }),
+      expect: null,
+      expectError: isUnauthorizedError,
+    },
+    forbidden: {
+      response: HttpResponse.json(undefined, { status: 403 }),
+      expect: null,
+      expectError: isForbiddenError,
+    },
+    unprocessable: {
+      response: HttpResponse.json(undefined, { status: 422 }),
+      expect: null,
+      expectError: isValidationError,
+    },
+    internal: {
+      response: HttpResponse.json("crash", { status: 501 }),
+      expect: null,
+      expectError: isInternalError,
+    },
+  };
 
-  it("returns successful response", async () => {
-    const res: z.infer<typeof TokenResponse> = {
-      accessToken: "new-access-token",
-      refreshToken: "new-refresh-token",
-    };
+  for (const [key, { response, expect: expected, expectError }] of Object.entries(testCases)) {
+    it(`returns ${key} response`, async () => {
+      server.use(
+        http
+          .patch("http://localhost:3000/session/refresh")
+          .searchParams(
+            new URLSearchParams({ accessToken: defaultParams.accessToken, refreshToken: defaultParams.refreshToken }),
+            true,
+            HttpResponse.error()
+          )
+          .resolve(() => response)
+      );
 
-    const nockSession = nockAPI
-      .patch(
-        `/session/refresh?accessToken=${encodeURIComponent(defaultParams.accessToken)}&refreshToken=${encodeURIComponent(defaultParams.refreshToken)}`
-      )
-      .reply(200, res);
+      const apiRes = await refreshSession(defaultParams).catch((e) => e);
 
-    const apiRes = await refreshSession(defaultParams);
-    expect(apiRes).toEqual(res);
-
-    nockSession.done();
-  });
-
-  it("returns unauthorized", async () => {
-    const nockSession = nockAPI
-      .patch(
-        `/session/refresh?accessToken=${encodeURIComponent(defaultParams.accessToken)}&refreshToken=${encodeURIComponent(defaultParams.refreshToken)}`
-      )
-      .reply(401, undefined);
-
-    const apiRes = await refreshSession(defaultParams).catch((e) => e);
-    expect(isUnauthorizedError(apiRes)).toBe(true);
-    nockSession.done();
-  });
-
-  it("returns forbidden", async () => {
-    const nockSession = nockAPI
-      .patch(
-        `/session/refresh?accessToken=${encodeURIComponent(defaultParams.accessToken)}&refreshToken=${encodeURIComponent(defaultParams.refreshToken)}`
-      )
-      .reply(403, undefined);
-
-    const apiRes = await refreshSession(defaultParams).catch((e) => e);
-    expect(isForbiddenError(apiRes)).toBe(true);
-    nockSession.done();
-  });
-
-  it("returns unprocessable entity", async () => {
-    const nockSession = nockAPI
-      .patch(
-        `/session/refresh?accessToken=${encodeURIComponent(defaultParams.accessToken)}&refreshToken=${encodeURIComponent(defaultParams.refreshToken)}`
-      )
-      .reply(422, undefined);
-
-    const apiRes = await refreshSession(defaultParams).catch((e) => e);
-    expect(isValidationError(apiRes)).toBe(true);
-    nockSession.done();
-  });
-
-  it("returns internal", async () => {
-    const nockSession = nockAPI
-      .patch(
-        `/session/refresh?accessToken=${encodeURIComponent(defaultParams.accessToken)}&refreshToken=${encodeURIComponent(defaultParams.refreshToken)}`
-      )
-      .reply(501, "crash");
-
-    const apiRes = await refreshSession(defaultParams).catch((e) => e);
-    expect(isInternalError(apiRes)).toBe(true);
-    nockSession.done();
-  });
+      if (expected) {
+        expect(apiRes).toEqual(expected);
+      } else if (expectError) {
+        expect(expectError(apiRes)).toBe(true);
+      }
+    });
+  }
 });
