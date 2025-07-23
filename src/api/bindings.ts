@@ -74,7 +74,13 @@ export const ShortCode = z.string().min(BINDINGS_VALIDATION.SHORT_CODE.MIN).max(
 /**
  * The unique identifier of the user.
  */
-export const UserID = z.uuid();
+export const UserID = z.uuidv4();
+
+export const UserIDOptional = UserID.optional().or(z.string().length(0));
+
+export const RefreshTokenID = z.uuidv4();
+
+export const RefreshTokenIDOptional = RefreshTokenID.optional().or(z.string().length(0));
 
 export const User = z.object({
   id: UserID,
@@ -88,7 +94,7 @@ export const Claims = z.object({
   /**
    * The unique identifier of the user. Can be null if the session is anonymous.
    */
-  userID: z.uuid().optional(),
+  userID: UserIDOptional,
   /**
    * The roles granted by the token.
    */
@@ -96,7 +102,7 @@ export const Claims = z.object({
   /**
    * The unique identifier of the refresh token. Can be null if the session is anonymous.
    */
-  refreshTokenID: z.uuid().optional(),
+  refreshTokenID: RefreshTokenIDOptional,
 });
 
 export const TokenResponse = z.object({
