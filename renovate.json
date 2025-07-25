@@ -4,7 +4,7 @@
   "assignees": ["kushuh"],
   "postUpgradeTasks": {
     "commands": ["pnpm i --frozen-lockfile", "pnpm format"],
-    "executionMode": "update"
+    "executionMode": "branch"
   },
   "packageRules": [
     {
