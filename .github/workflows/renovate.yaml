@@ -1,0 +1,22 @@
+name: run renovate
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 * * * *"
+
+jobs:
+  renovate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Self-hosted Renovate
+        uses: renovatebot/github-action@v43.0.4
+        with:
+          token: ${{ secrets.ACTION_PAT }}
+        env:
+          RENOVATE_ALLOWED_COMMANDS: '["^pnpm i --frozen-lockfile$","^pnpm format$"]'
+          RENOVATE_REPOSITORIES: "['a-novel/connector-authentication']"
+          RENOVATE_DETECT_HOST_RULES_FROM_ENV: true
+          RENOVATE_NPM_NPM_PKG_GITHUB_COM_TOKEN: ${{ secrets.ACTION_PAT }}
+          LOG_LEVEL: debug

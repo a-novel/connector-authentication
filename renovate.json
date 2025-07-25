@@ -1,0 +1,17 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "assignAutomerge": true,
+  "assignees": ["kushuh"],
+  "postUpgradeTasks": {
+    "commands": ["pnpm i --frozen-lockfile", "pnpm format"],
+    "executionMode": "update"
+  },
+  "packageRules": [
+    {
+      "description": "Automerge non-major updates",
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true
+    }
+  ],
+  "extends": ["config:recommended"]
+}
