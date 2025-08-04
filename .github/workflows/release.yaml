@@ -26,4 +26,5 @@ jobs:
       - uses: a-novel-kit/workflows/publish-actions/npm@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          pat: ${{ secrets.ACTION_PAT }}
+          app_private_key: ${{ secrets.DEPENDENCY_BOT_PRIVATE_KEY }}
+          app_id: ${{ vars.DEPENDENCY_BOT_ID }}

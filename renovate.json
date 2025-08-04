@@ -1,18 +1,4 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "assignAutomerge": true,
-  "assignees": ["kushuh"],
-  "postUpgradeTasks": {
-    "commands": ["sh ./scripts/post-upgrade-renovate.sh"],
-    "fileFilters": ["package.json", "pnpm-lock.yaml"],
-    "executionMode": "branch"
-  },
-  "packageRules": [
-    {
-      "description": "Automerge updates",
-      "matchPackageNames": ["!major"],
-      "automerge": true
-    }
-  ],
   "extends": ["config:recommended"]
 }
