@@ -86,8 +86,8 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": [
-      "esbuild",
-      "msw"
+      "@a-novel/nodelib",
+      "esbuild"
     ]
   }
 }
