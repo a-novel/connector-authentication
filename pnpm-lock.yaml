@@ -10,7 +10,7 @@ importers:
     devDependencies:
       '@a-novel/nodelib':
         specifier: ^0.7.3
-        version: 0.7.7(@msw/playwright@0.4.2(msw@2.10.4(@types/node@24.2.1)(typescript@5.9.2)))(@playwright/test@1.54.2)(@tanstack/react-query@5.84.2(react@19.1.1))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.1.7(@types/react@19.1.10))(@types/react@19.1.10)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(msw@2.10.4(@types/node@24.2.1)(typescript@5.9.2))(playwright@1.54.2)(v8-to-istanbul@9.3.0)(vitest@3.2.4(@types/node@24.2.1)(jsdom@26.1.0)(msw@2.10.4(@types/node@24.2.1)(typescript@5.9.2)))
+        version: 0.7.7(@msw/playwright@0.4.2(msw@2.10.4(@types/node@24.2.1)(typescript@5.9.2)))(@playwright/test@1.54.2)(@tanstack/react-query@5.85.0(react@19.1.1))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.1.7(@types/react@19.1.10))(@types/react@19.1.10)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(msw@2.10.4(@types/node@24.2.1)(typescript@5.9.2))(playwright@1.54.2)(v8-to-istanbul@9.3.0)(vitest@3.2.4(@types/node@24.2.1)(jsdom@26.1.0)(msw@2.10.4(@types/node@24.2.1)(typescript@5.9.2)))
       '@eslint/config-helpers':
         specifier: ^0.3.0
         version: 0.3.1
@@ -22,7 +22,7 @@ importers:
         version: 5.83.1(eslint@9.33.0)(typescript@5.9.2)
       '@tanstack/react-query':
         specifier: ^5.83.0
-        version: 5.84.2(react@19.1.1)
+        version: 5.85.0(react@19.1.1)
       '@testing-library/react':
         specifier: ^16.3.0
         version: 16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.1.7(@types/react@19.1.10))(@types/react@19.1.10)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -457,11 +457,11 @@ packages:
     resolution: {integrity: sha512-bRISgCIjP20/tbWSPWMEi54QVPRZExkuD9lJL+UIxUKtwVJA8wW1Trb1jMs1RFXo1CBTNZ/5hpC9QvmKWdopKw==}
     engines: {node: '>=6.0.0'}
 
-  '@jridgewell/sourcemap-codec@1.5.4':
-    resolution: {integrity: sha512-VT2+G1VQs/9oz078bLrYbecdZKs912zQlkelYpuf+SXF+QvZDYJlbx/LSx+meSAwdDFnF8FVXW92AVjjkVmgFw==}
+  '@jridgewell/sourcemap-codec@1.5.5':
+    resolution: {integrity: sha512-cYQ9310grqxueWbl+WuIUIaiUaDcj7WOq5fVhEljNVgRfOUhY9fy2zTvfoqWsnebh8Sl70VScFbICvJnLKB0Og==}
 
-  '@jridgewell/trace-mapping@0.3.29':
-    resolution: {integrity: sha512-uw6guiW/gcAGPDhLmd77/6lW8QLeiV5RUTsAX46Db6oLhGaVj4lhnPwb184s1bkc8kdVg/+h988dro8GRDpmYQ==}
+  '@jridgewell/trace-mapping@0.3.30':
+    resolution: {integrity: sha512-GQ7Nw5G2lTu/BtHTKfXhKHok2WGetd4XYcVKGx00SjAk8GMwgJM3zr6zORiPGuOE+/vkc90KtTosSSvaCjKb2Q==}
 
   '@msw/playwright@0.4.2':
     resolution: {integrity: sha512-xJnHJBkxCF+wcusYAFTDTW1kiD+WVsuYMSxcqvaAbe/mhy73oxkcqUbsiqZsKPdNrXIQQtkCyX5vSP5ZaPUHdA==}
@@ -615,8 +615,8 @@ packages:
   '@tanstack/query-core@5.83.1':
     resolution: {integrity: sha512-OG69LQgT7jSp+5pPuCfzltq/+7l2xoweggjme9vlbCPa/d7D7zaqv5vN/S82SzSYZ4EDLTxNO1PWrv49RAS64Q==}
 
-  '@tanstack/react-query@5.84.2':
-    resolution: {integrity: sha512-cZadySzROlD2+o8zIfbD978p0IphuQzRWiiH3I2ugnTmz4jbjc0+TdibpwqxlzynEen8OulgAg+rzdNF37s7XQ==}
+  '@tanstack/react-query@5.85.0':
+    resolution: {integrity: sha512-t1HMfToVMGfwEJRya6GG7gbK0luZJd+9IySFNePL1BforU1F3LqQ3tBC2Rpvr88bOrlU6PXyMLgJD0Yzn4ztUw==}
     peerDependencies:
       react: ^18 || ^19
 
@@ -2307,11 +2307,11 @@ packages:
 
 snapshots:
 
-  '@a-novel/nodelib@0.7.7(@msw/playwright@0.4.2(msw@2.10.4(@types/node@24.2.1)(typescript@5.9.2)))(@playwright/test@1.54.2)(@tanstack/react-query@5.84.2(react@19.1.1))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.1.7(@types/react@19.1.10))(@types/react@19.1.10)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(msw@2.10.4(@types/node@24.2.1)(typescript@5.9.2))(playwright@1.54.2)(v8-to-istanbul@9.3.0)(vitest@3.2.4(@types/node@24.2.1)(jsdom@26.1.0)(msw@2.10.4(@types/node@24.2.1)(typescript@5.9.2)))':
+  '@a-novel/nodelib@0.7.7(@msw/playwright@0.4.2(msw@2.10.4(@types/node@24.2.1)(typescript@5.9.2)))(@playwright/test@1.54.2)(@tanstack/react-query@5.85.0(react@19.1.1))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.1.7(@types/react@19.1.10))(@types/react@19.1.10)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(msw@2.10.4(@types/node@24.2.1)(typescript@5.9.2))(playwright@1.54.2)(v8-to-istanbul@9.3.0)(vitest@3.2.4(@types/node@24.2.1)(jsdom@26.1.0)(msw@2.10.4(@types/node@24.2.1)(typescript@5.9.2)))':
     dependencies:
       '@msw/playwright': 0.4.2(msw@2.10.4(@types/node@24.2.1)(typescript@5.9.2))
       '@playwright/test': 1.54.2
-      '@tanstack/react-query': 5.84.2(react@19.1.1)
+      '@tanstack/react-query': 5.85.0(react@19.1.1)
       '@testing-library/react': 16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.1.7(@types/react@19.1.10))(@types/react@19.1.10)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       get-port-please: 3.2.0
       lodash-es: 4.17.21
@@ -2323,7 +2323,7 @@ snapshots:
   '@ampproject/remapping@2.3.0':
     dependencies:
       '@jridgewell/gen-mapping': 0.3.12
-      '@jridgewell/trace-mapping': 0.3.29
+      '@jridgewell/trace-mapping': 0.3.30
 
   '@asamuzakjp/css-color@3.2.0':
     dependencies:
@@ -2344,7 +2344,7 @@ snapshots:
       '@babel/parser': 7.28.0
       '@babel/types': 7.28.2
       '@jridgewell/gen-mapping': 0.3.12
-      '@jridgewell/trace-mapping': 0.3.29
+      '@jridgewell/trace-mapping': 0.3.30
       jsesc: 3.1.0
 
   '@babel/helper-globals@7.28.0': {}
@@ -2591,17 +2591,17 @@ snapshots:
 
   '@jridgewell/gen-mapping@0.3.12':
     dependencies:
-      '@jridgewell/sourcemap-codec': 1.5.4
-      '@jridgewell/trace-mapping': 0.3.29
+      '@jridgewell/sourcemap-codec': 1.5.5
+      '@jridgewell/trace-mapping': 0.3.30
 
   '@jridgewell/resolve-uri@3.1.2': {}
 
-  '@jridgewell/sourcemap-codec@1.5.4': {}
+  '@jridgewell/sourcemap-codec@1.5.5': {}
 
-  '@jridgewell/trace-mapping@0.3.29':
+  '@jridgewell/trace-mapping@0.3.30':
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
-      '@jridgewell/sourcemap-codec': 1.5.4
+      '@jridgewell/sourcemap-codec': 1.5.5
 
   '@msw/playwright@0.4.2(msw@2.10.4(@types/node@24.2.1)(typescript@5.9.2))':
     dependencies:
@@ -2718,7 +2718,7 @@ snapshots:
 
   '@tanstack/query-core@5.83.1': {}
 
-  '@tanstack/react-query@5.84.2(react@19.1.1)':
+  '@tanstack/react-query@5.85.0(react@19.1.1)':
     dependencies:
       '@tanstack/query-core': 5.83.1
       react: 19.1.1
@@ -3041,7 +3041,7 @@ snapshots:
 
   ast-v8-to-istanbul@0.3.4:
     dependencies:
-      '@jridgewell/trace-mapping': 0.3.29
+      '@jridgewell/trace-mapping': 0.3.30
       estree-walker: 3.0.3
       js-tokens: 9.0.1
 
@@ -3782,7 +3782,7 @@ snapshots:
 
   istanbul-lib-source-maps@5.0.6:
     dependencies:
-      '@jridgewell/trace-mapping': 0.3.29
+      '@jridgewell/trace-mapping': 0.3.30
       debug: 4.4.1
       istanbul-lib-coverage: 3.2.2
     transitivePeerDependencies:
@@ -3891,7 +3891,7 @@ snapshots:
 
   magic-string@0.30.17:
     dependencies:
-      '@jridgewell/sourcemap-codec': 1.5.4
+      '@jridgewell/sourcemap-codec': 1.5.5
 
   magicast@0.3.5:
     dependencies:
@@ -4507,7 +4507,7 @@ snapshots:
 
   v8-to-istanbul@9.3.0:
     dependencies:
-      '@jridgewell/trace-mapping': 0.3.29
+      '@jridgewell/trace-mapping': 0.3.30
       '@types/istanbul-lib-coverage': 2.0.6
       convert-source-map: 2.0.0
 
