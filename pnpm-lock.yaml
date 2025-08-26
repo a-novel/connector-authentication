@@ -91,7 +91,7 @@ importers:
         version: 3.2.4(@types/node@24.3.0)(jsdom@26.1.0)(msw@2.10.5(@types/node@24.3.0)(typescript@5.9.2))
       zod:
         specifier: ^4.0.5
-        version: 4.1.1
+        version: 4.1.2
 
 packages:
 
@@ -2303,8 +2303,8 @@ packages:
     resolution: {integrity: sha512-cYVsTjKl8b+FrnidjibDWskAv7UKOfcwaVZdp/it9n1s9fU3IkgDbhdIRKCW4JDsAlECJY0ytoVPT3sK6kideA==}
     engines: {node: '>=18'}
 
-  zod@4.1.1:
-    resolution: {integrity: sha512-SgMZK/h8Tigt9nnKkfJMvB/mKjiJXaX26xegP4sa+0wHIFVFWVlsQGdhklDmuargBD3Hsi3rsQRIzwJIhTPJHA==}
+  zod@4.1.2:
+    resolution: {integrity: sha512-SMwLPyHGp8HbPjJGqJOBJjPFAua5oSBf6+4ZA1/g4LW+rnYdd3JwAlDHa7fJ+nHSiGDWmE2jRWsLPV0OLlAuHQ==}
 
 snapshots:
 
@@ -4698,4 +4698,4 @@ snapshots:
 
   yoctocolors-cjs@2.1.2: {}
 
-  zod@4.1.1: {}
+  zod@4.1.2: {}
