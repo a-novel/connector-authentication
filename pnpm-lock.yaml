@@ -10,7 +10,7 @@ importers:
     devDependencies:
       '@a-novel/nodelib':
         specifier: ^0.7.3
-        version: 0.7.17(@msw/playwright@0.4.2(msw@2.11.3(@types/node@24.5.2)(typescript@5.9.2)))(@playwright/test@1.54.2)(@tanstack/react-query@5.89.0(react@19.1.1))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(msw@2.11.3(@types/node@24.5.2)(typescript@5.9.2))(playwright@1.54.2)(v8-to-istanbul@9.3.0)(vitest@3.2.4(@types/node@24.5.2)(jsdom@27.0.0(postcss@8.5.6))(msw@2.11.3(@types/node@24.5.2)(typescript@5.9.2)))
+        version: 0.7.17(@msw/playwright@0.4.2(msw@2.11.3(@types/node@24.5.2)(typescript@5.9.2)))(@playwright/test@1.54.2)(@tanstack/react-query@5.90.1(react@19.1.1))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(msw@2.11.3(@types/node@24.5.2)(typescript@5.9.2))(playwright@1.54.2)(v8-to-istanbul@9.3.0)(vitest@3.2.4(@types/node@24.5.2)(jsdom@27.0.0(postcss@8.5.6))(msw@2.11.3(@types/node@24.5.2)(typescript@5.9.2)))
       '@eslint/config-helpers':
         specifier: ^0.3.0
         version: 0.3.1
@@ -19,10 +19,10 @@ importers:
         version: 9.36.0
       '@tanstack/eslint-plugin-query':
         specifier: ^5.81.2
-        version: 5.89.0(eslint@9.36.0)(typescript@5.9.2)
+        version: 5.90.1(eslint@9.36.0)(typescript@5.9.2)
       '@tanstack/react-query':
         specifier: ^5.83.0
-        version: 5.89.0(react@19.1.1)
+        version: 5.90.1(react@19.1.1)
       '@testing-library/react':
         specifier: ^16.3.0
         version: 16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -626,16 +626,16 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@tanstack/eslint-plugin-query@5.89.0':
-    resolution: {integrity: sha512-vz8TEuw9GO0xXIdreMpcofvOY17T3cjgob9bSFln8yQsKsbsUvtpvV3F8pVC3tZEDq0IwO++3/e0/+7YKEarNA==}
+  '@tanstack/eslint-plugin-query@5.90.1':
+    resolution: {integrity: sha512-Ki4hl+8ZtnMFZ3amZbQl6sSMUq6L8oSJ14vmi3j5t1/SqXclL5SI/1kcuH36iIk05B/bN5pEOS1PTO3Ut/FbVA==}
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0
 
-  '@tanstack/query-core@5.89.0':
-    resolution: {integrity: sha512-joFV1MuPhSLsKfTzwjmPDrp8ENfZ9N23ymFu07nLfn3JCkSHy0CFgsyhHTJOmWaumC/WiNIKM0EJyduCF/Ih/Q==}
+  '@tanstack/query-core@5.90.1':
+    resolution: {integrity: sha512-hmi8i+mWP3QnD8yq3+6LWri9IEZAlFbpbM/UVB+TJtp5RIxUfzuARqyW39b+HCfBKKnFKSHWMXNB5YN8lo/E/Q==}
 
-  '@tanstack/react-query@5.89.0':
-    resolution: {integrity: sha512-SXbtWSTSRXyBOe80mszPxpEbaN4XPRUp/i0EfQK1uyj3KCk/c8FuPJNIRwzOVe/OU3rzxrYtiNabsAmk1l714A==}
+  '@tanstack/react-query@5.90.1':
+    resolution: {integrity: sha512-tN7Fx2HuV2SBhl+STgL8enbfSInRoNU1B1+5LIU62klcMElE4lFzol4aReuRSUeD6ntzPayK0KrM6w9+ZlHEkw==}
     peerDependencies:
       react: ^18 || ^19
 
@@ -2317,11 +2317,11 @@ packages:
 
 snapshots:
 
-  '@a-novel/nodelib@0.7.17(@msw/playwright@0.4.2(msw@2.11.3(@types/node@24.5.2)(typescript@5.9.2)))(@playwright/test@1.54.2)(@tanstack/react-query@5.89.0(react@19.1.1))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(msw@2.11.3(@types/node@24.5.2)(typescript@5.9.2))(playwright@1.54.2)(v8-to-istanbul@9.3.0)(vitest@3.2.4(@types/node@24.5.2)(jsdom@27.0.0(postcss@8.5.6))(msw@2.11.3(@types/node@24.5.2)(typescript@5.9.2)))':
+  '@a-novel/nodelib@0.7.17(@msw/playwright@0.4.2(msw@2.11.3(@types/node@24.5.2)(typescript@5.9.2)))(@playwright/test@1.54.2)(@tanstack/react-query@5.90.1(react@19.1.1))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(msw@2.11.3(@types/node@24.5.2)(typescript@5.9.2))(playwright@1.54.2)(v8-to-istanbul@9.3.0)(vitest@3.2.4(@types/node@24.5.2)(jsdom@27.0.0(postcss@8.5.6))(msw@2.11.3(@types/node@24.5.2)(typescript@5.9.2)))':
     dependencies:
       '@msw/playwright': 0.4.2(msw@2.11.3(@types/node@24.5.2)(typescript@5.9.2))
       '@playwright/test': 1.54.2
-      '@tanstack/react-query': 5.89.0(react@19.1.1)
+      '@tanstack/react-query': 5.90.1(react@19.1.1)
       '@testing-library/react': 16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       get-port-please: 3.2.0
       lodash-es: 4.17.21
@@ -2732,7 +2732,7 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.52.0':
     optional: true
 
-  '@tanstack/eslint-plugin-query@5.89.0(eslint@9.36.0)(typescript@5.9.2)':
+  '@tanstack/eslint-plugin-query@5.90.1(eslint@9.36.0)(typescript@5.9.2)':
     dependencies:
       '@typescript-eslint/utils': 8.44.0(eslint@9.36.0)(typescript@5.9.2)
       eslint: 9.36.0
@@ -2740,11 +2740,11 @@ snapshots:
       - supports-color
       - typescript
 
-  '@tanstack/query-core@5.89.0': {}
+  '@tanstack/query-core@5.90.1': {}
 
-  '@tanstack/react-query@5.89.0(react@19.1.1)':
+  '@tanstack/react-query@5.90.1(react@19.1.1)':
     dependencies:
-      '@tanstack/query-core': 5.89.0
+      '@tanstack/query-core': 5.90.1
       react: 19.1.1
 
   '@testing-library/dom@10.4.1':
