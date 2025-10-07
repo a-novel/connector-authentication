@@ -10,7 +10,7 @@ importers:
     devDependencies:
       '@a-novel/nodelib':
         specifier: ^0.7.3
-        version: 0.7.20(@msw/playwright@0.4.2(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3)))(@playwright/test@1.54.2)(@tanstack/react-query@5.90.2(react@19.2.0))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.0(@types/react@19.2.1))(@types/react@19.2.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(playwright@1.54.2)(v8-to-istanbul@9.3.0)(vitest@3.2.4(@types/node@24.7.0)(jsdom@27.0.0(postcss@8.5.6))(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3)))
+        version: 0.7.21(@msw/playwright@0.4.2(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3)))(@playwright/test@1.54.2)(@tanstack/react-query@5.90.2(react@19.2.0))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.0(@types/react@19.2.1))(@types/react@19.2.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(playwright@1.54.2)(v8-to-istanbul@9.3.0)(vitest@3.2.4(@types/node@24.7.0)(jsdom@27.0.0(postcss@8.5.6))(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3)))
       '@eslint/config-helpers':
         specifier: ^0.4.0
         version: 0.4.0
@@ -95,8 +95,8 @@ importers:
 
 packages:
 
-  '@a-novel/nodelib@0.7.20':
-    resolution: {integrity: sha512-rzrY57uh9lSNibWiq2ZliYPc+u6VFYJb1yNNQ/QUGxY+bxtz//85i3bQEr1Ati1ksWTJc5qnkcD/G4xeJagvWw==, tarball: https://npm.pkg.github.com/download/@a-novel/nodelib/0.7.20/892a5c4716b405b93864e85bdfe17d98b957be63}
+  '@a-novel/nodelib@0.7.21':
+    resolution: {integrity: sha512-sqTVJTL56TZAFBfjdUTQo+UKBlT3NB2teYG7uP+JIcXAXO03k0OjfhVQA+5ZvqAH3Nb/L8vgBwloeaKIAlyNxQ==, tarball: https://npm.pkg.github.com/download/@a-novel/nodelib/0.7.21/a527c46903ab9dfbcf15847ca86a66d07f1911fe}
     engines: {node: '>=23.11.0', npm: '>=10.9.2'}
     peerDependencies:
       '@msw/playwright': ^0.4.2
@@ -2395,7 +2395,7 @@ packages:
 
 snapshots:
 
-  '@a-novel/nodelib@0.7.20(@msw/playwright@0.4.2(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3)))(@playwright/test@1.54.2)(@tanstack/react-query@5.90.2(react@19.2.0))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.0(@types/react@19.2.1))(@types/react@19.2.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(playwright@1.54.2)(v8-to-istanbul@9.3.0)(vitest@3.2.4(@types/node@24.7.0)(jsdom@27.0.0(postcss@8.5.6))(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3)))':
+  '@a-novel/nodelib@0.7.21(@msw/playwright@0.4.2(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3)))(@playwright/test@1.54.2)(@tanstack/react-query@5.90.2(react@19.2.0))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.0(@types/react@19.2.1))(@types/react@19.2.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(playwright@1.54.2)(v8-to-istanbul@9.3.0)(vitest@3.2.4(@types/node@24.7.0)(jsdom@27.0.0(postcss@8.5.6))(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3)))':
     dependencies:
       '@msw/playwright': 0.4.2(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))
       '@playwright/test': 1.54.2
