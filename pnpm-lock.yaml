@@ -10,7 +10,7 @@ importers:
     devDependencies:
       '@a-novel/nodelib':
         specifier: ^0.7.3
-        version: 0.7.21(@msw/playwright@0.4.2(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3)))(@playwright/test@1.54.2)(@tanstack/react-query@5.90.2(react@19.2.0))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.0(@types/react@19.2.1))(@types/react@19.2.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(playwright@1.54.2)(v8-to-istanbul@9.3.0)(vitest@3.2.4(@types/node@24.7.0)(jsdom@27.0.0(postcss@8.5.6))(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3)))
+        version: 0.7.21(@msw/playwright@0.4.2(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3)))(@playwright/test@1.54.2)(@tanstack/react-query@5.90.2(react@19.2.0))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.1(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(playwright@1.54.2)(v8-to-istanbul@9.3.0)(vitest@3.2.4(@types/node@24.7.0)(jsdom@27.0.0(postcss@8.5.6))(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3)))
       '@eslint/config-helpers':
         specifier: ^0.4.0
         version: 0.4.0
@@ -25,7 +25,7 @@ importers:
         version: 5.90.2(react@19.2.0)
       '@testing-library/react':
         specifier: ^16.3.0
-        version: 16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.0(@types/react@19.2.1))(@types/react@19.2.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+        version: 16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.1(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@trivago/prettier-plugin-sort-imports':
         specifier: ^5.2.2
         version: 5.2.2(prettier@3.6.2)
@@ -34,10 +34,10 @@ importers:
         version: 24.7.0
       '@types/react':
         specifier: ^19.1.8
-        version: 19.2.1
+        version: 19.2.2
       '@types/react-dom':
         specifier: ^19.1.6
-        version: 19.2.0(@types/react@19.2.1)
+        version: 19.2.1(@types/react@19.2.2)
       '@vitest/coverage-v8':
         specifier: 3.2.4
         version: 3.2.4(vitest@3.2.4(@types/node@24.7.0)(jsdom@27.0.0(postcss@8.5.6))(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3)))
@@ -731,13 +731,13 @@ packages:
   '@types/node@24.7.0':
     resolution: {integrity: sha512-IbKooQVqUBrlzWTi79E8Fw78l8k1RNtlDDNWsFZs7XonuQSJ8oNYfEeclhprUldXISRMLzBpILuKgPlIxm+/Yw==}
 
-  '@types/react-dom@19.2.0':
-    resolution: {integrity: sha512-brtBs0MnE9SMx7px208g39lRmC5uHZs96caOJfTjFcYSLHNamvaSMfJNagChVNkup2SdtOxKX1FDBkRSJe1ZAg==}
+  '@types/react-dom@19.2.1':
+    resolution: {integrity: sha512-/EEvYBdT3BflCWvTMO7YkYBHVE9Ci6XdqZciZANQgKpaiDRGOLIlRo91jbTNRQjgPFWVaRxcYc0luVNFitz57A==}
     peerDependencies:
       '@types/react': ^19.2.0
 
-  '@types/react@19.2.1':
-    resolution: {integrity: sha512-1U5NQWh/GylZQ50ZMnnPjkYHEaGhg6t5i/KI0LDDh3t4E3h3T3vzm+GLY2BRzMfIjSBwzm6tginoZl5z0O/qsA==}
+  '@types/react@19.2.2':
+    resolution: {integrity: sha512-6mDvHUFSjyT2B2yeNx2nUgMxh9LtOWvkhIU3uePn2I2oyNymUAX1NIsdgviM4CH+JSrp2D2hsMvJOkxY+0wNRA==}
 
   '@types/statuses@2.0.6':
     resolution: {integrity: sha512-xMAgYwceFhRA2zY+XbEA7mxYbA093wdiW8Vu6gZPGWy9cmOyU9XesH1tNcEWsKFd5Vzrqx5T3D38PWx1FIIXkA==}
@@ -2395,12 +2395,12 @@ packages:
 
 snapshots:
 
-  '@a-novel/nodelib@0.7.21(@msw/playwright@0.4.2(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3)))(@playwright/test@1.54.2)(@tanstack/react-query@5.90.2(react@19.2.0))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.0(@types/react@19.2.1))(@types/react@19.2.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(playwright@1.54.2)(v8-to-istanbul@9.3.0)(vitest@3.2.4(@types/node@24.7.0)(jsdom@27.0.0(postcss@8.5.6))(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3)))':
+  '@a-novel/nodelib@0.7.21(@msw/playwright@0.4.2(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3)))(@playwright/test@1.54.2)(@tanstack/react-query@5.90.2(react@19.2.0))(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.1(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(playwright@1.54.2)(v8-to-istanbul@9.3.0)(vitest@3.2.4(@types/node@24.7.0)(jsdom@27.0.0(postcss@8.5.6))(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3)))':
     dependencies:
       '@msw/playwright': 0.4.2(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))
       '@playwright/test': 1.54.2
       '@tanstack/react-query': 5.90.2(react@19.2.0)
-      '@testing-library/react': 16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.0(@types/react@19.2.1))(@types/react@19.2.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      '@testing-library/react': 16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.1(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       get-port-please: 3.2.0
       lodash-es: 4.17.21
       msw: 2.11.3(@types/node@24.7.0)(typescript@5.9.3)
@@ -2896,15 +2896,15 @@ snapshots:
       picocolors: 1.1.1
       pretty-format: 27.5.1
 
-  '@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.0(@types/react@19.2.1))(@types/react@19.2.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
+  '@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.1(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:
       '@babel/runtime': 7.28.4
       '@testing-library/dom': 10.4.1
       react: 19.2.0
       react-dom: 19.2.0(react@19.2.0)
     optionalDependencies:
-      '@types/react': 19.2.1
-      '@types/react-dom': 19.2.0(@types/react@19.2.1)
+      '@types/react': 19.2.2
+      '@types/react-dom': 19.2.1(@types/react@19.2.2)
 
   '@trivago/prettier-plugin-sort-imports@5.2.2(prettier@3.6.2)':
     dependencies:
@@ -2938,11 +2938,11 @@ snapshots:
     dependencies:
       undici-types: 7.14.0
 
-  '@types/react-dom@19.2.0(@types/react@19.2.1)':
+  '@types/react-dom@19.2.1(@types/react@19.2.2)':
     dependencies:
-      '@types/react': 19.2.1
+      '@types/react': 19.2.2
 
-  '@types/react@19.2.1':
+  '@types/react@19.2.2':
     dependencies:
       csstype: 3.1.3
 
