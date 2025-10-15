@@ -19,7 +19,7 @@ importers:
         version: 9.37.0
       '@tanstack/eslint-plugin-query':
         specifier: ^5.81.2
-        version: 5.91.0(eslint@9.37.0)(typescript@5.9.3)
+        version: 5.91.1(eslint@9.37.0)(typescript@5.9.3)
       '@tanstack/react-query':
         specifier: ^5.83.0
         version: 5.90.3(react@19.2.0)
@@ -653,8 +653,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@tanstack/eslint-plugin-query@5.91.0':
-    resolution: {integrity: sha512-Kn6yWyRe3dIPf7NqyDMhcsTBz2Oh8jPSOpBdlnLQhGBJ6iTMBFYA4B1UreGJ/WdfzQskSMh5imcyWF+wqa/Q5g==}
+  '@tanstack/eslint-plugin-query@5.91.1':
+    resolution: {integrity: sha512-qbOAm0p7RCEVW5ZyJrqu2sed8hq6YbVqZmfG+C5IZSVOd9GL4XgK8XvF9QsEbaqUzxQrIjw4EEWnYlaYYNd42A==}
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0
 
@@ -2853,7 +2853,7 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.52.4':
     optional: true
 
-  '@tanstack/eslint-plugin-query@5.91.0(eslint@9.37.0)(typescript@5.9.3)':
+  '@tanstack/eslint-plugin-query@5.91.1(eslint@9.37.0)(typescript@5.9.3)':
     dependencies:
       '@typescript-eslint/utils': 8.46.1(eslint@9.37.0)(typescript@5.9.3)
       eslint: 9.37.0
